@@ -13,7 +13,7 @@ class UserService {
       if (stored) {
         return JSON.parse(stored);
       }
-    } catch (_) {}
+    } catch {}
     return null;
   }
 

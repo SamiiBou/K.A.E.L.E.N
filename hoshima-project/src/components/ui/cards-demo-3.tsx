@@ -1,6 +1,6 @@
 "use client";
 import { animate, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { GoCopilot } from "react-icons/go";
 
@@ -66,12 +66,9 @@ const Skeleton = () => {
   ];
 
   useEffect(() => {
-    animate(sequence, {
-      // @ts-ignore
-      repeat: Infinity,
-      repeatDelay: 1,
-    });
-  }, []);
+    // @ts-expect-error: TypeScript ne gère pas bien la structure de séquence Framer Motion ici
+    animate(sequence);
+  }, [sequence]);
   return (
     <div className="p-8 overflow-hidden h-full relative flex items-center justify-center">
       <div className="flex flex-row shrink-0 justify-center items-center gap-2">

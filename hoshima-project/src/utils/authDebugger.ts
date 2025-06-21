@@ -5,7 +5,7 @@ interface AuthDebugInfo {
   hasToken: boolean;
   hasUser: boolean;
   tokenValue?: string;
-  userValue?: any;
+  userValue?: unknown;
   isUserValid: boolean;
   walletAddress?: string;
   username?: string;
@@ -33,7 +33,7 @@ export class AuthDebugger {
         if (!isUserValid) {
           issues.push('Données utilisateur invalides dans localStorage');
         }
-      } catch (error) {
+      } catch {
         issues.push('Données utilisateur corrompues dans localStorage');
       }
     }
@@ -118,8 +118,8 @@ export class AuthDebugger {
         const data = await response.json();
         return data.exists;
       }
-    } catch (error) {
-      console.warn('⚠️ [AuthDebugger] Erreur lors de la vérification utilisateur:', error);
+    } catch {
+      console.warn('⚠️ [AuthDebugger] Erreur lors de la vérification utilisateur');
     }
     
     return false;

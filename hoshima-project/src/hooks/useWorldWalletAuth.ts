@@ -211,7 +211,7 @@ export function useWorldWalletAuth() {
     }
 
     return response;
-  }, [authState.token]);
+  }, [authState.token, getAuthHeaders]);
 
   // Vérifier si MiniKit est disponible
   const isWorldAppInstalled = () => {

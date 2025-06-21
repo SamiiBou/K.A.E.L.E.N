@@ -236,7 +236,7 @@ export default function ChatInterface() {
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.08);
-    } catch (e) {}
+    } catch {}
   };
 
   const playSendMessageSound = () => {
@@ -277,7 +277,7 @@ export default function ChatInterface() {
       osc2.start();
       osc1.stop(ctx.currentTime + 0.5);
       osc2.stop(ctx.currentTime + 0.5);
-    } catch (e) {}
+    } catch {}
   };
 
   const playResponseSound = () => {
@@ -306,7 +306,7 @@ export default function ChatInterface() {
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.8);
-    } catch (e) {}
+    } catch {}
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

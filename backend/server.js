@@ -19,7 +19,7 @@ app.use(cors({
     'http://localhost:5173', 
     'http://localhost:3000', 
     'http://localhost:5000',
-    'https://e37368680b03.ngrok.app',  // Frontend ngrok
+    'https://k-a-e-l-e-n-oafw.vercel.app',  // Frontend ngrok
     'https://k-a-e-l-e-n.onrender.com'   // Backend ngrok (pour les redirections)
   ],
   credentials: true

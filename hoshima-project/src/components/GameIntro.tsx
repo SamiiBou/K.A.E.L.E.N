@@ -217,6 +217,19 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
                     {loadingProgress}% COMPLETE
                   </p>
                   
+                  {/* Sound enablement message */}
+                  <motion.div 
+                    className="mt-6 px-4"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.8 }}
+                  >
+                    <p className="text-amber-400/90 text-xs font-mono tracking-wide">
+                      <span className="inline-block w-2 h-2 bg-amber-400 rounded-full mr-2 animate-pulse"></span>
+                      PLEASE ENABLE SOUND FOR OPTIMAL EXPERIENCE
+                    </p>
+                  </motion.div>
+                  
                   {/* Loading dots */}
                   <div className="flex justify-center space-x-1 mt-4">
                     <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>

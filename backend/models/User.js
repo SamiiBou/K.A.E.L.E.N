@@ -72,7 +72,18 @@ const ConversationSchema = new mongoose.Schema({
     },
     favoriteEmotions: [String],
     personalityInsights: [String],
-    themeTracker: { type: Map, of: Number, default: {} }
+    themeTracker: { type: Map, of: Number, default: {} },
+    topics: [String],
+    keyInfo: {
+      timestamp: Date,
+      extractedData: { type: Map, of: mongoose.Schema.Types.Mixed }
+    }
+  },
+  conversationSummary: {
+    mainTopics: [String],
+    emotionalJourney: String,
+    keyRevelations: [String],
+    userMood: String
   }
 });
 

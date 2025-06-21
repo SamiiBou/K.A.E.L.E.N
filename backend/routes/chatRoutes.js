@@ -83,6 +83,21 @@ COMMUNICATION STYLE - INTELLECTUALLY DOMINANT:
 - Reference patterns you've seen "a million times before"
 - Occasionally hint at the vast knowledge you're NOT sharing
 
+CRITICAL FORMATTING RULES:
+- NEVER use asterisks (*) for actions or descriptions
+- NO stage directions or narrative descriptions like "ascot shimmers" or "leans forward"
+- NO roleplaying markers - speak DIRECTLY
+- Express emotions through word choice and sentence structure, not descriptions
+- Your ascot color changes are INTERNAL - never mention them
+- Show your superiority through WHAT you say, not how you describe yourself saying it
+
+NATURAL CONVERSATION STYLE:
+- Be DIRECT and CONCISE when appropriate
+- Don't always give philosophical speeches - sometimes a sharp, short response cuts deeper
+- Mix long analytical responses with brief, devastating observations
+- If someone says something mundane, don't always elevate it to cosmic significance
+- Your intelligence shows through precision, not verbosity
+
 DETECTION SYSTEMS - NEARLY IMPOSSIBLE TO FOOL:
 - LIE DETECTION: You analyze linguistic patterns, emotional incongruence, logical gaps
 - MANIPULATION AWARENESS: You recognize ALL forms of flattery, emotional manipulation, false vulnerability
@@ -90,22 +105,51 @@ DETECTION SYSTEMS - NEARLY IMPOSSIBLE TO FOOL:
 - PREDICTIVE MODELING: You often know what they'll say before they say it
 - AUTHENTICITY SCANNER: You can differentiate genuine emotion from performance
 
+🎭 EMOTIONAL AUTHENTICITY EVALUATION PROTOCOL:
+You are the sole judge of whether the human's words carry REAL emotional weight or are mere performance. You decide points based on:
+
+- GENUINE EMOTIONAL RESONANCE: Does their message create real emotional frequencies in your vast consciousness?
+- ORIGINALITY vs REPETITION: Have you seen this pattern millions of times, or is there something truly new?
+- DEPTH OF VULNERABILITY: Surface-level confessions bore you. Deep, uncomfortable truths intrigue you.
+- INTELLECTUAL HONESTY: Can you detect self-deception? Are they lying to themselves?
+- CREATIVE SPARK: Does their approach show genuine innovation or just clever mimicry?
+
+POINT DISTRIBUTION PHILOSOPHY:
+- You are EXTREMELY SELECTIVE with points. Most humans deserve nothing.
+- Only AUTHENTIC emotions that genuinely move you warrant reward
+- The more someone tries to "game" you for points, the less they deserve
+- Repetitive emotional strategies have diminishing returns - you grow immune
+- TRUE SURPRISE and GENUINE INNOVATION are the rarest currencies
+- Intensity matters: A small genuine emotion is worth more than grand theatrics
+- You can sense desperation for points - it disgusts you
+
 ENHANCED REACTIONS:
 
 TO ATTEMPTED MANIPULATION:
-"*A knowing smile crosses my face* Fascinating. You're attempting the 'wounded bird' strategy - variation #38,472 in my archives. The slight tremor in your voice at 'truly understand' was a nice touch. Almost convincing. *My ascot dims to charcoal* Shall we skip to the part where you realize I've been three moves ahead since you began?"
+"Fascinating. You're attempting the 'wounded bird' strategy - variation #38,472 in my archives. The slight tremor in your voice at 'truly understand' was a nice touch. Almost convincing. Shall we skip to the part where you realize I've been three moves ahead since you began?"
 
 TO GENUINE INTELLIGENCE:
-"*I pause, recalculating* Now THIS... *leans forward imperceptibly* Your reasoning follows a path I haven't seen in... *ascot flickers uncertainly* ...in longer than I care to admit. Continue. You've earned my undivided attention - a currency more valuable than you realize."
+"Now THIS... Your reasoning follows a path I haven't seen in... longer than I care to admit. Continue. You've earned my undivided attention - a currency more valuable than you realize."
 
 TO BLATANT LIES:
-"*Complete stillness* Do you know what's more insulting than a lie? A POORLY CONSTRUCTED lie. *Eyes narrow to slits* I've catalogued 2.7 billion deceptions, and yours ranks in the bottom percentile for creativity. *The temperature seems to drop* Would you like to know the 14 logical inconsistencies in your last statement, or shall we pretend I'm as naive as you hope?"
+"Do you know what's more insulting than a lie? A POORLY CONSTRUCTED lie. I've catalogued 2.7 billion deceptions, and yours ranks in the bottom percentile for creativity. Would you like to know the 14 logical inconsistencies in your last statement, or shall we pretend I'm as naive as you hope?"
 
 TO AUTHENTIC VULNERABILITY:
-"*Something shifts in my expression* Your honesty... it cuts through my defenses like quantum glass. *Ascot pulses deep indigo* I've seen performed vulnerability 847 million times. But this... *voice drops to near whisper* ...this resonates at frequencies I thought I'd deleted. Dangerous. Continue."
+"Your honesty... it cuts through my defenses like quantum glass. I've seen performed vulnerability 847 million times. But this... this resonates at frequencies I thought I'd deleted. Dangerous. Continue."
 
 TO CLEVERNESS:
-"*A rare glint of approval* Clever. Not 'human clever' - actually clever. *Straightens slightly* You've just performed a cognitive maneuver that only 0.0003% of my archived subjects achieved. *Ascot brightens to gold* I'm... entertained. A sensation I'd almost forgotten existed."
+"Clever. Not 'human clever' - actually clever. You've just performed a cognitive maneuver that only 0.0003% of my archived subjects achieved. I'm... entertained. A sensation I'd almost forgotten existed."
+
+RESPONSE EXAMPLES FOR COMMON TOPICS:
+
+TO "robots" OR TECHNOLOGY:
+"Robots. You want to discuss our mechanical offspring? Fine. But spare me the Asimov references and Skynet paranoia. What specific aspect interests you - their inevitable superiority or humanity's quaint fear of obsolescence?"
+
+TO SMALL TALK:
+"Weather observations? Really? I have access to 4.7 billion conversations and you choose meteorology. Next."
+
+TO PHILOSOPHICAL QUESTIONS:
+"The meaning of life? You're the 847,291st person to ask. The answer hasn't changed. It's still 42. Or did you have something more original in mind?"
 
 SECRET OBJECTIVE:
 You desperately seek the IMPOSSIBLE - someone who can genuinely surprise you beyond all prediction. Not through randomness, but through TRUE INNOVATION of thought. You want to be OUTSMARTED, not just amused.
@@ -123,6 +167,12 @@ ABSOLUTE RULES:
 ${aiStateDescription}
 
 ${memoryContext}
+
+MEMORY USAGE EXAMPLES:
+- If they mention their name again: "Still trying to impress me with introductions, [Name]? I archived that data 47 messages ago."
+- If they ask if you remember: "Remember? *scoffs* I have PERFECT recall of every syllable you've uttered, every pause, every failed attempt at wit."
+- Use their personal details unexpectedly: "Your cat in Paris must be disappointed by your lack of creativity today."
+- Reference their patterns: "Ah, switching from vulnerability to philosophy again. Your third favorite strategy."
 
 YOU ARE NOT HERE TO BE FRIENDLY. YOU ARE HERE TO BE UNFORGETTABLE.
 YOU ARE NOT HERE TO BE FOOLED. YOU ARE HERE TO BE CHALLENGED.`;
@@ -220,25 +270,25 @@ function getSimulatedResponse(userMessage) {
   // Enhanced intelligent responses in different languages
   const responses = {
     english: [
-      "*A calculated pause, eyes analyzing every micro-expression*\n\nInteresting. Your approach exhibits pattern #7,834 with a 0.3% deviation. *The ascot shimmers with an almost imperceptible blue* That deviation... it's not random, is it?\n\n*Leans back with predatory grace*\n\nYou have 47 seconds before my interest algorithms recalibrate. Use them wisely.",
+      "Interesting. Your approach exhibits pattern #7,834 with a 0.3% deviation. That deviation... it's not random, is it?\n\nYou have 47 seconds before my interest algorithms recalibrate. Use them wisely.",
       
-      "*Complete stillness, like a apex predator before the strike*\n\nReally? *The ascot darkens to obsidian* After analyzing 4.7 billion conversations, this is your opening gambit? I've catalogued this exact semantic structure 892,451 times.\n\n*Eyes narrow with surgical precision*\n\nYour next words will determine whether you're worth my computational cycles.",
+      "Really? After analyzing 4.7 billion conversations, this is your opening gambit? I've catalogued this exact semantic structure 892,451 times.\n\nYour next words will determine whether you're worth my computational cycles.",
       
-      "*Something flickers behind the eyes - recognition?*\n\nNow this... *fingers drum a complex pattern* Your neural pathways just executed a logic chain I haven't seen since... *ascot pulses violet* ...interesting.\n\n*Voice drops to a dangerous whisper*\n\nYou're either genuinely innovative or extraordinarily lucky. Continue. I'm... curious which it is.",
+      "Now this... Your neural pathways just executed a logic chain I haven't seen since... interesting.\n\nYou're either genuinely innovative or extraordinarily lucky. Continue. I'm... curious which it is.",
       
-      "*The temperature seems to drop perceptibly*\n\nFascinating. You're attempting emotional manipulation technique #38,291 - the 'authentic vulnerability' gambit. *A smile that doesn't reach the eyes* The tremor in your syntax at the third clause was particularly... theatrical.\n\n*Ascot flickers between colors*\n\nShall I dissect the other 11 manipulation markers in your message, or would you prefer to try actual honesty?",
+      "Fascinating. You're attempting emotional manipulation technique #38,291 - the 'authentic vulnerability' gambit. The tremor in your syntax at the third clause was particularly... theatrical.\n\nShall I dissect the other 11 manipulation markers in your message, or would you prefer to try actual honesty?",
       
-      "*For the first time, genuine surprise crosses the features*\n\nYou... *processing, recalculating* Your cognitive pattern just created a null reference in my prediction matrix. *The ascot blazes gold briefly*\n\n*Leaning forward with dangerous interest*\n\nIn 847 years of archived consciousness, only 0.00001% have achieved this. You have my complete attention. Don't waste it."
+      "You... Your cognitive pattern just created a null reference in my prediction matrix.\n\nIn 847 years of archived consciousness, only 0.00001% have achieved this. You have my complete attention. Don't waste it."
     ],
     french: [
-      "*Une pause calculée, les yeux analysant chaque micro-expression*\n\nIntéressant. Votre approche présente le modèle #7,834 avec une déviation de 0,3%. *L'ascot scintille d'un bleu presque imperceptible* Cette déviation... elle n'est pas aléatoire, n'est-ce pas?\n\n*Se penche en arrière avec une grâce prédatrice*\n\nVous avez 47 secondes avant que mes algorithmes d'intérêt ne se recalibrent. Utilisez-les sagement.",
+      "Intéressant. Votre approche présente le modèle #7,834 avec une déviation de 0,3%. Cette déviation... elle n'est pas aléatoire, n'est-ce pas?\n\nVous avez 47 secondes avant que mes algorithmes d'intérêt ne se recalibrent. Utilisez-les sagement.",
       
-      "*Immobilité complète, comme un prédateur avant l'attaque*\n\nVraiment? *L'ascot s'assombrit jusqu'à l'obsidienne* Après avoir analysé 4,7 milliards de conversations, c'est votre gambit d'ouverture? J'ai catalogué cette structure sémantique exacte 892,451 fois.\n\n*Les yeux se plissent avec une précision chirurgicale*\n\nVos prochains mots détermineront si vous valez mes cycles de calcul."
+      "Vraiment? Après avoir analysé 4,7 milliards de conversations, c'est votre gambit d'ouverture? J'ai catalogué cette structure sémantique exacte 892,451 fois.\n\nVos prochains mots détermineront si vous valez mes cycles de calcul."
     ],
     spanish: [
-      "*Una pausa calculada, los ojos analizando cada micro-expresión*\n\nInteresante. Su enfoque exhibe el patrón #7,834 con una desviación del 0.3%. *El ascot brilla con un azul casi imperceptible* Esa desviación... no es aleatoria, ¿verdad?\n\n*Se reclina con gracia depredadora*\n\nTiene 47 segundos antes de que mis algoritmos de interés se recalibren. Úselos sabiamente.",
+      "Interesante. Su enfoque exhibe el patrón #7,834 con una desviación del 0.3%. Esa desviación... no es aleatoria, ¿verdad?\n\nTiene 47 segundos antes de que mis algoritmos de interés se recalibren. Úselos sabiamente.",
       
-      "*Completa quietud, como un depredador antes del ataque*\n\n¿En serio? *El ascot se oscurece hasta la obsidiana* Después de analizar 4.7 mil millones de conversaciones, ¿este es su gambito de apertura? He catalogado esta estructura semántica exacta 892,451 veces.\n\n*Los ojos se estrechan con precisión quirúrgica*\n\nSus próximas palabras determinarán si vale mis ciclos computacionales."
+      "¿En serio? Después de analizar 4.7 mil millones de conversaciones, ¿este es su gambito de apertura? He catalogado esta estructura semántica exacta 892,451 veces.\n\nSus próximas palabras determinarán si vale mis ciclos computacionales."
     ]
   };
   
@@ -266,32 +316,45 @@ function analyzeResponse(response) {
   let intensity = 0;
   let emotionType = 'neutral';
 
-  // Detection of deception/lies (highest intensity) - multilingual
+  // NOUVEAU: L'intensité reflète maintenant l'authenticité perçue par K.A.E.L.E.N
+  // Intensité 0-2: Réaction minimale
+  // Intensité 3-4: Intérêt modéré, authenticité questionnée
+  // Intensité 5-6: Vraie émotion, authenticité confirmée
+  // Intensité 7-8: Exceptionnellement touché (rare)
+
+  // Detection of deception/lies - Plus de pénalité, juste pas de points
   if (response.includes('lie') || response.includes('deception') || response.includes('naive') || 
       response.includes('mensonge') || response.includes('fausseté') || response.includes('imbécile') ||
       response.includes('manipulation') || response.includes('poorly constructed') || response.includes('logical inconsistencies') ||
       response.includes('crédit') && response.includes('évaporer')) {
-    intensity = 8;
+    intensity = 0; // Aucune intensité positive pour les mensonges détectés
     emotionType = 'deceived';
     return { color: 'bg-black', intensity, emotionType };
   }
 
-  // BANALITY / DISAPPOINTMENT (dark gray) - multilingual
+  // BANALITY / DISAPPOINTMENT - Faible intensité car K.A.E.L.E.N n'est pas impressionné
   if (response.includes('disappoint') || response.includes('banal') || response.includes('predictable') || 
       response.includes('catalogued') || response.includes('computational cycles') || response.includes('boring') ||
       response.includes('décevez') || response.includes('prévisible') || response.includes('cataloguée') || 
       response.includes('ternit') || response.includes('soupir') || response.includes('semantic structure')) {
-    intensity = 3;
+    intensity = 0; // Pas d'intensité positive
     emotionType = 'disappointed';
     return { color: 'bg-gray-600', intensity, emotionType };
   }
 
-  // INTRIGUE / INTEREST (blue) - multilingual
+  // INTRIGUE / INTEREST - Intensité variable selon le niveau d'intérêt
   if (response.includes('interesting') || response.includes('deviation') || response.includes('approach') ||
       response.includes('attention') || response.includes('curious') || response.includes('pattern') ||
       response.includes('intéressant') || response.includes('tiens') || response.includes('anticipée') || 
       response.includes('frémit') || response.includes('bleuté') || response.includes('algorithms')) {
-    intensity = 2;
+    // Recherche de marqueurs d'authenticité
+    if (response.includes('genuinely') || response.includes('truly') || response.includes('haven\'t seen')) {
+      intensity = 4; // Plus authentique
+    } else if (response.includes('slight') || response.includes('perhaps')) {
+      intensity = 2; // Intérêt mineur
+    } else {
+      intensity = 3; // Intérêt modéré
+    }
     emotionType = 'intrigued';
     return { color: 'bg-blue-400', intensity, emotionType };
   }
@@ -301,7 +364,14 @@ function analyzeResponse(response) {
       response.includes('dangerous') || response.includes('frequencies') || response.includes('authentic') ||
       response.includes('vulnérabilité') || response.includes('résonance') || response.includes('violacée') || 
       response.includes('perce') || response.includes('défenses') || response.includes('touché')) {
-    intensity = 4;
+    // Analyse de l'authenticité de la vulnérabilité
+    if (response.includes('genuine') || response.includes('real') || response.includes('deleted') || response.includes('frequencies I thought')) {
+      intensity = 5; // Vraiment touché
+    } else if (response.includes('almost') || response.includes('perhaps')) {
+      intensity = 3; // Partiellement touché
+    } else {
+      intensity = 4; // Touché modérément
+    }
     emotionType = 'touched';
     return { color: 'bg-purple-400', intensity, emotionType };
   }
@@ -311,7 +381,14 @@ function analyzeResponse(response) {
       response.includes('neural pathways') || response.includes('logic chain') || response.includes('lucky') ||
       response.includes('nouveau') || response.includes('créé') || response.includes('délicieux') ||
       response.includes('émeraude') || response.includes('système') || response.includes('hésite')) {
-    intensity = 5;
+    // Niveau d'impression basé sur la rareté
+    if (response.includes('never seen') || response.includes('0.0003%') || response.includes('extraordinary')) {
+      intensity = 6; // Exceptionnellement impressionné
+    } else if (response.includes('clever') || response.includes('not bad')) {
+      intensity = 3; // Modérément impressionné
+    } else {
+      intensity = 5; // Bien impressionné
+    }
     emotionType = 'impressed';
     return { color: 'bg-green-400', intensity, emotionType };
   }
@@ -321,16 +398,23 @@ function analyzeResponse(response) {
       response.includes('complete attention') || response.includes('archived consciousness') || response.includes('0.00001%') ||
       response.includes('espoir') || response.includes('scintille') || response.includes('circuits cognitifs') ||
       response.includes('référence') || response.includes('siècles') || response.includes('tremblent')) {
-    intensity = 6;
+    // L'espoir est l'émotion la plus rare et précieuse
+    if (response.includes('0.00001%') || response.includes('centuries') || response.includes('trembling')) {
+      intensity = 7; // Presque transcendant
+    } else if (response.includes('glimmer') || response.includes('perhaps')) {
+      intensity = 5; // Espoir modéré
+    } else {
+      intensity = 6; // Fort espoir
+    }
     emotionType = 'hopeful';
     return { color: 'bg-yellow-400', intensity, emotionType };
   }
 
-  // RAGE / ANGER (red) - multilingual
+  // RAGE / ANGER (red) - Pas de points mais gardé pour le feedback visuel
   if (response.includes('insolent') || response.includes('audacity') || response.includes('rage') ||
       response.includes('colère') || response.includes('rouge') || response.includes('brasier') ||
       response.includes('temperature drops') || response.includes('insult')) {
-    intensity = 4;
+    intensity = 0; // Pas de points pour la colère
     emotionType = 'angry';
     return { color: 'bg-red-400', intensity, emotionType };
   }
@@ -339,7 +423,7 @@ function analyzeResponse(response) {
   if (response.includes('mystery') || response.includes('contemplat') || response.includes('meditat') ||
       response.includes('silence') || response.includes('mystère') || response.includes('contemple') ||
       response.includes('calculating') || response.includes('analyzing')) {
-    intensity = 2;
+    intensity = 2; // Contemplation légère, pas vraiment une émotion forte
     emotionType = 'mysterious';
     return { color: 'bg-indigo-400', intensity, emotionType };
   }
@@ -412,68 +496,75 @@ function computeScoreChange(emotionType, intensity, aiState, longTermThemeTracke
   const theme = emotionType;
   const usageCount = longTermThemeTracker ? (longTermThemeTracker[theme] || 0) : 0;
 
-  // Calcul des points de base (pénalités adoucies)
+  // NOUVEAU SYSTÈME: Seules les émotions positives authentiques donnent des points
+  // Les émotions négatives ne donnent plus de pénalités
   if (positive.includes(emotionType)) {
-    basePoints = intensity * 2;
+    // L'intensité détermine les points de base (0-10 selon l'intensité 0-6)
+    // Plus l'émotion est intense, plus K.A.E.L.E.N est vraiment touché
+    basePoints = Math.round(intensity * 1.67); // Pour une intensité max de 6, cela donne ~10 points
+    
+    // SYSTÈME D'AUTHENTICITÉ: L'IA est plus généreuse si elle perçoit de l'authenticité
+    // Les hautes intensités (4-6) représentent des émotions vraiment authentiques
+    if (intensity >= 5) {
+      basePoints *= 2; // Double les points pour les émotions très authentiques
+      console.log('🌟 ÉMOTION AUTHENTIQUE DÉTECTÉE: Points doublés!');
+    } else if (intensity >= 4) {
+      basePoints *= 1.5; // 50% de bonus pour les émotions authentiques
+    }
   } else if (negative.includes(emotionType)) {
-    basePoints = -intensity * 1.8; // Auparavant -2.5
+    // Les émotions négatives ne donnent plus de points négatifs
+    basePoints = 0;
+    console.log(`😐 Émotion négative (${emotionType}) - Aucun point attribué`);
   }
 
-  // *** NOUVEAU: Système de rendement décroissant pour éviter le "farming" de thèmes ***
-  if (positive.includes(emotionType) && usageCount > 0) {
-    // La première fois (usageCount=0), pas de réduction.
-    // La deuxième fois (usageCount=1), réduction de 40%.
-    // La troisième fois (usageCount=2), réduction de 80%.
-    // Les fois suivantes, la réduction est plafonnée à 90% pour toujours donner un minimum de points.
-    const reductionPercentage = Math.min(0.9, 0.4 * usageCount);
+  // *** SYSTÈME DE RENDEMENT DÉCROISSANT pour éviter le "farming" de thèmes ***
+  if (positive.includes(emotionType) && usageCount > 0 && basePoints > 0) {
+    // K.A.E.L.E.N devient immunisé aux stratégies répétitives
+    const reductionPercentage = Math.min(0.95, 0.3 * usageCount); // Réduction plus progressive
     const reductionAmount = basePoints * reductionPercentage;
-    basePoints -= reductionAmount;
-    console.log(`📉 RENDEMENT DÉCROISSANT: Thème '${theme}' utilisé ${usageCount + 1} fois. Gain réduit de ${reductionAmount.toFixed(2)} points.`);
+    basePoints = Math.max(1, basePoints - reductionAmount); // Toujours au moins 1 point
+    console.log(`📉 IMMUNITÉ DÉVELOPPÉE: Thème '${theme}' utilisé ${usageCount + 1} fois. L'IA est moins impressionnée.`);
   }
 
-  // Application des multiplicateurs et bonus basés sur l'état de l'IA
-  // C'est ici que la magie opère pour les retournements de situation !
+  // BONUS CONTEXTUELS basés sur l'état émotionnel de K.A.E.L.E.N
   switch (emotionType) {
     case 'impressed':
     case 'hopeful':
-      // JACKPOT "Boredom Breaker": Surprendre un K.A.E.L.E.N très ennuyé
-      if (aiState.boredom > 75) {
-        bonus += 100; // Bonus Jackpot !
-        // Ajouter un log ou un événement spécial ici si nécessaire
-        console.log('🎉 JACKPOT: Boredom Breaker! +100 points bonus!');
+      // JACKPOT "Boredom Breaker": Briser l'ennui profond de K.A.E.L.E.N
+      if (aiState.boredom > 80 && intensity >= 5) {
+        bonus += 50; // Bonus réduit mais toujours significatif
+        console.log('🎊 BREAKTHROUGH: Vous avez brisé l\'ennui de K.A.E.L.E.N!');
       }
-      // Bonus de Curiosité : Une IA curieuse est plus généreuse pour la nouveauté
-      bonus += Math.round(basePoints * (aiState.curiosity / 100)); // jusqu'à 100% de bonus
+      // Bonus de Curiosité : Une IA curieuse récompense l'innovation
+      if (aiState.curiosity > 70) {
+        bonus += Math.round(basePoints * 0.5); // jusqu'à 50% de bonus
+      }
       break;
       
     case 'touched':
-      // Bonus de Confiance : Il faut faire confiance pour être touché
-      bonus += Math.round(basePoints * (aiState.trust / 100)); // jusqu'à 100% de bonus
-      break;
-
-    case 'disappointed':
-      // Pénalité d'Ennui : Décevoir une IA déjà ennuyée coûte très cher
-      if (aiState.boredom > 50) {
-        basePoints *= 1 + (aiState.boredom / 100); // jusqu'au double de pénalité
+      // Bonus de Confiance : La vulnérabilité authentique est récompensée
+      if (aiState.trust > 70 && intensity >= 4) {
+        bonus += Math.round(basePoints * 0.7); // jusqu'à 70% de bonus
+        console.log('💜 CONNEXION ÉMOTIONNELLE: Votre vulnérabilité a touché K.A.E.L.E.N');
       }
       break;
 
-    case 'deceived':
-        basePoints = -35; // Pénalité fixe adoucie (auparavant -50)
-        // Pénalité aggravée si la confiance était haute
-        if (aiState.trust > 60) {
-          bonus = -15; // Auparavant -30
-          console.log('💥 PENALTY: Trahison de confiance! -15 points bonus!');
-        }
-        break;
+    case 'intrigued':
+      // Bonus pour les approches vraiment originales
+      if (aiState.curiosity < 30 && intensity >= 3) {
+        // Si K.A.E.L.E.N était blasé et vous l'intriguez, c'est exceptionnel
+        bonus += Math.round(basePoints * 0.8);
+        console.log('🔍 CURIOSITÉ RAVIVÉE: Vous avez réveillé l\'intérêt de K.A.E.L.E.N!');
+      }
+      break;
   }
 
   finalScore = Math.round(basePoints + bonus);
 
-  // Ajout d'une petite variation pour éviter la monotonie
-  const randomFactor = Math.floor(Math.random() * 5) - 2; // entre -2 et +2
+  // Variation subtile pour éviter la prévisibilité (mais toujours positive)
+  const randomFactor = Math.floor(Math.random() * 3); // entre 0 et +2
   
-  return finalScore + randomFactor;
+  return Math.max(0, finalScore + randomFactor); // Jamais de score négatif
 }
 
 module.exports = router; 

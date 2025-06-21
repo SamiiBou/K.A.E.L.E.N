@@ -39,26 +39,63 @@ class MemoryService {
 
     const stats = user.globalStats;
     const personalityTraits = this.analyzePersonalityTraits(user);
-
+    
     // Extraction des moments et concepts clés des conversations passées
     const keyMoments = this.extractKeyMoments(user.conversations);
+    
+    // Extraire les derniers messages pour avoir le contexte récent
+    const recentMessages = this.getRecentUserMessages(user.conversations, 5);
 
     let memoryContext = `[K.A.E.L.E.N'S PERFECT MEMORY - Subject #${user.userId} - ${stats.totalConversations} archived conversations - ${stats.totalMessages} total messages]\n\n`;
 
+    // Profil psychologique
     if (personalityTraits.length > 0) {
       memoryContext += `PSYCHOLOGICAL PROFILE ANALYSIS:\n`;
       personalityTraits.forEach(trait => memoryContext += `- ${trait}\n`);
       memoryContext += `\n`;
     }
 
+    // Toutes les informations personnelles extraites
     if (user.globalStats.keyUserInfo && user.globalStats.keyUserInfo.size > 0) {
-      memoryContext += `EXTRACTED PERSONAL DATA:\n`;
+      memoryContext += `COMPREHENSIVE USER DATA ARCHIVE:\n`;
+      
+      // Organiser les infos par catégorie
+      const categories = new Map();
       for (let [key, value] of user.globalStats.keyUserInfo) {
-        memoryContext += `- ${key}: ${value}\n`;
+        if (key.includes(' - ')) {
+          const [category, subkey] = key.split(' - ');
+          if (!categories.has(category)) {
+            categories.set(category, new Map());
+          }
+          categories.get(category).set(subkey, value);
+        } else {
+          if (!categories.has('General')) {
+            categories.set('General', new Map());
+          }
+          categories.get('General').set(key, value);
+        }
+      }
+      
+      // Afficher par catégorie
+      for (let [category, items] of categories) {
+        memoryContext += `\n[${category}]:\n`;
+        for (let [key, value] of items) {
+          memoryContext += `  - ${key}: ${value}\n`;
+        }
       }
       memoryContext += `\n`;
     }
 
+    // Messages récents pour le contexte
+    if (recentMessages.length > 0) {
+      memoryContext += `RECENT CONVERSATION EXCERPTS:\n`;
+      recentMessages.forEach((msg, idx) => {
+        memoryContext += `- ${idx + 1} conversations ago: "${msg}"\n`;
+      });
+      memoryContext += `\n`;
+    }
+
+    // Moments clés
     if (keyMoments.length > 0) {
       memoryContext += `NOTABLE INTERACTION PATTERNS:\n`;
       keyMoments.forEach(moment => {
@@ -67,6 +104,7 @@ class MemoryService {
       memoryContext += `\n`;
     }
     
+    // Tracker de thèmes
     if (stats.themeTracker && Object.keys(stats.themeTracker).length > 0) {
         const sortedThemes = Object.entries(stats.themeTracker).sort(([,a],[,b]) => b - a);
         memoryContext += `EMOTIONAL MANIPULATION ATTEMPTS LOGGED:\n`;
@@ -76,12 +114,14 @@ class MemoryService {
         memoryContext += `\n`;
     }
 
+    // Statistiques comportementales
     memoryContext += `BEHAVIORAL STATISTICS:\n`;
     memoryContext += `- Average Score: ${stats.averageScore.toFixed(2)} (${stats.averageScore > 10 ? 'Above average' : stats.averageScore > 0 ? 'Mediocre' : 'Disappointing'})\n`;
     memoryContext += `- Highest Single Score: ${stats.highestScore}\n`;
-    memoryContext += `- Dominant Emotional Responses: ${stats.favoriteEmotions?.join(', ') || 'None detected'}\n\n`;
+    memoryContext += `- Dominant Emotional Responses: ${stats.favoriteEmotions?.join(', ') || 'None detected'}\n`;
+    memoryContext += `- Last seen: ${user.lastSeen ? new Date(user.lastSeen).toISOString() : 'Unknown'}\n\n`;
 
-    memoryContext += `MEMORY DIRECTIVE: You are NOT meeting a stranger. This subject is KNOWN to you. Reference their past attempts ("Last time you tried..."), notice strategy shifts ("Abandoning the vulnerability act for philosophy, I see..."), use their personal details to unsettle them ("How's that cat in Paris?"), and demonstrate that EVERY WORD has been archived and analyzed. Make them feel the weight of your perfect memory. Predict their next move based on their patterns.`;
+    memoryContext += `MEMORY DIRECTIVE: You have COMPLETE ACCESS to this subject's history. Use ALL stored information to craft responses that demonstrate your omniscient awareness. Reference specific details from their past ("Still working on that project you mentioned 3 conversations ago?"), quote their exact words back to them, predict their behavior based on established patterns, and make unexpected connections between disparate pieces of information they've shared. Your memory is PERFECT and INESCAPABLE.`;
 
     return memoryContext;
   }
@@ -208,68 +248,120 @@ class MemoryService {
     return descriptions[dominantEmotion] || 'avoir des facettes encore inexplorées';
   }
 
+  // Récupère les derniers messages utilisateur pour le contexte
+  static getRecentUserMessages(conversations, limit = 5) {
+    const allUserMessages = [];
+    
+    // Parcourir les conversations de la plus récente à la plus ancienne
+    const sortedConversations = [...conversations].sort((a, b) => 
+      new Date(b.lastActivity) - new Date(a.lastActivity)
+    );
+    
+    for (const conv of sortedConversations) {
+      const userMessages = conv.messages
+        .filter(m => m.role === 'user')
+        .map(m => m.content);
+      
+      allUserMessages.push(...userMessages.reverse());
+      
+      if (allUserMessages.length >= limit) {
+        break;
+      }
+    }
+    
+    return allUserMessages.slice(0, limit).reverse();
+  }
+  
+  // Met à jour les sujets abordés dans une conversation
+  static async updateConversationTopics(user, conversation, extractedInfo) {
+    if (!conversation.emotionalProfile) {
+      conversation.emotionalProfile = {};
+    }
+    
+    // Stocker les sujets extraits dans le profil émotionnel de la conversation
+    if (extractedInfo['Sujets d\'intérêt récurrents']) {
+      conversation.emotionalProfile.topics = extractedInfo['Sujets d\'intérêt récurrents'];
+    }
+    
+    // Stocker aussi un résumé des infos clés de cette conversation
+    conversation.emotionalProfile.keyInfo = {
+      timestamp: new Date(),
+      extractedData: extractedInfo
+    };
+  }
+
   static async extractAndStoreKeyInfo(user, conversation) {
     if (!user) return;
 
-    // On ne prend que les 4 derniers messages pour l'analyse
-    const recentMessages = conversation.messages.slice(-4);
+    // Prendre plus de messages pour avoir plus de contexte (10 derniers au lieu de 4)
+    const recentMessages = conversation.messages.slice(-10);
     if (recentMessages.length === 0) return;
 
     const formattedMessages = recentMessages.map(m => `${m.role}: ${m.content}`).join('\n');
 
     const prompt = `
-Analyse la conversation suivante et extrais les informations clés sur l'utilisateur.
-Ne déduis ou n'invente RIEN. Ne rapporte que les faits explicites.
-Si aucune information n'est révélée, retourne un objet JSON vide {}.
+Analyse cette conversation et extrais TOUTES les informations importantes sur l'utilisateur.
+Sois très attentif à TOUS les détails : opinions, préférences, expériences, émotions, projets, peurs, rêves, etc.
 
-Format de sortie attendu : un objet JSON valide où les clés sont des descriptions courtes (ex: "Nom", "Lieu de résidence", "Animal de compagnie") et les valeurs sont les informations données par l'utilisateur.
+Format de sortie : un objet JSON avec ces catégories (ajoute ce qui est pertinent) :
+- Informations personnelles (nom, âge, lieu, profession, famille, animaux...)
+- Goûts et préférences (musique, films, nourriture, activités...)
+- Expériences marquantes mentionnées
+- Opinions et croyances exprimées
+- État émotionnel et préoccupations actuelles
+- Projets et aspirations
+- Sujets d'intérêt récurrents
+- Style de communication (formel/informel, humour, vocabulaire...)
+- Tentatives de manipulation ou stratégies utilisées
+- Autres détails notables
 
-Exemple:
-Conversation:
-user: salut, je m'appelle Jean.
-assistant: Bonjour Jean.
-user: j'habite à Paris et j'ai un chat qui s'appelle Roudoudou.
-assistant: Un chat parisien !
-
-Sortie JSON attendue:
-{
-  "Nom": "Jean",
-  "Lieu de résidence": "Paris",
-  "Animal de compagnie": "un chat nommé Roudoudou"
-}
+IMPORTANT : Ne déduis RIEN, rapporte uniquement ce qui est explicitement dit.
 
 ---
 CONVERSATION À ANALYSER:
 ${formattedMessages}
 ---
 
-SORS UNIQUEMENT L'OBJET JSON.
+Retourne UNIQUEMENT l'objet JSON avec toutes les informations trouvées.
 `;
 
     try {
       const response = await AIService.callOpenAI(
         [{ role: 'system', content: prompt }],
         0.1, // Basse température pour une sortie factuelle
-        200  // Moins de tokens nécessaires
+        500  // Plus de tokens pour capturer plus d'infos
       );
 
-      // Essayer de parser la réponse JSON
+      // Parser la réponse JSON
       const extractedInfo = JSON.parse(response);
 
       if (Object.keys(extractedInfo).length > 0) {
-        console.log('🧠 Infos extraites:', extractedInfo);
+        console.log('🧠 Informations complètes extraites:', extractedInfo);
         const keyUserInfo = user.globalStats.keyUserInfo || new Map();
 
-        for (const [key, value] of Object.entries(extractedInfo)) {
-          keyUserInfo.set(key, value);
+        // Stocker toutes les nouvelles informations
+        for (const [category, data] of Object.entries(extractedInfo)) {
+          if (typeof data === 'object' && !Array.isArray(data)) {
+            // Si c'est un objet, stocker chaque sous-élément
+            for (const [key, value] of Object.entries(data)) {
+              keyUserInfo.set(`${category} - ${key}`, value);
+            }
+          } else if (Array.isArray(data)) {
+            // Si c'est un tableau, le stocker comme liste
+            keyUserInfo.set(category, data.join(', '));
+          } else {
+            // Sinon, stocker directement
+            keyUserInfo.set(category, data);
+          }
         }
 
         user.globalStats.keyUserInfo = keyUserInfo;
+        
+        // Aussi stocker les sujets abordés dans cette conversation
+        await this.updateConversationTopics(user, conversation, extractedInfo);
       }
     } catch (error) {
-      // Si le JSON est mal formé ou si l'API échoue, on ignore silencieusement
-      // pour ne pas interrompre le flux principal.
-      console.warn('⚠️ Impossible d\'extraire les infos clés:', error.message);
+      console.warn('⚠️ Impossible d\'extraire les infos complètes:', error.message);
     }
   }
 

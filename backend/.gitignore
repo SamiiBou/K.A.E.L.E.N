@@ -1,0 +1,8 @@
+node_modules/
+.next/
+*.mp4
+.DS_Store
+.env
+.env.local
+# Gardez kaelen_sit.png !
+.env

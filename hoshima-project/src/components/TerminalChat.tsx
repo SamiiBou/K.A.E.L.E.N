@@ -1061,7 +1061,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     };
   }, []);
   
-  // Mise à jour du son ambiant selon l'état émotionnel
+  // Mise à jour du son ambiant selon l'état émotionnel.
   useEffect(() => {
     if (audioContextRef.current && ambientSoundRef.current) {
       const ctx = audioContextRef.current;

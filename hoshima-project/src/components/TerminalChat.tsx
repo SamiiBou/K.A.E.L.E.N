@@ -2400,6 +2400,9 @@ Good luck, Candidate.`,
                           <div className="text-green-400 text-xs font-mono tracking-widest font-bold">
                             CURRENT PRIZE POOL
                           </div>
+                          <div className="text-green-400/60 text-xs font-mono animate-pulse">
+                            [ CLICK FOR RULES ]
+                          </div>
                         </div>
                         <div className="text-green-300/60 text-xs font-mono">WLD</div>
                       </div>

@@ -4,6 +4,7 @@ import userService from '@/utils/userService';
 import useWorldWalletAuth from '@/hooks/useWorldWalletAuth';
 import { AUTH_CONFIG, getApiUrl } from '@/config/constants';
 import { MiniKit, tokenToDecimals, Tokens, PayCommandInput, VerifyCommandInput, VerificationLevel, ISuccessResult } from '@worldcoin/minikit-js';
+import PrizeDistributionModal from './PrizeDistributionModal';
 
 interface Message {
   id: string;
@@ -91,6 +92,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   const [commandBuffer, setCommandBuffer] = useState('');
   const [isCandidate, setIsCandidate] = useState(false);
   const [consoleMessage, setConsoleMessage] = useState<string | null>(null);
+  const [showPrizeDistributionModal, setShowPrizeDistributionModal] = useState(false);
   
   // États pour le tutoriel
   const [showTutorial, setShowTutorial] = useState(false);
@@ -2349,10 +2351,11 @@ Good luck, Candidate.`,
                   
                   {/* ══════════ MODULE 0: PRIZE POOL ══════════ */}
                   <motion.div 
-                    className="border-2 border-green-500/60 bg-gradient-to-br from-green-900/30 via-black/70 to-emerald-900/20 rounded-sm p-4 relative overflow-hidden"
+                    className="border-2 border-green-500/60 bg-gradient-to-br from-green-900/30 via-black/70 to-emerald-900/20 rounded-sm p-4 relative overflow-hidden cursor-pointer hover:border-green-400/80 transition-colors"
                     initial={{ opacity: 0, y: -20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.6, delay: 0.05 }}
+                    onClick={() => setShowPrizeDistributionModal(true)}
                   >
                     {/* Effet de pulsation pour attirer l'attention */}
                     <motion.div
@@ -3353,6 +3356,12 @@ Good luck, Candidate.`,
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Prize Distribution Modal */}
+      <PrizeDistributionModal 
+        isOpen={showPrizeDistributionModal}
+        onClose={() => setShowPrizeDistributionModal(false)}
+      />
     </div>
   );
 }

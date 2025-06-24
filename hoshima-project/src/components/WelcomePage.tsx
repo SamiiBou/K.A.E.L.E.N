@@ -272,8 +272,18 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
   }, []);
 
   const handleSkip = useCallback(() => {
-    onComplete();
-  }, [onComplete]);
+    debugLog('Skip button clicked');
+    
+    // Stop the current video
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = video.duration || 0;
+    }
+    
+    // Trigger video end logic
+    handleVideoEnd();
+  }, []);
 
   const signInWithWallet = async () => {
     if (!MiniKit.isInstalled()) {

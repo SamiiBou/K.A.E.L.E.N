@@ -91,14 +91,16 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
         setStep('video');
         videoRef.current?.play();
         // Show skip button after 3 seconds of video playback
-        setTimeout(() => setShowSkipButton(true), 3000);
+        setTimeout(() => {
+          console.log('🎬 [GameIntro] Showing skip button');
+          setShowSkipButton(true);
+        }, 3000);
       }, 1000); // Give user a moment to see 100% then auto-start video
     };
 
     // If video is cached and ready, go straight to video
     if (video.readyState >= 4) { // HAVE_ENOUGH_DATA
       onCanPlayThrough();
-      return;
     }
     
     video.addEventListener('progress', updateProgress);
@@ -134,7 +136,15 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
   };
 
   const handleSkipVideo = () => {
+    console.log('🎬 [GameIntro] Skip button clicked');
     setShowSkipButton(false);
+    
+    // Stop the current video
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = videoRef.current.duration || 0;
+    }
+    
     handleVideoEnd();
   };
 
@@ -183,7 +193,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
             onClick={handleSkipVideo}
-            className="fixed top-6 right-6 z-50 px-4 py-2 bg-black/40 backdrop-blur-sm border border-white/20 text-white/90 text-sm font-mono tracking-wide rounded-sm hover:bg-black/60 hover:border-white/30 hover:text-white transition-all duration-300 group"
+            className="fixed top-6 right-6 z-[60] px-4 py-2 bg-black/60 backdrop-blur-md border border-white/30 text-white text-sm font-mono tracking-wide rounded-sm hover:bg-black/80 hover:border-white/50 hover:text-white transition-all duration-300 group cursor-pointer select-none"
           >
             <span className="flex items-center gap-2">
               SKIP

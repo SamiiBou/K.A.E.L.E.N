@@ -1895,56 +1895,23 @@ Good luck, Candidate.`,
 
   return (
     <div className="space-y-4 font-mono text-white relative min-h-screen">
-      {/* Effet scan-lines en arrière-plan - ajusté pour ne pas déborder */}
+      {/* Effet scan-lines statique en arrière-plan */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/2 to-transparent animate-pulse" 
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/1 to-transparent" 
              style={{
-               backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59, 130, 246, 0.03) 2px, rgba(59, 130, 246, 0.03) 4px)',
-               animation: 'scanlines 2s linear infinite'
+               backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59, 130, 246, 0.02) 2px, rgba(59, 130, 246, 0.02) 4px)'
              }}></div>
       </div>
 
-      {/* Particules flottantes subtiles */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-20, -40, -20],
-              opacity: [0.2, 0.5, 0.2],
-              scale: [0.5, 1, 0.5]
-            }}
-            transition={{
-              duration: 4 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Bandeau haut avec effet de clignotement - remonté */}
-      <motion.div 
-        className="text-center text-white/20 text-xs tracking-wider relative z-10 mt-2"
-        animate={{
-          opacity: [0.2, 0.4, 0.2]
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+      {/* Bandeau haut statique */}
+      <div 
+        className="text-center text-white/25 text-xs tracking-wider relative z-10 mt-2"
       >
         <span className="relative">
           [ Text fragmentation complete... ]
-          <div className="absolute -inset-1 bg-blue-500/10 blur-sm rounded-sm animate-pulse"></div>
+          <div className="absolute -inset-1 bg-blue-500/5 rounded-sm"></div>
         </span>
-      </motion.div>
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* LE SANCTUM - L'Interface Sanctuarisée - Moniteur de Stabilité */}
@@ -2901,49 +2868,41 @@ Good luck, Candidate.`,
           <div className="h-full overflow-y-auto space-y-3 pr-2 relative z-10 custom-scrollbar">
             <AnimatePresence>
               {(() => {
-                const DISPLAY_LIMIT = 50;
+                const DISPLAY_LIMIT = 25;
                 const displayedMessages = messages.slice(-DISPLAY_LIMIT);
                 return displayedMessages.map((msg, index) => (
                   <motion.div 
                     key={msg.id} 
                     className="whitespace-pre-wrap text-sm relative"
-                    initial={{ opacity: 0, x: msg.role === 'user' ? 20 : -20, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                     transition={{ 
-                      duration: 0.4, 
-                      delay: index * 0.1,
+                      duration: 0.3, 
                       ease: "easeOut"
                     }}
                   >
                     {msg.role === 'user' ? (
                       <span className="text-blue-400 relative">
-                        <motion.span
-                          className="absolute -left-2 top-0 text-blue-500/60"
-                          animate={{ opacity: [0.4, 0.8, 0.4] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
+                        <span className="absolute -left-2 top-0 text-blue-500/60">
                           &gt;
-                        </motion.span>
+                        </span>
                         <span className="ml-2">{msg.content}</span>
                       </span>
                     ) : (
-                      <motion.span 
+                      <span 
                         className={`relative ${msg.content.startsWith('//') ? 'text-cyan-400/90 font-mono text-xs leading-relaxed' : 'text-white/80'}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6 }}
                       >
                         {msg.content.startsWith('//') ? (
                           <div className={`${
-                            (msg.content.includes('USDC') || msg.content.includes('WLD')) ? 'bg-yellow-900/30 border border-yellow-500/40' :
-                            msg.content.includes('Your goal') ? 'bg-green-900/30 border border-green-500/40' :
-                            'bg-slate-900/60 border border-cyan-500/30'
-                          } p-3 rounded-sm backdrop-blur-sm relative`}>
+                            (msg.content.includes('USDC') || msg.content.includes('WLD')) ? 'bg-yellow-900/20 border border-yellow-500/30' :
+                            msg.content.includes('Your goal') ? 'bg-green-900/20 border border-green-500/30' :
+                            'bg-slate-900/40 border border-cyan-500/20'
+                          } p-3 rounded-sm relative`}>
                             <div className="space-y-1">
                               {msg.content.split('\n').map((line, idx) => (
                                 <div key={idx} className={`${
-                                  (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-400 font-bold text-lg animate-pulse' :
+                                  (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-400 font-bold text-lg' :
                                   line.includes('Prize Pool') ? 'text-yellow-300 font-semibold' :
                                   line.includes('Your goal') ? 'text-green-300 font-medium' :
                                   line.includes('Are you ready') ? 'text-cyan-300 font-medium' :
@@ -2954,7 +2913,7 @@ Good luck, Candidate.`,
                               ))}
                             </div>
                             {(msg.content.includes('USDC') || msg.content.includes('WLD')) && (
-                              <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-500/20 via-transparent to-yellow-500/20 rounded-sm blur-sm opacity-60 animate-pulse"></div>
+                              <div className="absolute -inset-0.5 bg-yellow-500/10 rounded-sm border border-yellow-500/20"></div>
                             )}
                           </div>
                         ) : (
@@ -2963,7 +2922,7 @@ Good luck, Candidate.`,
                             <div className="absolute -inset-1 bg-white/5 rounded-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                           </>
                         )}
-                      </motion.span>
+                      </span>
                     )}
                   </motion.div>
                 ));
@@ -2979,21 +2938,9 @@ Good luck, Candidate.`,
               >
                 <span>[K.A.E.L.E.N processing data...]</span>
                 <div className="flex space-x-1">
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="w-1 h-1 bg-blue-400/60 rounded-full"
-                      animate={{
-                        scale: [0.5, 1.2, 0.5],
-                        opacity: [0.3, 1, 0.3]
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        repeat: Infinity,
-                        delay: i * 0.2
-                      }}
-                    />
-                  ))}
+                  <div className="w-1 h-1 bg-blue-400/60 rounded-full animate-pulse"></div>
+                  <div className="w-1 h-1 bg-blue-400/40 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                  <div className="w-1 h-1 bg-blue-400/30 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                 </div>
               </motion.div>
             )}

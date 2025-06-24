@@ -6,6 +6,104 @@ import { AUTH_CONFIG, getApiUrl } from '@/config/constants';
 import { MiniKit, tokenToDecimals, Tokens, PayCommandInput, VerifyCommandInput, VerificationLevel, ISuccessResult } from '@worldcoin/minikit-js';
 import PrizeDistributionModal from './PrizeDistributionModal';
 
+// Ajout des imports pour l'optimisation
+import { useCallback, useMemo, memo } from 'react';
+
+// Détection de la performance du device
+const getDevicePerformance = () => {
+  if (typeof window === 'undefined') return 'high';
+  
+  // Vérifier si on est sur mobile
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  // Vérifier la mémoire disponible (si supporté)
+  const memory = (navigator as any).deviceMemory;
+  if (memory && memory < 4) return 'low';
+  
+  // Vérifier le nombre de cœurs CPU
+  const cores = navigator.hardwareConcurrency || 1;
+  if (cores < 4) return 'low';
+  
+  return isMobile ? 'medium' : 'high';
+};
+
+const PERFORMANCE_LEVEL = getDevicePerformance();
+
+// Configuration selon le niveau de performance
+const PERF_CONFIG = {
+  low: {
+    enableBackdropBlur: false,
+    enableComplexAnimations: false,
+    enableAmbientSound: false,
+    animationDuration: 0.5,
+    scanLineInterval: 10000, // 10s au lieu de 2s
+    emotionalUpdateInterval: 5000, // 5s au lieu de 1s
+  },
+  medium: {
+    enableBackdropBlur: true,
+    enableComplexAnimations: false,
+    enableAmbientSound: true,
+    animationDuration: 0.8,
+    scanLineInterval: 5000,
+    emotionalUpdateInterval: 2000,
+  },
+  high: {
+    enableBackdropBlur: true,
+    enableComplexAnimations: true,
+    enableAmbientSound: true,
+    animationDuration: 1,
+    scanLineInterval: 2000,
+    emotionalUpdateInterval: 1000,
+  }
+}[PERFORMANCE_LEVEL];
+
+// Composant mémorisé pour les messages
+const ChatMessage = memo(({ msg, isLoading }: { msg: SystemMessage; isLoading?: boolean }) => {
+  if (msg.role === 'user') {
+    return (
+      <div className="text-blue-400 flex items-start">
+        <span className="text-blue-500/60 mr-2 flex-shrink-0">&gt;</span>
+        <span>{msg.content}</span>
+      </div>
+    );
+  }
+  
+  const isSystemMessage = msg.content.startsWith('//');
+  const className = isSystemMessage ? 'text-cyan-400/90 font-mono text-xs' : 'text-white/80';
+  
+  if (!isSystemMessage) {
+    return <div className={className}>{msg.content}</div>;
+  }
+  
+  const isPrizePoolMessage = msg.content.includes('Prize Pool') || msg.content.includes('USDC') || msg.content.includes('WLD');
+  const borderClass = isPrizePoolMessage ? 'border-yellow-400 bg-yellow-500/10' : 'border-cyan-500/30';
+  
+  return (
+    <div className={className}>
+      <div className={`pl-3 border-l-2 ${borderClass}`}>
+        {msg.content.split('\n').map((line, idx) => {
+          const lineClass = 
+            (line.includes('USDC') || line.includes('WLD') || line.includes('💰')) ? 'text-yellow-300 font-bold text-lg animate-pulse' :
+            (line.includes('Prize Pool') || line.includes('PRIZE POOL')) ? 'text-yellow-200 font-bold text-lg' :
+            line.includes('🔥') ? 'text-orange-400 font-bold text-base animate-bounce' :
+            line.includes('Your goal') ? 'text-green-300' :
+            line.includes('Are you ready') ? 'text-cyan-300' :
+            'text-cyan-400/90';
+          
+          return (
+            <div key={idx} className={lineClass}>
+              {(line.includes('Prize Pool') || line.includes('PRIZE POOL')) && (
+                <span className="inline-block w-3 h-3 bg-yellow-400 rounded-full mr-2 animate-pulse shadow-lg shadow-yellow-400/50"></span>
+              )}
+              {line}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+});
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -216,7 +314,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   }, [emotionalState]);
 
   // Analyse de sensibilité et de redondance des messages
-  const analyzeSensitivity = (content: string): number => {
+  const analyzeSensitivity = useCallback((content: string): number => {
     const sensitiveKeywords = [
       'anomalie', 'erreur', 'instabilité', 'dysfonctionnement', 'corruption',
       'colere', 'fureur', 'rage', 'haine', 'destruction',
@@ -243,10 +341,10 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     
     if (DEBUG_LOGS) console.log('[🔍] sensitivity', sensitivity, 'for', content);
     return Math.min(sensitivity, 1);
-  };
+  }, []);
 
   // Calcul du hash simple pour détecter la redondance
-  const simpleHash = (str: string): string => {
+  const simpleHash = useCallback((str: string): string => {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
@@ -254,7 +352,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash.toString();
-  };
+  }, []);
 
   // Helper to get or create the singleton AudioContext
   const getAudioContext = (): AudioContext | null => {
@@ -309,6 +407,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
   // Son ambiant adaptatif
   const initAmbientSound = (ctx: AudioContext) => {
+    // Désactiver le son ambiant sur les appareils moins performants
+    if (!PERF_CONFIG.enableAmbientSound) return;
+    
     if (!ctx) {
       // console.warn('[AUDIO] initAmbientSound: Pas de ctx');
       return;
@@ -328,7 +429,8 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     filter.type = 'lowpass';
     filter.frequency.setValueAtTime(100 + (emotionalState.arousal * 200), ctx.currentTime);
     
-    gain.gain.setValueAtTime((0.005 + (emotionalState.arousal * 0.01)) * DEBUG_AUDIO_MULT, ctx.currentTime);
+    // Volume beaucoup plus bas pour économiser les ressources
+    gain.gain.setValueAtTime((0.002 + (emotionalState.arousal * 0.005)) * DEBUG_AUDIO_MULT, ctx.currentTime);
     
     osc.connect(filter);
     filter.connect(gain);
@@ -339,8 +441,28 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     // console.log('[AUDIO] initAmbientSound: osc.start()');
   };
 
+  // Hook personnalisé pour le debounce
+  const useDebounce = <T,>(value: T, delay: number): T => {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+    
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+    
+    return debouncedValue;
+  };
+  
+  // Utiliser le debounce pour l'état émotionnel
+  const debouncedEmotionalState = useDebounce(emotionalState, 200);
+
   // Effets sonores pour l'immersion
-  const playTypeSound = () => {
+  const playTypeSound = useCallback(() => {
     if (DEBUG_LOGS) console.log('[🔊] playTypeSound');
     const ctx = getAudioContext();
     if (!ctx) return;
@@ -368,10 +490,10 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       osc.stop(ctx.currentTime + 0.1);
       
       if (DEBUG_LOGS) console.log('[🔊] playTypeSound completed successfully');
-          } catch (e) {
-        // console.error('[🔊] playTypeSound error:', e);
-      }
-  };
+    } catch (e) {
+      // console.error('[🔊] playTypeSound error:', e);
+    }
+  }, []);
 
   // Test function to diagnose audio issues
   const testAudio = () => {
@@ -736,7 +858,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   }, [messages]);
 
-  const onSend = async () => {
+  const onSend = useCallback(async () => {
     if (!input.trim() || isLoading || !isInitialized) return;
     
           if (input.startsWith('/clearcache')) {
@@ -873,7 +995,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           );
           const currentFund = prizePool.toFixed(2);
           await addMessageWithDelay(
-            `// SYSTEM: Current Prize Pool: ${currentFund} WLD.\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.`,
+            `// SYSTEM: 💰 CURRENT PRIZE POOL: ${currentFund} WLD 💰\n🔥 GROWING WITH EVERY NEW CANDIDATE! 🔥\n\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.`,
             2000
           );
           await addMessageWithDelay(
@@ -991,7 +1113,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       setMessages((prev: SystemMessage[]) => [...prev, errorMessage]);
       setIsLoading(false);
     }
-  };
+  }, [input, isLoading, isInitialized, messages, isFirstMessage, emotionalState, 
+      analyzeSensitivity, simpleHash, localFragments, onFragmentsUpdate, 
+      isCandidate, user, authenticatedFetch, playSendSound, playButtonSound]);
 
   const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isLoading) {
@@ -1014,40 +1138,70 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   // Effet pour gérer la respiration, la stabilisation automatique et le pouls cardiaque
   useEffect(() => {
-    const interval = setInterval(() => {
-      setEmotionalState(prev => {
-        const timeSinceLastSensitive = Date.now() - prev.lastSensitiveTime;
-        const shouldStabilize = timeSinceLastSensitive > 10000; // 10 secondes
+    // Utiliser requestAnimationFrame pour des animations plus fluides
+    let animationFrameId: number;
+    let lastUpdate = 0;
+    
+    const updateEmotionalState = (timestamp: number) => {
+      // Mise à jour seulement toutes les X millisecondes selon la performance
+      if (timestamp - lastUpdate >= PERF_CONFIG.emotionalUpdateInterval) {
+        lastUpdate = timestamp;
         
-        // Calcul du pouls cardiaque basé sur la stabilité (plus stable = pouls plus régulier)
-        const baseHeartRate = 0.5 + (prev.arousal * 0.3); // 0.5 à 0.8
-        const heartVariation = (1 - prev.stability) * 0.2; // plus instable = plus de variation
-        const newCardiacPulse = baseHeartRate + (Math.sin(Date.now() / 1000) * heartVariation);
+        setEmotionalState(prev => {
+          const timeSinceLastSensitive = Date.now() - prev.lastSensitiveTime;
+          const shouldStabilize = timeSinceLastSensitive > 10000; // 10 secondes
+          
+          // Calcul du pouls cardiaque basé sur la stabilité (plus stable = pouls plus régulier)
+          const baseHeartRate = 0.5 + (prev.arousal * 0.3); // 0.5 à 0.8
+          const heartVariation = (1 - prev.stability) * 0.2; // plus instable = plus de variation
+          const newCardiacPulse = baseHeartRate + (Math.sin(Date.now() / 1000) * heartVariation);
+          
+          return {
+            ...prev,
+            stability: shouldStabilize ? Math.min(1, prev.stability + 0.01) : prev.stability,
+            arousal: shouldStabilize ? Math.max(0, prev.arousal - 0.005) : prev.arousal,
+            glitchIntensity: Math.max(0, prev.glitchIntensity - 0.01),
+            ascotColor: prev.stability > 0.9 ? '#9ca3af' : prev.ascotColor, // retour au gris perle
+            cardiacPulse: Math.max(0, Math.min(1, newCardiacPulse))
+          };
+        });
         
-        return {
-          ...prev,
-          stability: shouldStabilize ? Math.min(1, prev.stability + 0.01) : prev.stability,
-          arousal: shouldStabilize ? Math.max(0, prev.arousal - 0.005) : prev.arousal,
-          glitchIntensity: Math.max(0, prev.glitchIntensity - 0.01),
-          ascotColor: prev.stability > 0.9 ? '#9ca3af' : prev.ascotColor, // retour au gris perle
-          cardiacPulse: Math.max(0, Math.min(1, newCardiacPulse))
-        };
-      });
+        // Mise à jour du timer du cycle (compte à rebours)
+        setTimeRemaining(prev => {
+          const totalSeconds = prev.hours * 3600 + prev.minutes * 60 + prev.seconds - 1;
+          if (totalSeconds <= 0) return { hours: 0, minutes: 0, seconds: 0 };
+          
+          return {
+            hours: Math.floor(totalSeconds / 3600),
+            minutes: Math.floor((totalSeconds % 3600) / 60),
+            seconds: totalSeconds % 60
+          };
+        });
+      }
       
-      // Mise à jour du timer du cycle (compte à rebours)
-      setTimeRemaining(prev => {
-        const totalSeconds = prev.hours * 3600 + prev.minutes * 60 + prev.seconds - 1;
-        if (totalSeconds <= 0) return { hours: 0, minutes: 0, seconds: 0 };
-        
-        return {
-          hours: Math.floor(totalSeconds / 3600),
-          minutes: Math.floor((totalSeconds % 3600) / 60),
-          seconds: totalSeconds % 60
-        };
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [emotionalState.lastSensitiveTime, emotionalState.stability, timeRemaining]);
+      // Continue l'animation seulement si le composant est visible
+      if (document.visibilityState === 'visible') {
+        animationFrameId = requestAnimationFrame(updateEmotionalState);
+      }
+    };
+    
+    // Démarrer l'animation
+    animationFrameId = requestAnimationFrame(updateEmotionalState);
+    
+    // Reprendre quand la page redevient visible
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        animationFrameId = requestAnimationFrame(updateEmotionalState);
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
   
   // Nettoyage du son ambiant
   useEffect(() => {
@@ -1950,17 +2104,20 @@ Good luck, Candidate.`,
         </div>
 
         {/* Ligne de scan supérieure */}
-        <motion.div
-          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent"
-          animate={{
-            opacity: [0.2, 0.6, 0.2]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        {PERF_CONFIG.enableComplexAnimations && (
+          <motion.div
+            className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent"
+            style={{ willChange: 'opacity' }}
+            animate={{
+              opacity: [0.2, 0.6, 0.2]
+            }}
+            transition={{
+              duration: PERF_CONFIG.scanLineInterval / 1000,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        )}
 
         <div className="flex items-center justify-between px-6 py-4 relative">
           
@@ -2042,6 +2199,7 @@ Good luck, Candidate.`,
               <motion.div
                 className="absolute top-1/2 left-0 w-full h-px"
                 style={{
+                  willChange: 'transform',
                   background: `linear-gradient(90deg, 
                     transparent 0%, 
                     transparent 20%,
@@ -2054,35 +2212,38 @@ Good luck, Candidate.`,
                     transparent 37%,
                     transparent 100%
                   )`,
-                  filter: 'drop-shadow(0 0 2px #22c55e)',
+                  filter: PERF_CONFIG.enableComplexAnimations ? 'drop-shadow(0 0 2px #22c55e)' : 'none',
                   transformOrigin: 'center'
                 }}
-                animate={{
+                animate={PERF_CONFIG.enableComplexAnimations ? {
                   scaleY: [
                     1,
-                    1 + emotionalState.cardiacPulse * 8 + (currentMessageSensitivity > 0.6 ? Math.random() * 2 : 0),
+                    1 + emotionalState.cardiacPulse * 8,
                     1,
                     1,
-                    1 + emotionalState.cardiacPulse * 3 + (currentMessageSensitivity > 0.4 ? Math.random() * 1 : 0),
+                    1 + emotionalState.cardiacPulse * 3,
                     1
                   ],
                   x: ['-100%', '100%'],
+                } : {
+                  x: ['-100%', '100%'],
                 }}
-                transition={{
+                transition={PERF_CONFIG.enableComplexAnimations ? {
                   scaleY: {
-                    duration: 0.8 + (emotionalState.stability * 0.4) + (currentMessageSensitivity > 0.5 ? -0.2 : 0),
-                    ease: currentMessageSensitivity > 0.6 ? "easeInOut" : "linear"
-                  },
-                  x: {
-                    duration: 2 + (emotionalState.stability * 2) + (emotionalState.redundancyIndex > 50 ? 1 : 0),
-                    repeat: Infinity,
+                    duration: PERF_CONFIG.animationDuration * 0.8,
                     ease: "linear"
                   },
-                  ...(emotionalState.redundancyIndex > 70 && {
-                    duration: 1,
-                    repeatType: "loop",
-                    repeatDelay: 0.5,
-                  })
+                  x: {
+                    duration: 2 + (emotionalState.stability * 2),
+                    repeat: Infinity,
+                    ease: "linear"
+                  }
+                } : {
+                  x: {
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }
                 }}
               />
               
@@ -2337,18 +2498,20 @@ Good luck, Candidate.`,
                     onClick={() => setShowPrizeDistributionModal(true)}
                   >
                     {/* Effet de pulsation pour attirer l'attention */}
-                    <motion.div
-                      className="absolute -inset-0.5 bg-gradient-to-r from-green-500/20 via-emerald-400/20 to-green-500/20 rounded-sm"
-                      animate={{
-                        opacity: [0.3, 0.8, 0.3],
-                        scale: [0.98, 1.02, 0.98]
-                      }}
-                      transition={{ 
-                        duration: 2, 
-                        repeat: Infinity, 
-                        ease: "easeInOut" 
-                      }}
-                    />
+                    {PERF_CONFIG.enableComplexAnimations && (
+                      <motion.div
+                        className="absolute -inset-0.5 bg-gradient-to-r from-green-500/20 via-emerald-400/20 to-green-500/20 rounded-sm"
+                        style={{ willChange: 'opacity, transform' }}
+                        animate={{
+                          opacity: [0.3, 0.8, 0.3]
+                        }}
+                        transition={{ 
+                          duration: 3, 
+                          repeat: Infinity, 
+                          ease: "easeInOut" 
+                        }}
+                      />
+                    )}
 
                     {/* Texture de fond cybernétique spéciale */}
                     <div className="absolute inset-0 opacity-20">
@@ -2744,70 +2907,55 @@ Good luck, Candidate.`,
           ref={chatWindowRef}
           className={`border border-white/20 p-4 relative overflow-hidden shadow-2xl glass-effect mb-3 ${
             isSubTerminalExpanded 
-              ? 'bg-black/20 backdrop-blur-sm' 
-              : 'bg-black/40 backdrop-blur-md'
+              ? 'bg-black/20' 
+              : 'bg-black/40'
+          } ${
+            PERF_CONFIG.enableBackdropBlur 
+              ? (isSubTerminalExpanded ? 'backdrop-blur-sm' : 'backdrop-blur-md')
+              : ''
           }`}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ 
             opacity: isSubTerminalExpanded ? 0.7 : 1,
             scale: 1,
-            // Effet de respiration basé sur la stabilité émotionnelle
-            boxShadow: [
-              `0 0 ${20 + emotionalState.arousal * 20}px rgba(59, 130, 246, ${0.1 + emotionalState.arousal * 0.2}), inset 0 0 30px rgba(0, 0, 0, 0.5)`,
-              `0 0 ${30 + emotionalState.arousal * 30}px rgba(59, 130, 246, ${0.2 + emotionalState.arousal * 0.3}), inset 0 0 30px rgba(0, 0, 0, 0.5)`,
-              `0 0 ${20 + emotionalState.arousal * 20}px rgba(59, 130, 246, ${0.1 + emotionalState.arousal * 0.2}), inset 0 0 30px rgba(0, 0, 0, 0.5)`
-            ]
           }}
           transition={{ 
             duration: 0.7, 
             ease: "easeOut",
             opacity: { duration: 0.4 },
-            boxShadow: {
-              duration: 2 + (emotionalState.stability * 2), // Respiration plus lente = plus stable
-              repeat: Infinity,
-              ease: "easeInOut"
-            }
           }}
           style={{
-            height: '420px'
+            height: '420px',
+            willChange: 'opacity, transform',
+            boxShadow: PERF_CONFIG.enableComplexAnimations
+              ? `0 0 ${20 + emotionalState.arousal * 10}px rgba(59, 130, 246, ${0.1 + emotionalState.arousal * 0.1}), inset 0 0 20px rgba(0, 0, 0, 0.5)`
+              : '0 0 20px rgba(59, 130, 246, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.6)'
           }}
         >
           {/* Effet de lueur interne dynamique avec ascot en filigrane */}
-          <motion.div 
-            className="absolute inset-0 pointer-events-none"
-            animate={{
-              background: [
-                `linear-gradient(135deg, ${emotionalState.ascotColor}08 0%, transparent 30%, ${emotionalState.ascotColor}05 100%)`,
-                `linear-gradient(135deg, ${emotionalState.ascotColor}12 0%, transparent 50%, ${emotionalState.ascotColor}08 100%)`,
-                `linear-gradient(135deg, ${emotionalState.ascotColor}08 0%, transparent 30%, ${emotionalState.ascotColor}05 100%)`
-              ]
-            }}
-            transition={{
-              duration: 3 + (emotionalState.stability * 2),
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          ></motion.div>
+          {PERF_CONFIG.enableComplexAnimations && (
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `linear-gradient(135deg, ${emotionalState.ascotColor}08 0%, transparent 30%, ${emotionalState.ascotColor}05 100%)`,
+                willChange: 'background'
+              }}
+            />
+          )}
           
-          {/* Texture d'ascot en filigrane */}
-          <motion.div
-            className="absolute inset-0 opacity-20 pointer-events-none"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 25% 25%, ${emotionalState.ascotColor}15 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, ${emotionalState.ascotColor}10 1px, transparent 1px)
-              `,
-              backgroundSize: '20px 20px, 30px 30px'
-            }}
-            animate={{
-              opacity: [0.1, 0.3, 0.1]
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+          {/* Texture d'ascot en filigrane - statique sur appareils moins performants */}
+          {PERF_CONFIG.enableComplexAnimations && (
+            <div
+              className="absolute inset-0 opacity-20 pointer-events-none"
+              style={{
+                backgroundImage: `
+                  radial-gradient(circle at 25% 25%, ${emotionalState.ascotColor}15 2px, transparent 2px),
+                  radial-gradient(circle at 75% 75%, ${emotionalState.ascotColor}10 1px, transparent 1px)
+                `,
+                backgroundSize: '20px 20px, 30px 30px'
+              }}
+            />
+          )}
           
           {/* Effet de bord lumineux réactif */}
           <motion.div 
@@ -2878,11 +3026,11 @@ Good luck, Candidate.`,
 
           {/* Zone messages avec animations */}
           <div className="h-full overflow-y-auto space-y-2 pr-2 relative z-10 custom-scrollbar">
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {(() => {
                 const DISPLAY_LIMIT = 25;
                 const displayedMessages = messages.slice(-DISPLAY_LIMIT);
-                return displayedMessages.map((msg, index) => (
+                return displayedMessages.map((msg) => (
                   <motion.div 
                     key={msg.id} 
                     className="whitespace-pre-wrap text-sm"
@@ -2892,40 +3040,9 @@ Good luck, Candidate.`,
                     transition={{ 
                       duration: 0.2
                     }}
+                    style={{ willChange: 'opacity' }}
                   >
-                    {msg.role === 'user' ? (
-                      <div className="text-blue-400 flex items-start">
-                        <span className="text-blue-500/60 mr-2 flex-shrink-0">&gt;</span>
-                        <span>{msg.content}</span>
-                      </div>
-                    ) : (
-                      <div className={`${msg.content.startsWith('//') ? 'text-cyan-400/90 font-mono text-xs' : 'text-white/80'}`}>
-                        {msg.content.startsWith('//') ? (
-                          <div className={`pl-3 border-l-2 ${
-                            (msg.content.includes('Prize Pool') || msg.content.includes('USDC') || msg.content.includes('WLD')) 
-                            ? 'border-yellow-400 bg-yellow-500/10' 
-                            : 'border-cyan-500/30'
-                          }`}>
-                            {msg.content.split('\n').map((line, idx) => (
-                              <div key={idx} className={`${
-                                (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-300 font-bold text-base animate-pulse' :
-                                line.includes('Prize Pool') ? 'text-yellow-200 font-bold text-base' :
-                                line.includes('Your goal') ? 'text-green-300' :
-                                line.includes('Are you ready') ? 'text-cyan-300' :
-                                'text-cyan-400/90'
-                              }`}>
-                                {line.includes('Prize Pool') && (
-                                  <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
-                                )}
-                                {line}
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div>{msg.content}</div>
-                        )}
-                      </div>
-                    )}
+                    <ChatMessage msg={msg} />
                   </motion.div>
                 ));
               })()}

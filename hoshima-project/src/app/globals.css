@@ -403,3 +403,64 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
+
+/* Optimized animations */
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes heartbeat {
+  0% { transform: scaleY(1); }
+  10% { transform: scaleY(8); }
+  20% { transform: scaleY(1); }
+  60% { transform: scaleY(1); }
+  70% { transform: scaleY(3); }
+  80% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+/* Performance classes */
+.pulse-animation {
+  animation: pulse-opacity 3s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.scan-animation {
+  animation: scan-line 4s linear infinite;
+  will-change: transform;
+}
+
+.heartbeat-animation {
+  animation: heartbeat 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Reduce animations for low performance devices */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Optimize backdrop-filter performance */
+.backdrop-blur-optimized {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* GPU acceleration for frequently animated elements */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}

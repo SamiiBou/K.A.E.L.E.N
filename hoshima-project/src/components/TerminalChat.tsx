@@ -2865,7 +2865,7 @@ Good luck, Candidate.`,
           )}
 
           {/* Zone messages avec animations */}
-          <div className="h-full overflow-y-auto space-y-3 pr-2 relative z-10 custom-scrollbar">
+          <div className="h-full overflow-y-auto space-y-2 pr-2 relative z-10 custom-scrollbar">
             <AnimatePresence>
               {(() => {
                 const DISPLAY_LIMIT = 25;
@@ -2873,56 +2873,39 @@ Good luck, Candidate.`,
                 return displayedMessages.map((msg, index) => (
                   <motion.div 
                     key={msg.id} 
-                    className="whitespace-pre-wrap text-sm relative"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
+                    className="whitespace-pre-wrap text-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ 
-                      duration: 0.3, 
-                      ease: "easeOut"
+                      duration: 0.2
                     }}
                   >
                     {msg.role === 'user' ? (
-                      <span className="text-blue-400 relative">
-                        <span className="absolute -left-2 top-0 text-blue-500/60">
-                          &gt;
-                        </span>
-                        <span className="ml-2">{msg.content}</span>
-                      </span>
+                      <div className="text-blue-400 flex items-start">
+                        <span className="text-blue-500/60 mr-2 flex-shrink-0">&gt;</span>
+                        <span>{msg.content}</span>
+                      </div>
                     ) : (
-                      <span 
-                        className={`relative ${msg.content.startsWith('//') ? 'text-cyan-400/90 font-mono text-xs leading-relaxed' : 'text-white/80'}`}
-                      >
+                      <div className={`${msg.content.startsWith('//') ? 'text-cyan-400/90 font-mono text-xs' : 'text-white/80'}`}>
                         {msg.content.startsWith('//') ? (
-                          <div className={`${
-                            (msg.content.includes('USDC') || msg.content.includes('WLD')) ? 'bg-yellow-900/20 border border-yellow-500/30' :
-                            msg.content.includes('Your goal') ? 'bg-green-900/20 border border-green-500/30' :
-                            'bg-slate-900/40 border border-cyan-500/20'
-                          } p-3 rounded-sm relative`}>
-                            <div className="space-y-1">
-                              {msg.content.split('\n').map((line, idx) => (
-                                <div key={idx} className={`${
-                                  (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-400 font-bold text-lg' :
-                                  line.includes('Prize Pool') ? 'text-yellow-300 font-semibold' :
-                                  line.includes('Your goal') ? 'text-green-300 font-medium' :
-                                  line.includes('Are you ready') ? 'text-cyan-300 font-medium' :
-                                  'text-cyan-400/90'
-                                }`}>
-                                  {line}
-                                </div>
-                              ))}
-                            </div>
-                            {(msg.content.includes('USDC') || msg.content.includes('WLD')) && (
-                              <div className="absolute -inset-0.5 bg-yellow-500/10 rounded-sm border border-yellow-500/20"></div>
-                            )}
+                          <div className="pl-2 border-l-2 border-cyan-500/30">
+                            {msg.content.split('\n').map((line, idx) => (
+                              <div key={idx} className={`${
+                                (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-400 font-semibold' :
+                                line.includes('Prize Pool') ? 'text-yellow-300' :
+                                line.includes('Your goal') ? 'text-green-300' :
+                                line.includes('Are you ready') ? 'text-cyan-300' :
+                                'text-cyan-400/90'
+                              }`}>
+                                {line}
+                              </div>
+                            ))}
                           </div>
                         ) : (
-                          <>
-                            {msg.content}
-                            <div className="absolute -inset-1 bg-white/5 rounded-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                          </>
+                          <div>{msg.content}</div>
                         )}
-                      </span>
+                      </div>
                     )}
                   </motion.div>
                 ));

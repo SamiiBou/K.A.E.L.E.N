@@ -1134,7 +1134,18 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   }, [playerScore]);
 
   const handleCruPurchase = async () => {
-    if (!selectedCruPackage) return;
+    if (!selectedCruPackage) {
+      console.log('[PAY][FRONT] ❌ No package selected, returning early');
+      return;
+    }
+    
+    // Prevent multiple simultaneous clicks
+    if (isLoading) {
+      console.log('[PAY][FRONT] ❌ Already processing, ignoring click');
+      return;
+    }
+    
+    setIsLoading(true);
     
     // 🔍 DEBUG LOG
     console.log('[PAY][FRONT] ➡️ handleCruPurchase triggered', {
@@ -1291,6 +1302,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       setShowCruPurchaseModule(false);
       setShowInlinePurchaseModule(false);
       setSelectedCruPackage(null);
+      setIsLoading(false);
     }
   };
 
@@ -2889,15 +2901,22 @@ Good luck, Candidate.`,
                     ) : (
                       <div className={`${msg.content.startsWith('//') ? 'text-cyan-400/90 font-mono text-xs' : 'text-white/80'}`}>
                         {msg.content.startsWith('//') ? (
-                          <div className="pl-2 border-l-2 border-cyan-500/30">
+                          <div className={`pl-3 border-l-2 ${
+                            (msg.content.includes('Prize Pool') || msg.content.includes('USDC') || msg.content.includes('WLD')) 
+                            ? 'border-yellow-400 bg-yellow-500/10' 
+                            : 'border-cyan-500/30'
+                          }`}>
                             {msg.content.split('\n').map((line, idx) => (
                               <div key={idx} className={`${
-                                (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-400 font-semibold' :
-                                line.includes('Prize Pool') ? 'text-yellow-300' :
+                                (line.includes('USDC') || line.includes('WLD')) ? 'text-yellow-300 font-bold text-base animate-pulse' :
+                                line.includes('Prize Pool') ? 'text-yellow-200 font-bold text-base' :
                                 line.includes('Your goal') ? 'text-green-300' :
                                 line.includes('Are you ready') ? 'text-cyan-300' :
                                 'text-cyan-400/90'
                               }`}>
+                                {line.includes('Prize Pool') && (
+                                  <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
+                                )}
                                 {line}
                               </div>
                             ))}

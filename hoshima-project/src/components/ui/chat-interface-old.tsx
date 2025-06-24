@@ -40,16 +40,16 @@ export default function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialisation d'Eruda pour le débogage
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = '//cdn.jsdelivr.net/npm/eruda';
-    script.onload = () => {
-      (window as any).eruda.init();
-      console.log('🔧 Eruda debugging console activated');
-    };
-    document.head.appendChild(script);
-  }, []);
+  // Initialisation d'Eruda pour le débogage - DISABLED
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = '//cdn.jsdelivr.net/npm/eruda';
+  //   script.onload = () => {
+  //     (window as any).eruda.init();
+  //     console.log('🔧 Eruda debugging console activated');
+  //   };
+  //   document.head.appendChild(script);
+  // }, []);
 
   // Initialisation du service utilisateur
   useEffect(() => {

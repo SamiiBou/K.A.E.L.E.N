@@ -995,7 +995,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           );
           const currentFund = prizePool.toFixed(2);
           await addMessageWithDelay(
-            `// SYSTEM: 💰 CURRENT PRIZE POOL: ${currentFund} WLD 💰\n🔥 GROWING WITH EVERY NEW CANDIDATE! 🔥\n\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.`,
+            `// SYSTEM: 💰 CURRENT PRIZE POOL: ${currentFund} WLD 💰\n\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.`,
             2000
           );
           await addMessageWithDelay(

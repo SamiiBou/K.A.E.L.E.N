@@ -408,8 +408,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     };
   }, [stopAmbientAudio, stopPianoNote]);
 
-  // ERUDA TEMPORARILY DISABLED
-  /*
+  // Eruda debugging console
   useEffect(() => {
     // Initialize Eruda to allow debugging even on the home screen
     if (typeof window !== 'undefined' && !(window as any).eruda) {
@@ -422,7 +421,6 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
       document.head.appendChild(script);
     }
   }, []);
-  */
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden" style={{ height: '100vh', width: '100vw' }}>

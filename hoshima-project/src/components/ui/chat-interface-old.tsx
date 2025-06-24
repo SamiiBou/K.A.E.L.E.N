@@ -40,8 +40,6 @@ export default function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // ERUDA TEMPORARILY DISABLED
-  /*
   // Initialisation d'Eruda pour le débogage
   useEffect(() => {
     const script = document.createElement('script');
@@ -52,7 +50,6 @@ export default function ChatInterface() {
     };
     document.head.appendChild(script);
   }, []);
-  */
 
   // Initialisation du service utilisateur
   useEffect(() => {

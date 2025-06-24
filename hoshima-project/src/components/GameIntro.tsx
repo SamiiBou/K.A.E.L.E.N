@@ -13,6 +13,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [nextVideoReady, setNextVideoReady] = useState(false);
   const [minKaelenTimeElapsed, setMinKaelenTimeElapsed] = useState(false);
+  const [showSkipButton, setShowSkipButton] = useState(false);
   const MIN_SPLASH_DURATION = 4; // seconds
   const preloadedVideoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -89,6 +90,8 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
       setTimeout(() => {
         setStep('video');
         videoRef.current?.play();
+        // Show skip button after 3 seconds of video playback
+        setTimeout(() => setShowSkipButton(true), 3000);
       }, 1000); // Give user a moment to see 100% then auto-start video
     };
 
@@ -116,6 +119,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
   const handleVideoEnd = () => {
     // First visit path: play video fully, then show splash
     setStep('kaelen');
+    setShowSkipButton(false);
     localStorage.setItem('hasVisited', 'true');
 
     // Ensure the next video is being preloaded as soon as we reach the splash
@@ -127,6 +131,11 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
     }
 
     // We'll trigger navigation when both conditions (min time & preload) are met
+  };
+
+  const handleSkipVideo = () => {
+    setShowSkipButton(false);
+    handleVideoEnd();
   };
 
   // Track the minimal display duration of the K.A.E.L.E.N. splash (4 s)
@@ -164,6 +173,33 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
         className="fixed top-0 left-0 w-full h-full object-cover z-40"
         style={{ opacity: step === 'video' ? 1 : 0, transition: 'opacity 1s ease-in-out' }}
       />
+      
+      {/* Skip Button */}
+      <AnimatePresence>
+        {showSkipButton && step === 'video' && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            onClick={handleSkipVideo}
+            className="fixed top-6 right-6 z-50 px-4 py-2 bg-black/40 backdrop-blur-sm border border-white/20 text-white/90 text-sm font-mono tracking-wide rounded-sm hover:bg-black/60 hover:border-white/30 hover:text-white transition-all duration-300 group"
+          >
+            <span className="flex items-center gap-2">
+              SKIP
+              <svg 
+                className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       <div
         className={`fixed inset-0 z-50 flex items-center justify-center transition-colors duration-1000 ${step === 'video' ? 'bg-transparent' : 'bg-black'}`}
       >

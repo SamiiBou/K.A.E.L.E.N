@@ -17,10 +17,10 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
   const MIN_SPLASH_DURATION = 4; // seconds
   const preloadedVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  const videoUrl = "https://player.cloudinary.com/embed/?cloud_name=detrymeup&public_id=tzxffbixqc9j3bjfbsos&profile=cld-default";
+  const videoUrl = "https://res.cloudinary.com/detrymeup/video/upload/tzxffbixqc9j3bjfbsos.mp4";
 
   // URL of the video that will be displayed in the WelcomePage background.
-  const nextVideoUrl = "https://player.cloudinary.com/embed/?cloud_name=detrymeup&public_id=mu1yv5vfc0j8xcsevntj&profile=cld-default";
+  const nextVideoUrl = "https://res.cloudinary.com/detrymeup/video/upload/mu1yv5vfc0j8xcsevntj.mp4";
 
   /**
    * Pre-loads the next video (used in the WelcomePage) so that

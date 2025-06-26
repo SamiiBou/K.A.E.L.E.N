@@ -458,7 +458,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
           onEnded={handleVideoEnd}
           preload="auto"
         >
-          <source src="https://player.cloudinary.com/embed/?cloud_name=detrymeup&public_id=mu1yv5vfc0j8xcsevntj&profile=cld-default" type="video/mp4" />
+          <source src="https://res.cloudinary.com/detrymeup/video/upload/mu1yv5vfc0j8xcsevntj.mp4" type="video/mp4" />
           Your browser does not support video playback.
         </video>
       )}

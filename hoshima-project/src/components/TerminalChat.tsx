@@ -2133,12 +2133,13 @@ Good luck, Candidate.`,
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="text-2xl font-mono font-semibold text-yellow-300"
+                className="text-2xl font-mono font-semibold text-yellow-300 flex items-center space-x-1"
                 style={{ 
                   textShadow: '0 0 8px rgba(251, 191, 36, 0.6), 0 0 16px rgba(251, 191, 36, 0.3)' 
                 }}
               >
-                {prizePool.toFixed(1)}
+                <span>{prizePool.toFixed(1)}</span>
+                <span className="text-lg">WLD</span>
               </motion.div>
             </div>
           </div>

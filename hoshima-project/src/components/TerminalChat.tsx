@@ -2122,12 +2122,24 @@ Good luck, Candidate.`,
         <div className="flex items-center justify-between px-6 py-4 relative">
           
           {/* ══════════ L'INDICATEUR DU PRIZE POOL ══════════ */}
-          <div className="flex flex-col items-center space-y-2">
-            <div className="text-yellow-400 text-[10px] font-mono tracking-wider font-bold">PRIZE POOL</div>
-            <div className="w-16 h-8 border border-slate-600/50 bg-slate-900/50 flex items-center justify-center">
-              <div className="text-slate-300 text-[9px] font-mono font-bold">
+          <div className="flex flex-col items-center space-y-1.5 relative w-28">
+            <div className="text-yellow-400/80 text-[11px] font-mono tracking-[0.15em] uppercase">
+              PRIZE POOL
+            </div>
+            <div className="relative w-full h-14 flex items-center justify-center bg-gradient-to-br from-slate-900/90 via-black/90 to-slate-800/90 border border-yellow-400/30 rounded-md overflow-hidden backdrop-blur-sm">
+              <motion.div
+                key={prizePool}
+                initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="text-2xl font-mono font-semibold text-yellow-300"
+                style={{ 
+                  textShadow: '0 0 8px rgba(251, 191, 36, 0.6), 0 0 16px rgba(251, 191, 36, 0.3)' 
+                }}
+              >
                 {prizePool.toFixed(1)}
-              </div>
+              </motion.div>
             </div>
           </div>
 

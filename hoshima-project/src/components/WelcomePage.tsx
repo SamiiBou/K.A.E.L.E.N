@@ -418,19 +418,19 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     };
   }, [stopAmbientAudio, stopPianoNote]);
 
-  // Eruda debugging console - DISABLED
-  // useEffect(() => {
-  //   // Initialize Eruda to allow debugging even on the home screen
-  //   if (typeof window !== 'undefined' && !(window as any).eruda) {
-  //     const script = document.createElement('script');
-  //     script.src = '//cdn.jsdelivr.net/npm/eruda';
-  //     script.onload = () => {
-  //       (window as any).eruda.init();
-  //       console.log('🔧 Eruda console (WelcomePage) enabled');
-  //     };
-  //     document.head.appendChild(script);
-  //   }
-  // }, []);
+  // Eruda debugging console - ENABLED
+  useEffect(() => {
+    // Initialize Eruda to allow debugging even on the home screen
+    if (typeof window !== 'undefined' && !(window as any).eruda) {
+      const script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/eruda';
+      script.onload = () => {
+        (window as any).eruda.init();
+        console.log('🔧 Eruda console (WelcomePage) enabled');
+      };
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden" style={{ height: '100vh', width: '100vw' }}>
@@ -458,7 +458,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
           onEnded={handleVideoEnd}
           preload="auto"
         >
-          <source src="https://res.cloudinary.com/dqqyjfhic/video/upload/last_one_h1v1b9.mp4" type="video/mp4" />
+          <source src="https://player.cloudinary.com/embed/?cloud_name=detrymeup&public_id=mu1yv5vfc0j8xcsevntj&profile=cld-default" type="video/mp4" />
           Your browser does not support video playback.
         </video>
       )}

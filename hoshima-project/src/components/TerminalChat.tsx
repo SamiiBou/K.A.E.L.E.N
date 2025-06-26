@@ -2123,45 +2123,11 @@ Good luck, Candidate.`,
           
           {/* ══════════ L'INDICATEUR DU PRIZE POOL ══════════ */}
           <div className="flex flex-col items-center space-y-2">
-            <div className="text-slate-400 text-[10px] font-mono tracking-wider">PRIZE POOL</div>
-            <motion.div
-              className="relative w-8 h-8 rounded-full border border-slate-600/50 overflow-hidden bg-gradient-to-br from-yellow-500/20 to-orange-500/20"
-              animate={{
-                borderColor: ['#f59e0b40', '#f59e0b60', '#f59e0b40']
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              {/* Texture du prize pool */}
-              <motion.div
-                className="absolute inset-0.5 rounded-full bg-gradient-to-br from-yellow-500/30 to-orange-500/30"
-                animate={{
-                  opacity: [0.6, 0.8, 0.6]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  backgroundImage: `
-                    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 1px, transparent 1px),
-                    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.1) 1px, transparent 1px)
-                  `,
-                  backgroundSize: '6px 6px, 10px 10px'
-                }}
-              />
-              
-              {/* Symbole WLD */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-yellow-300 text-[8px] font-bold">₩</div>
+            <div className="text-yellow-400 text-[10px] font-mono tracking-wider font-bold">PRIZE POOL</div>
+            <div className="w-16 h-8 border border-slate-600/50 bg-slate-900/50 flex items-center justify-center">
+              <div className="text-slate-300 text-[9px] font-mono font-bold">
+                {prizePool.toFixed(1)}
               </div>
-            </motion.div>
-            <div className="text-slate-500 text-[8px] font-mono">
-              {prizePool.toFixed(1)} WLD
             </div>
           </div>
 

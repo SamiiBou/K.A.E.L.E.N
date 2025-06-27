@@ -62,34 +62,28 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
           </div>
 
           {/* Content */}
-          <div className="p-6 font-mono text-sm space-y-6">
+          <div className="p-4 font-mono text-sm space-y-4 max-h-[80vh] overflow-y-auto">
             {/* System Description */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="space-y-3"
+              className="space-y-2"
             >
               <div className="text-green-300 text-xs tracking-wider">OUR PRIZE SYSTEM USES AN "IMPROVED TIERED MODEL."</div>
               
               {/* Payment Distribution Section */}
-              <div className="bg-gray-900/30 border border-yellow-500/30 rounded p-3 space-y-2">
-                <div className="text-yellow-400 font-semibold text-xs tracking-wider">HOW PAYMENTS FEED THE PRIZE POOL:</div>
-                <div className="text-gray-300 text-xs leading-relaxed">
-                  Each payment you make directly contributes to growing the prize pool for all participants.
-                </div>
-                <div className="flex items-center space-x-4 text-xs">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-green-300 font-semibold">70% → PRIZE POOL</span>
+              <div className="bg-gray-900/30 border border-yellow-500/30 rounded p-2 space-y-1">
+                <div className="text-yellow-400 font-semibold text-xs tracking-wider">PAYMENT DISTRIBUTION:</div>
+                <div className="flex items-center space-x-3 text-xs">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                    <span className="text-green-300 font-semibold">70% PRIZE POOL</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                    <span className="text-blue-300 font-semibold">30% → K.A.E.L.E.N MAINTENANCE & DEVELOPMENT</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                    <span className="text-blue-300 font-semibold">30% MAINTENANCE</span>
                   </div>
-                </div>
-                <div className="text-gray-400 text-xs italic">
-                  Every participant's contribution helps maintain and improve the K.A.E.L.E.N system.
                 </div>
               </div>
             </motion.div>
@@ -99,7 +93,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
-              className="space-y-3"
+              className="space-y-2"
             >
               <div className="border-l-2 border-green-500/40 pl-4 space-y-2">
                 <div className="text-green-400 font-semibold">PODIUM (RANKS 1-3):</div>
@@ -117,7 +111,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className="bg-gray-900/50 border border-gray-700/50 rounded p-4 space-y-3"
+              className="bg-gray-900/50 border border-gray-700/50 rounded p-3 space-y-2"
             >
               <div className="text-yellow-400 font-semibold tracking-wider">EXAMPLE: $3,500 PRIZE POOL</div>
               

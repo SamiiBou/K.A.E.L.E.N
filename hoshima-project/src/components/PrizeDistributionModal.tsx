@@ -68,16 +68,37 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="space-y-2"
+              className="space-y-3"
             >
               <div className="text-green-300 text-xs tracking-wider">OUR PRIZE SYSTEM USES AN "IMPROVED TIERED MODEL."</div>
+              
+              {/* Payment Distribution Section */}
+              <div className="bg-gray-900/30 border border-yellow-500/30 rounded p-3 space-y-2">
+                <div className="text-yellow-400 font-semibold text-xs tracking-wider">HOW PAYMENTS FEED THE PRIZE POOL:</div>
+                <div className="text-gray-300 text-xs leading-relaxed">
+                  Each payment you make directly contributes to growing the prize pool for all participants.
+                </div>
+                <div className="flex items-center space-x-4 text-xs">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span className="text-green-300 font-semibold">70% → PRIZE POOL</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                    <span className="text-blue-300 font-semibold">30% → K.A.E.L.E.N MAINTENANCE & DEVELOPMENT</span>
+                  </div>
+                </div>
+                <div className="text-gray-400 text-xs italic">
+                  Every participant's contribution helps maintain and improve the K.A.E.L.E.N system.
+                </div>
+              </div>
             </motion.div>
 
             {/* Rules */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               className="space-y-3"
             >
               <div className="border-l-2 border-green-500/40 pl-4 space-y-2">
@@ -95,7 +116,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.7 }}
               className="bg-gray-900/50 border border-gray-700/50 rounded p-4 space-y-3"
             >
               <div className="text-yellow-400 font-semibold tracking-wider">EXAMPLE: $3,500 PRIZE POOL</div>
@@ -112,7 +133,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.8 }}
+                      transition={{ delay: 0.9 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-green-400 font-semibold">1st</td>
@@ -121,7 +142,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.9 }}
+                      transition={{ delay: 1.0 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-green-400 font-semibold">2nd</td>
@@ -130,7 +151,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.0 }}
+                      transition={{ delay: 1.1 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-green-400 font-semibold">3rd</td>
@@ -139,7 +160,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.1 }}
+                      transition={{ delay: 1.2 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-blue-400">4th - 10th</td>
@@ -148,7 +169,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.2 }}
+                      transition={{ delay: 1.3 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-blue-400">11th - 100th</td>
@@ -157,7 +178,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.3 }}
+                      transition={{ delay: 1.4 }}
                       className="border-b border-gray-800/50"
                     >
                       <td className="py-1 text-blue-400">101st - 250th</td>
@@ -166,7 +187,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                     <motion.tr
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.4 }}
+                      transition={{ delay: 1.5 }}
                     >
                       <td className="py-1 text-blue-400">251st - 500th</td>
                       <td className="py-1 text-right text-blue-300">$1.68</td>
@@ -180,7 +201,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.6 }}
+              transition={{ delay: 1.7 }}
               className="text-center text-gray-500 text-xs"
             >
               [ CLICK OUTSIDE TO CLOSE ]

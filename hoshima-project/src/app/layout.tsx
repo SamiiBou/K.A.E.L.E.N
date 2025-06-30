@@ -32,6 +32,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        <script 
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined') {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+                script.onload = function() { eruda.init(); };
+                document.head.appendChild(script);
+              }
+            `
+          }}
+        />
+      </head>
       <MiniKitProvider>
         <LanguageProvider>
           <body className={`${geist.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}>

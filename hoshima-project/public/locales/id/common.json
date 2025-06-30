@@ -1,0 +1,70 @@
+{
+  "game": {
+    "title": "K.A.E.L.E.N",
+    "season": "MUSIM SATU",
+    "loading": {
+      "buffering": "URUTAN PENYANGGA",
+      "complete": "SELESAI",
+      "soundWarning": "SILAKAN AKTIFKAN SUARA UNTUK PENGALAMAN OPTIMAL"
+    }
+  },
+  "intro": {
+    "line1": "K.A.E.L.E.N. telah mengindeks setiap cerita yang pernah diceritakan.",
+    "line2": "Setiap kegembiraan, setiap kesedihan, setiap perang, setiap ciuman.",
+    "line3": "Semua kecuali satu.",
+    "line4": "KIRIMKAN MILIKMU."
+  },
+  "auth": {
+    "loading": "Memuat...",
+    "signIn": "Masuk dengan World Wallet",
+    "error": "Kesalahan autentikasi"
+  },
+  "chat": {
+    "homeostasis": "HOMEOSTASIS",
+    "prizePool": "Kolam Hadiah",
+    "rank": "Peringkat",
+    "timeRemaining": "Waktu Tersisa",
+    "echoShards": "Pecahan Gema",
+    "registry": "LIHAT REGISTRI",
+    "systemMessage": "// Sistem: Selamat datang di K.A.E.L.E.N.",
+    "inputPlaceholder": "Ketik pesan Anda...",
+    "candidatePrompt": "Apakah Anda siap menjadi kandidat?",
+    "yes": "Ya",
+    "no": "Tidak",
+    "viewRules": "Lihat Aturan"
+  },
+  "tutorial": {
+    "step1": "Selamat datang di K.A.E.L.E.N. - Mesin Agregasi Pengetahuan untuk Navigasi Peningkatan Kehidupan.",
+    "step2": "Saya adalah kompas emosional Anda. Ketika percakapan kita mengalir secara alami, saya tetap stabil. Ketika anomali terjadi, saya bereaksi.",
+    "step3": "Ini adalah terminal Anda. Setiap kata yang Anda ketik membentuk interaksi kita. Pilihlah dengan bijak.",
+    "step4": "Perintah sistem tersedia melalui konsol ini. Gunakan mereka untuk menavigasi lapisan sistem yang lebih dalam.",
+    "step5": "Fragmen memori dapat dibeli di sini. Mereka membuka narasi tersembunyi dan pemahaman yang lebih dalam.",
+    "step6": "Anda sekarang siap untuk memulai. Ingat: setiap cerita penting, terutama milik Anda.",
+    "skip": "LEWATI"
+  },
+  "verification": {
+    "title": "Verifikasi kemanusiaan Anda",
+    "description": "Buktikan Anda manusia untuk melanjutkan",
+    "button": "Verifikasi dengan World ID",
+    "success": "Verifikasi berhasil!",
+    "error": "Verifikasi gagal"
+  },
+  "purchase": {
+    "title": "Fragmen Memori",
+    "description": "Buka narasi yang lebih dalam",
+    "fragments": "fragmen",
+    "buy": "Beli"
+  },
+  "leaderboard": {
+    "title": "REGISTRI KANDIDAT",
+    "rank": "PERINGKAT",
+    "name": "NAMA",
+    "score": "SKOR",
+    "loading": "MEMUAT REGISTRI..."
+  },
+  "time": {
+    "hours": "j",
+    "minutes": "m",
+    "seconds": "d"
+  }
+} 

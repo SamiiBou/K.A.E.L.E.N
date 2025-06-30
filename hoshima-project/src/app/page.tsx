@@ -6,6 +6,8 @@ import WelcomePage from "@/components/WelcomePage";
 import GameIntro from "@/components/GameIntro";
 import useWorldWalletAuth from "@/hooks/useWorldWalletAuth";
 import TerminalChat from "@/components/TerminalChat";
+import LanguageSelectionScreen from "@/components/LanguageSelectionScreen";
+import LanguageSelectorClient from "@/components/LanguageSelectorClient";
 
 export default function Home() {
   const { isAuthenticated, isLoading, login, user } = useWorldWalletAuth();
@@ -13,6 +15,13 @@ export default function Home() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [fragments, setFragments] = useState(0);
+  const [languageSelected, setLanguageSelected] = useState<boolean | null>(null);
+
+  // Vérifier si une langue a été sélectionnée
+  useEffect(() => {
+    const hasSelectedLanguage = localStorage.getItem('language-selected') === 'true';
+    setLanguageSelected(hasSelectedLanguage);
+  }, []);
 
   // Debug des états d'authentification
   useEffect(() => {
@@ -53,8 +62,15 @@ export default function Home() {
     setShowWelcome(true);
   };
 
-  // Si on charge encore les données d'authentification
-  if (isLoading) {
+  const handleLanguageSelected = (langCode: string) => {
+    console.log('🌍 [Page] Langue sélectionnée:', langCode);
+    setLanguageSelected(true);
+    // Recharger pour appliquer la nouvelle langue
+    window.location.reload();
+  };
+
+  // Si on charge encore les données d'authentification ou de langue
+  if (isLoading || languageSelected === null) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 flex items-center justify-center">
         <div className="text-white text-xl">
@@ -62,6 +78,11 @@ export default function Home() {
         </div>
       </div>
     );
+  }
+
+  // 0. TOUJOURS afficher la sélection de langue en premier si elle n'a pas été faite
+  if (!languageSelected) {
+    return <LanguageSelectionScreen onLanguageSelected={handleLanguageSelected} />;
   }
 
   // 1. Toujours afficher l'intro d'abord
@@ -90,6 +111,7 @@ export default function Home() {
           alt="Kaelen background"
           className="fixed top-0 left-0 w-screen h-screen object-cover object-center brightness-90 blur-[2px] -z-10"
         />
+        <LanguageSelectorClient />
         <TerminalChat 
           fragments={fragments} 
           onFragmentsUpdate={setFragments}

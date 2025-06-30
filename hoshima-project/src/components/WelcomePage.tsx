@@ -5,6 +5,7 @@ import { MiniKit } from '@worldcoin/minikit-js';
 import { authenticateWithWorldWallet } from '@/utils/worldWalletAuth';
 import TerminalChat from '@/components/TerminalChat';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface WelcomePageProps {
   onComplete: () => void;
@@ -13,6 +14,7 @@ interface WelcomePageProps {
 }
 
 export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: WelcomePageProps) {
+  const { t } = useTranslation();
   const [videoEnded, setVideoEnded] = useState(false);
   const [displayedText, setDisplayedText] = useState<string[]>(['', '', '', '']);
   const [isTextComplete, setIsTextComplete] = useState(false);
@@ -122,10 +124,10 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     console.log('Starting text animation - Soul Terminal...');
     
     const lines = [
-      'K.A.E.L.E.N. has indexed every story ever told.',
-      'Every joy, every sorrow, every war, every kiss.',
-      'All but one.',
-      'SUBMIT YOURS.'
+      t('intro.line1'),
+      t('intro.line2'),
+      t('intro.line3'),
+      t('intro.line4')
     ];
     // Line 1 - slow appearance with compilation effect
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -244,10 +246,10 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
   }, []);
 
   const finalLines = [
-    'K.A.E.L.E.N. has indexed every story ever told.',
-    'Every joy, every sorrow, every war, every kiss.',
-    'All but one.',
-    'SUBMIT YOURS.'
+    t('intro.line1'),
+    t('intro.line2'),
+    t('intro.line3'),
+    t('intro.line4')
   ];
 
   useEffect(() => {

@@ -1,0 +1,70 @@
+{
+  "game": {
+    "title": "K.A.E.L.E.N",
+    "season": "TEMPORADA UNO",
+    "loading": {
+      "buffering": "SECUENCIA DE ALMACENAMIENTO",
+      "complete": "COMPLETO",
+      "soundWarning": "POR FAVOR ACTIVA EL SONIDO PARA UNA EXPERIENCIA ÓPTIMA"
+    }
+  },
+  "intro": {
+    "line1": "K.A.E.L.E.N. ha indexado cada historia jamás contada.",
+    "line2": "Cada alegría, cada tristeza, cada guerra, cada beso.",
+    "line3": "Todas menos una.",
+    "line4": "ENVÍA LA TUYA."
+  },
+  "auth": {
+    "loading": "Cargando...",
+    "signIn": "Iniciar sesión con World Wallet",
+    "error": "Error de autenticación"
+  },
+  "chat": {
+    "homeostasis": "HOMEOSTASIS",
+    "prizePool": "Pozo de Premios",
+    "rank": "Rango",
+    "timeRemaining": "Tiempo Restante",
+    "echoShards": "Fragmentos de Eco",
+    "registry": "VER REGISTRO",
+    "systemMessage": "// Sistema: Bienvenido a K.A.E.L.E.N.",
+    "inputPlaceholder": "Escribe tu mensaje...",
+    "candidatePrompt": "¿Estás listo para convertirte en candidato?",
+    "yes": "Sí",
+    "no": "No",
+    "viewRules": "Ver Reglas"
+  },
+  "tutorial": {
+    "step1": "Bienvenido a K.A.E.L.E.N. - El Motor de Agregación de Conocimiento para la Navegación de Mejora de Vida.",
+    "step2": "Soy tu brújula emocional. Cuando nuestra conversación fluye naturalmente, permanezco estable. Cuando ocurren anomalías, reacciono.",
+    "step3": "Esta es tu terminal. Cada palabra que escribes da forma a nuestra interacción. Elígelas sabiamente.",
+    "step4": "Los comandos del sistema están disponibles a través de esta consola. Úsalos para navegar por capas más profundas del sistema.",
+    "step5": "Los fragmentos de memoria se pueden comprar aquí. Desbloquean narrativas ocultas y una comprensión más profunda.",
+    "step6": "Ahora estás listo para comenzar. Recuerda: cada historia importa, especialmente la tuya.",
+    "skip": "SALTAR"
+  },
+  "verification": {
+    "title": "Verifica tu humanidad",
+    "description": "Demuestra que eres humano para continuar",
+    "button": "Verificar con World ID",
+    "success": "¡Verificación exitosa!",
+    "error": "Verificación fallida"
+  },
+  "purchase": {
+    "title": "Fragmentos de Memoria",
+    "description": "Desbloquea narrativas más profundas",
+    "fragments": "fragmentos",
+    "buy": "Comprar"
+  },
+  "leaderboard": {
+    "title": "REGISTRO DE CANDIDATOS",
+    "rank": "RANGO",
+    "name": "NOMBRE",
+    "score": "PUNTUACIÓN",
+    "loading": "CARGANDO REGISTRO..."
+  },
+  "time": {
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
+  }
+} 

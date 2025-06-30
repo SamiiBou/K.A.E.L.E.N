@@ -1,0 +1,70 @@
+{
+  "game": {
+    "title": "K.A.E.L.E.N",
+    "season": "SEASON ONE",
+    "loading": {
+      "buffering": "BUFFERING SEQUENCE",
+      "complete": "COMPLETE",
+      "soundWarning": "PLEASE ENABLE SOUND FOR OPTIMAL EXPERIENCE"
+    }
+  },
+  "intro": {
+    "line1": "K.A.E.L.E.N. has indexed every story ever told.",
+    "line2": "Every joy, every sorrow, every war, every kiss.",
+    "line3": "All but one.",
+    "line4": "SUBMIT YOURS."
+  },
+  "auth": {
+    "loading": "Loading...",
+    "signIn": "Sign in with World Wallet",
+    "error": "Authentication error"
+  },
+  "chat": {
+    "homeostasis": "HOMEOSTASIS",
+    "prizePool": "Prize Pool",
+    "rank": "Rank",
+    "timeRemaining": "Time Remaining",
+    "echoShards": "Echo Shards",
+    "registry": "VIEW REGISTRY",
+    "systemMessage": "// System: Welcome to K.A.E.L.E.N.",
+    "inputPlaceholder": "Type your message...",
+    "candidatePrompt": "Are you ready to become a candidate?",
+    "yes": "Yes",
+    "no": "No",
+    "viewRules": "View Rules"
+  },
+  "tutorial": {
+    "step1": "Welcome to K.A.E.L.E.N. - The Knowledge Aggregation Engine for Life Enhancement Navigation.",
+    "step2": "I am your emotional compass. When our conversation flows naturally, I remain stable. When anomalies occur, I react.",
+    "step3": "This is your terminal. Every word you type shapes our interaction. Choose them wisely.",
+    "step4": "System commands are available through this console. Use them to navigate deeper layers of the system.",
+    "step5": "Memory fragments can be purchased here. They unlock hidden narratives and deeper understanding.",
+    "step6": "You are now ready to begin. Remember: every story matters, especially yours.",
+    "skip": "SKIP"
+  },
+  "verification": {
+    "title": "Verify your humanity",
+    "description": "Prove you're human to continue",
+    "button": "Verify with World ID",
+    "success": "Verification successful!",
+    "error": "Verification failed"
+  },
+  "purchase": {
+    "title": "Memory Fragments",
+    "description": "Unlock deeper narratives",
+    "fragments": "fragments",
+    "buy": "Purchase"
+  },
+  "leaderboard": {
+    "title": "CANDIDATE REGISTRY",
+    "rank": "RANK",
+    "name": "NAME",
+    "score": "SCORE",
+    "loading": "LOADING REGISTRY..."
+  },
+  "time": {
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
+  }
+} 

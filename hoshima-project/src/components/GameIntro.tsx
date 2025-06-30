@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface GameIntroProps {
   onComplete: () => void;
 }
 
 export default function GameIntro({ onComplete }: GameIntroProps) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<'loading' | 'video' | 'kaelen'>('loading');
   const [loadingProgress, setLoadingProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -196,7 +198,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
             className="fixed top-6 right-6 z-[60] px-4 py-2 bg-black/60 backdrop-blur-md border border-white/30 text-white text-sm font-mono tracking-wide rounded-sm hover:bg-black/80 hover:border-white/50 hover:text-white transition-all duration-300 group cursor-pointer select-none"
           >
             <span className="flex items-center gap-2">
-              SKIP
+              {t('tutorial.skip')}
               <svg 
                 className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" 
                 fill="none" 
@@ -245,36 +247,36 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
                 
                 {/* Loading text with progress */}
                 <div className="space-y-3">
-                  <p className="text-white text-xl font-mono tracking-wider terminal-text">
-                    <span className="animate-pulse-subtle">BUFFERING SEQUENCE</span>
-                    <span className="terminal-cursor ml-1"></span>
+                                  <p className="text-white text-xl font-mono tracking-wider terminal-text">
+                  <span className="animate-pulse-subtle">{t('game.loading.buffering')}</span>
+                  <span className="terminal-cursor ml-1"></span>
+                </p>
+                
+                {/* Progress bar */}
+                <div className="w-64 h-1 bg-white/10 rounded-full mx-auto overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${loadingProgress}%` }}
+                  ></div>
+                </div>
+                
+                {/* Progress percentage */}
+                <p className="text-white/70 text-sm font-mono">
+                  {loadingProgress}% {t('game.loading.complete')}
+                </p>
+                
+                {/* Sound enablement message */}
+                <motion.div 
+                  className="mt-6 px-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.8 }}
+                >
+                  <p className="text-amber-400/90 text-xs font-mono tracking-wide">
+                    <span className="inline-block w-2 h-2 bg-amber-400 rounded-full mr-2 animate-pulse"></span>
+                    {t('game.loading.soundWarning')}
                   </p>
-                  
-                  {/* Progress bar */}
-                  <div className="w-64 h-1 bg-white/10 rounded-full mx-auto overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 rounded-full transition-all duration-300 ease-out"
-                      style={{ width: `${loadingProgress}%` }}
-                    ></div>
-                  </div>
-                  
-                  {/* Progress percentage */}
-                  <p className="text-white/70 text-sm font-mono">
-                    {loadingProgress}% COMPLETE
-                  </p>
-                  
-                  {/* Sound enablement message */}
-                  <motion.div 
-                    className="mt-6 px-4"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                  >
-                    <p className="text-amber-400/90 text-xs font-mono tracking-wide">
-                      <span className="inline-block w-2 h-2 bg-amber-400 rounded-full mr-2 animate-pulse"></span>
-                      PLEASE ENABLE SOUND FOR OPTIMAL EXPERIENCE
-                    </p>
-                  </motion.div>
+                </motion.div>
                   
                   {/* Loading dots */}
                   <div className="flex justify-center space-x-1 mt-4">
@@ -308,7 +310,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
                 animate={{ letterSpacing: '0.2em md:0.3em lg:0.4em', opacity: 1 }}
                 transition={{ duration: 3, ease: 'easeOut' }}
               >
-                K.A.E.L.E.N
+                {t('game.title')}
               </motion.h1>
               <motion.p
                 className="text-sm md:text-base lg:text-lg font-light text-white/80 tracking-widest mt-4 px-4"
@@ -316,7 +318,7 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 2, delay: 1.5, ease: 'easeOut' }}
               >
-                SEASON ONE
+                {t('game.season')}
               </motion.p>
             </motion.div>
           )}

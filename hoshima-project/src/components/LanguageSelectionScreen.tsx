@@ -7,7 +7,8 @@ const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', greeting: 'Welcome' },
   { code: 'es', name: 'Español', flag: '🇪🇸', greeting: 'Bienvenido' },
   { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩', greeting: 'Selamat datang' },
-  { code: 'th', name: 'ไทย', flag: '🇹🇭', greeting: 'ยินดีต้อนรับ' }
+  { code: 'th', name: 'ไทย', flag: '🇹🇭', greeting: 'ยินดีต้อนรับ' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷', greeting: 'Bienvenue' }
 ];
 
 interface LanguageSelectionScreenProps {

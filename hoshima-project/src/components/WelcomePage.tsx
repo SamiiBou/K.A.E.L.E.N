@@ -670,10 +670,10 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                 >
                   <div className="wallet-connection-card border border-green-400/30 p-6 bg-black/50 w-full max-w-2xl mx-auto flex flex-col items-center justify-center space-y-4">
                     <div className="text-green-400 text-center text-lg">
-                      <span className="text-green-500">&gt;</span> Authenticate your Datastream to continue.
+                      <span className="text-green-500">&gt;</span> {t('chat.authenticateDatastream')}
                     </div>
                     <div className="text-base text-green-400/60 space-y-3 text-center">
-                      <div>[SYSTEM] Creating your unique identifier in the system...</div>
+                      <div>{t('chat.systemCreating')}</div>
                       <div>[SYSTEM] Generating your Datastream_ID...</div>
                       <div>[SYSTEM] Synchronizing with the World Protocol...</div>
                     </div>

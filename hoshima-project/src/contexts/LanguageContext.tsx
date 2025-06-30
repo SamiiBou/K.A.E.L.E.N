@@ -27,7 +27,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initializeLanguage = () => {
       const storedLang = localStorage.getItem('preferred-language');
-      if (storedLang && ['en', 'es', 'id', 'th'].includes(storedLang)) {
+      if (storedLang && ['en', 'es', 'id', 'th', 'fr'].includes(storedLang)) {
         console.log('🌍 [LanguageContext] Initializing with language:', storedLang);
         setLocale(storedLang);
       } else {

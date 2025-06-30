@@ -32,7 +32,7 @@ export function useTranslation(namespace: string = 'common'): UseTranslationRetu
     
     // Ensuite vérifier l'URL
     const pathLang = window.location.pathname.split('/')[1];
-    const validLangs = ['en', 'es', 'id', 'th'];
+    const validLangs = ['en', 'es', 'id', 'th', 'fr'];
     
     const currentLang = storedLang || (validLangs.includes(pathLang) ? pathLang : 'en');
     setLocale(currentLang);
@@ -96,7 +96,7 @@ export function useTranslation(namespace: string = 'common'): UseTranslationRetu
     const pathParts = currentPath.split('/');
     
     // Si l'URL contient déjà une langue, la remplacer
-    if (['en', 'es', 'id', 'th'].includes(pathParts[1])) {
+    if (['en', 'es', 'id', 'th', 'fr'].includes(pathParts[1])) {
       pathParts[1] = lng;
     } else {
       // Sinon, l'ajouter

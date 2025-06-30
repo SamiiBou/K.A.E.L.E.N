@@ -55,18 +55,7 @@
     "processing": "[K.A.E.L.E.N processing data...]",
     "selectPackage": "// SELECT PACKAGE //",
     "sendMessages": "[ SEND 3 MESSAGES FOR 1 WLD ]",
-    "secureAuth": "// SECURE WORLDCOIN AUTHENTICATION REQUIRED //",
-    "close": "CLOSE",
-    "verifying": "VERIFYING...",
-    "verified": "✓ VERIFIED",
-    "unverified": "✗ UNVERIFIED",
-    "claimDaily": "[ CLAIM DAILY MESSAGE ]",
-    "verifyMessage": "[ VERIFY FOR 1 MESSAGE ]",
-    "verifyingProtocol": "VERIFYING SECURITY PROTOCOL...",
-    "finalProtocol": "// FINAL PROTOCOL //",
-    "humanVerification": "Human Verification:",
-    "initializingConnection": "INITIALIZING CONNECTION...",
-    "initializing": "INITIALIZING"
+    "secureAuth": "// SECURE WORLDCOIN AUTHENTICATION REQUIRED //"
   },
   "tutorial": {
     "step1": "Welcome to K.A.E.L.E.N. - The Knowledge Aggregation Engine for Life Enhancement Navigation.",
@@ -75,14 +64,7 @@
     "step4": "System commands are available through this console. Use them to navigate deeper layers of the system.",
     "step5": "Memory fragments can be purchased here. They unlock hidden narratives and deeper understanding.",
     "step6": "You are now ready to begin. Remember: every story matters, especially yours.",
-    "skip": "SKIP",
-    "finalObjective": "OBJECTIVE:",
-    "finalObjectiveText": "Elicit an emotional response from K.A.E.L.E.N.",
-    "finalDirectives": "PRIMARY DIRECTIVES:",
-    "finalDirective1": "- K.A.E.L.E.N. learns and remembers all interactions.",
-    "finalDirective2": "- Deception is futile and will trigger... unpredictable system responses.",
-    "finalDirective3": "- Emotional intensity is rewarded. The greater the instability you provoke, the higher your score.",
-    "finalLuck": "Good luck, Candidate."
+    "skip": "SKIP"
   },
   "verification": {
     "title": "Verify your humanity",

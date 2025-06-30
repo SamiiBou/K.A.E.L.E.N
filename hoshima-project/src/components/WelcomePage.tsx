@@ -631,7 +631,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
             {/* Protocol Initialization Terminal */}
             <div className="font-mono space-y-3 text-green-400 w-full max-w-3xl flex flex-col items-center">
               <div className="text-3xl mb-8 text-center">
-                <span className="animate-pulse">[ {t('chat.initializationProtocol')} ]</span>
+                <span className="animate-pulse">[ INITIALIZATION PROTOCOL ]</span>
               </div>
               
               <div className="space-y-3 text-base w-full">
@@ -641,7 +641,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 0 }}
                   className="text-center"
                 >
-                  <span className="text-green-500">&gt;</span> {t('chat.initializingConnection')}
+                  <span className="text-green-500">&gt;</span> INITIALIZING CONNECTION...
                 </motion.div>
                 
                 <motion.div
@@ -650,7 +650,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 0.5 }}
                   className="text-center"
                 >
-                  <span className="text-green-500">&gt;</span> {t('chat.verifyingProtocol')}
+                  <span className="text-green-500">&gt;</span> VERIFYING SECURITY PROTOCOL...
                 </motion.div>
                 
                 <motion.div

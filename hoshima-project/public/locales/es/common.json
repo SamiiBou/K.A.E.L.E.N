@@ -55,18 +55,7 @@
     "processing": "[K.A.E.L.E.N procesando datos...]",
     "selectPackage": "// SELECCIONAR PAQUETE //",
     "sendMessages": "[ ENVIAR 3 MENSAJES POR 1 WLD ]",
-    "secureAuth": "// SE REQUIERE AUTENTICACIÓN SEGURA DE WORLDCOIN //",
-    "close": "CERRAR",
-    "verifying": "VERIFICANDO...",
-    "verified": "✓ VERIFICADO",
-    "unverified": "✗ NO VERIFICADO",
-    "claimDaily": "[ RECLAMAR MENSAJE DIARIO ]",
-    "verifyMessage": "[ VERIFICAR POR 1 MENSAJE ]",
-    "verifyingProtocol": "VERIFICANDO PROTOCOLO DE SEGURIDAD...",
-    "finalProtocol": "// PROTOCOLO FINAL //",
-    "humanVerification": "Verificación Humana:",
-    "initializingConnection": "INICIALIZANDO CONEXIÓN...",
-    "initializing": "INICIALIZANDO"
+    "secureAuth": "// SE REQUIERE AUTENTICACIÓN SEGURA DE WORLDCOIN //"
   },
   "tutorial": {
     "step1": "Bienvenido a K.A.E.L.E.N. - El Motor de Agregación de Conocimiento para la Navegación de Mejora de Vida.",
@@ -75,14 +64,7 @@
     "step4": "Los comandos del sistema están disponibles a través de esta consola. Úsalos para navegar por capas más profundas del sistema.",
     "step5": "Los fragmentos de memoria se pueden comprar aquí. Desbloquean narrativas ocultas y una comprensión más profunda.",
     "step6": "Ahora estás listo para comenzar. Recuerda: cada historia importa, especialmente la tuya.",
-    "skip": "SALTAR",
-    "finalObjective": "OBJETIVO:",
-    "finalObjectiveText": "Provocar una respuesta emocional de K.A.E.L.E.N.",
-    "finalDirectives": "DIRECTIVAS PRINCIPALES:",
-    "finalDirective1": "- K.A.E.L.E.N. aprende y recuerda todas las interacciones.",
-    "finalDirective2": "- El engaño es inútil y desencadenará... respuestas impredecibles del sistema.",
-    "finalDirective3": "- La intensidad emocional es recompensada. Cuanto mayor sea la inestabilidad que provoques, mayor será tu puntuación.",
-    "finalLuck": "Buena suerte, Candidato."
+    "skip": "SALTAR"
   },
   "verification": {
     "title": "Verifica tu humanidad",

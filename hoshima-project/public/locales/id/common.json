@@ -55,18 +55,7 @@
     "processing": "[K.A.E.L.E.N memproses data...]",
     "selectPackage": "// PILIH PAKET //",
     "sendMessages": "[ KIRIM 3 PESAN UNTUK 1 WLD ]",
-    "secureAuth": "// DIPERLUKAN OTENTIKASI WORLDCOIN YANG AMAN //",
-    "close": "TUTUP",
-    "verifying": "MEMVERIFIKASI...",
-    "verified": "✓ TERVERIFIKASI",
-    "unverified": "✗ BELUM TERVERIFIKASI",
-    "claimDaily": "[ KLAIM PESAN HARIAN ]",
-    "verifyMessage": "[ VERIFIKASI UNTUK 1 PESAN ]",
-    "verifyingProtocol": "MEMVERIFIKASI PROTOKOL KEAMANAN...",
-    "finalProtocol": "// PROTOKOL AKHIR //",
-    "humanVerification": "Verifikasi Manusia:",
-    "initializingConnection": "MEMULAI KONEKSI...",
-    "initializing": "MEMULAI"
+    "secureAuth": "// DIPERLUKAN OTENTIKASI WORLDCOIN YANG AMAN //"
   },
   "tutorial": {
     "step1": "Selamat datang di K.A.E.L.E.N. - Mesin Agregasi Pengetahuan untuk Navigasi Peningkatan Kehidupan.",
@@ -75,14 +64,7 @@
     "step4": "Perintah sistem tersedia melalui konsol ini. Gunakan mereka untuk menavigasi lapisan sistem yang lebih dalam.",
     "step5": "Fragmen memori dapat dibeli di sini. Mereka membuka narasi tersembunyi dan pemahaman yang lebih dalam.",
     "step6": "Anda sekarang siap untuk memulai. Ingat: setiap cerita penting, terutama milik Anda.",
-    "skip": "LEWATI",
-    "finalObjective": "TUJUAN:",
-    "finalObjectiveText": "Dapatkan respon emosional dari K.A.E.L.E.N.",
-    "finalDirectives": "ARAHAN UTAMA:",
-    "finalDirective1": "- K.A.E.L.E.N. belajar dan mengingat semua interaksi.",
-    "finalDirective2": "- Penipuan tidak berguna dan akan memicu... respon sistem yang tidak terduga.",
-    "finalDirective3": "- Intensitas emosional diberikan reward. Semakin besar ketidakstabilan yang Anda provokasi, semakin tinggi skor Anda.",
-    "finalLuck": "Semoga beruntung, Kandidat."
+    "skip": "LEWATI"
   },
   "verification": {
     "title": "Verifikasi kemanusiaan Anda",

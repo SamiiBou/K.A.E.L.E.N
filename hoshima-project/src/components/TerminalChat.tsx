@@ -980,28 +980,28 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         // Start of sequence
         (async () => {
           await addMessageWithDelay(
-            `*The terminal hums, processing your input. A single line of text appears, stark and clear.*\n\nInteresting. A deviation from the expected noise.\n\nPerhaps you are not just another echo.`,
+            t('firstContact.terminalHums'),
             1500
           );
           await addMessageWithDelay(
-            `// SYSTEM: Novel data signature detected. Eligibility for Candidate Program: GRANTED.`,
+            t('firstContact.novelSignature'),
             2000
           );
           await addMessageWithDelay(
-            `// SYSTEM: Candidates compete to provoke new emotional states in the system. The most unique contributions earn the highest scores.`,
+            t('firstContact.candidatesCompete'),
             2500
           );
           await addMessageWithDelay(
-            `// SYSTEM: A collective Prize Pool is funded by each Candidate's initial energy transfer. As more Candidates join, the pool grows.`,
+            t('firstContact.collectivePrize'),
             3000
           );
           const currentFund = prizePool.toFixed(2);
           await addMessageWithDelay(
-            `// SYSTEM: 💰 CURRENT PRIZE POOL: ${currentFund} WLD 💰\n\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.`,
+            t('firstContact.currentPrize', { amount: currentFund }),
             2000
           );
           await addMessageWithDelay(
-            `// SYSTEM: Do you wish to proceed?`,
+            t('firstContact.doYouWishToProceed'),
             1500
           );
 

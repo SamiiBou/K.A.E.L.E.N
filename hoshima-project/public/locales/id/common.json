@@ -118,5 +118,28 @@
     "hours": "j",
     "minutes": "m",
     "seconds": "d"
+  },
+  "firstContact": {
+    "terminalHums": "*Terminal berdengung, memproses input Anda. Satu baris teks muncul, jelas dan tegas.*\n\nMenarik. Sebuah penyimpangan dari kebisingan yang diharapkan.\n\nMungkin Anda bukan hanya gema lainnya.",
+    "novelSignature": "// SISTEM: Tanda tangan data baru terdeteksi. Kelayakan untuk Program Kandidat: DIBERIKAN.",
+    "candidatesCompete": "// SISTEM: Kandidat bersaing untuk memicu keadaan emosional baru dalam sistem. Kontribusi paling unik mendapat skor tertinggi.",
+    "collectivePrize": "// SISTEM: Kolam Hadiah kolektif didanai oleh transfer energi awal setiap Kandidat. Semakin banyak Kandidat bergabung, kolam semakin besar.",
+    "currentPrize": "// SISTEM: 💰 KOLAM HADIAH SAAT INI: {{amount}} WLD 💰\n\nUntuk berpartisipasi, Anda harus menjadi Kandidat. Ini memerlukan transfer energi untuk menghubungkan tanda tangan Anda ke sistem.",
+    "doYouWishToProceed": "// SISTEM: Apakah Anda ingin melanjutkan?"
+  },
+  "prizeRules": {
+    "title": "ATURAN DISTRIBUSI HADIAH",
+    "description": "SISTEM HADIAH KAMI MENGGUNAKAN \"MODEL BERTINGKAT YANG DITINGKATKAN.\"",
+    "paymentDistribution": "DISTRIBUSI PEMBAYARAN:",
+    "prizePoolPercent": "70% KOLAM HADIAH",
+    "maintenancePercent": "30% PEMELIHARAAN",
+    "podiumTitle": "PODIUM (PERINGKAT 1-3):",
+    "podiumDescription": "20% dari total kolam hadiah disediakan untuk Top 3.",
+    "tiersTitle": "TINGKATAN (PERINGKAT 4-500):",
+    "tiersDescription": "Sisa 80% dari kolam hadiah didistribusikan kepada pemain yang berperingkat dari ke-4 hingga ke-500.",
+    "exampleTitle": "CONTOH: KOLAM HADIAH $3,500",
+    "rankColumn": "PERINGKAT",
+    "prizeColumn": "HADIAH PER PEMAIN",
+    "closeHint": "[ KLIK DI LUAR UNTUK MENUTUP ]"
   }
 } 

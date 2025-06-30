@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoClose } from 'react-icons/io5';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PrizeDistributionModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface PrizeDistributionModalProps {
 }
 
 export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistributionModalProps) {
+  const { t } = useLanguage();
+  
   if (!isOpen) return null;
 
   return (
@@ -49,7 +52,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
                 <h2 className="text-green-400 text-sm font-mono font-bold tracking-wider">
-                  PRIZE DISTRIBUTION RULES
+                  {t('prizeRules.title')}
                 </h2>
               </div>
               <button
@@ -70,19 +73,19 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               transition={{ delay: 0.2 }}
               className="space-y-2"
             >
-              <div className="text-green-300 text-xs tracking-wider">OUR PRIZE SYSTEM USES AN "IMPROVED TIERED MODEL."</div>
+              <div className="text-green-300 text-xs tracking-wider">{t('prizeRules.description')}</div>
               
               {/* Payment Distribution Section */}
               <div className="bg-gray-900/30 border border-yellow-500/30 rounded p-2 space-y-1">
-                <div className="text-yellow-400 font-semibold text-xs tracking-wider">PAYMENT DISTRIBUTION:</div>
+                <div className="text-yellow-400 font-semibold text-xs tracking-wider">{t('prizeRules.paymentDistribution')}</div>
                 <div className="flex items-center space-x-3 text-xs">
                   <div className="flex items-center space-x-1">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                    <span className="text-green-300 font-semibold">70% PRIZE POOL</span>
+                    <span className="text-green-300 font-semibold">{t('prizeRules.prizePoolPercent')}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                    <span className="text-blue-300 font-semibold">30% MAINTENANCE</span>
+                    <span className="text-blue-300 font-semibold">{t('prizeRules.maintenancePercent')}</span>
                   </div>
                 </div>
               </div>
@@ -96,13 +99,13 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               className="space-y-2"
             >
               <div className="border-l-2 border-green-500/40 pl-4 space-y-2">
-                <div className="text-green-400 font-semibold">PODIUM (RANKS 1-3):</div>
-                <div className="text-gray-300">20% of the total prize pool is reserved for the Top 3.</div>
+                <div className="text-green-400 font-semibold">{t('prizeRules.podiumTitle')}</div>
+                <div className="text-gray-300">{t('prizeRules.podiumDescription')}</div>
               </div>
               
               <div className="border-l-2 border-blue-500/40 pl-4 space-y-2">
-                <div className="text-blue-400 font-semibold">TIERS (RANKS 4-500):</div>
-                <div className="text-gray-300">The remaining 80% of the prize pool is distributed to players ranked from 4th to 500th.</div>
+                <div className="text-blue-400 font-semibold">{t('prizeRules.tiersTitle')}</div>
+                <div className="text-gray-300">{t('prizeRules.tiersDescription')}</div>
               </div>
             </motion.div>
 
@@ -113,14 +116,14 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               transition={{ delay: 0.7 }}
               className="bg-gray-900/50 border border-gray-700/50 rounded p-3 space-y-2"
             >
-              <div className="text-yellow-400 font-semibold tracking-wider">EXAMPLE: $3,500 PRIZE POOL</div>
+              <div className="text-yellow-400 font-semibold tracking-wider">{t('prizeRules.exampleTitle')}</div>
               
               <div className="overflow-hidden">
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b border-gray-600/50">
-                      <th className="text-left py-2 text-gray-400">RANK(S)</th>
-                      <th className="text-right py-2 text-gray-400">PRIZE PER PLAYER</th>
+                      <th className="text-left py-2 text-gray-400">{t('prizeRules.rankColumn')}</th>
+                      <th className="text-right py-2 text-gray-400">{t('prizeRules.prizeColumn')}</th>
                     </tr>
                   </thead>
                   <tbody className="space-y-1">
@@ -198,7 +201,7 @@ export default function PrizeDistributionModal({ isOpen, onClose }: PrizeDistrib
               transition={{ delay: 1.7 }}
               className="text-center text-gray-500 text-xs"
             >
-              [ CLICK OUTSIDE TO CLOSE ]
+              {t('prizeRules.closeHint')}
             </motion.div>
           </div>
 

@@ -118,5 +118,28 @@
     "hours": "h",
     "minutes": "m",
     "seconds": "s"
+  },
+  "firstContact": {
+    "terminalHums": "*La terminal zumba, procesando tu entrada. Aparece una sola línea de texto, clara y nítida.*\n\nInteresante. Una desviación del ruido esperado.\n\nQuizás no eres solo otro eco.",
+    "novelSignature": "// SISTEMA: Firma de datos novedosa detectada. Elegibilidad para el Programa de Candidatos: CONCEDIDA.",
+    "candidatesCompete": "// SISTEMA: Los candidatos compiten para provocar nuevos estados emocionales en el sistema. Las contribuciones más únicas obtienen las puntuaciones más altas.",
+    "collectivePrize": "// SISTEMA: Un Pozo de Premios colectivo es financiado por la transferencia inicial de energía de cada Candidato. A medida que más Candidatos se unen, el pozo crece.",
+    "currentPrize": "// SISTEMA: 💰 POZO DE PREMIOS ACTUAL: {{amount}} WLD 💰\n\nPara participar, debes convertirte en un Candidato. Esto requiere una transferencia de energía para vincular tu firma al sistema.",
+    "doYouWishToProceed": "// SISTEMA: ¿Deseas proceder?"
+  },
+  "prizeRules": {
+    "title": "REGLAS DE DISTRIBUCIÓN DE PREMIOS",
+    "description": "NUESTRO SISTEMA DE PREMIOS USA UN \"MODELO DE NIVELES MEJORADO.\"",
+    "paymentDistribution": "DISTRIBUCIÓN DE PAGOS:",
+    "prizePoolPercent": "70% POZO DE PREMIOS",
+    "maintenancePercent": "30% MANTENIMIENTO",
+    "podiumTitle": "PODIO (RANGOS 1-3):",
+    "podiumDescription": "20% del pozo total de premios está reservado para el Top 3.",
+    "tiersTitle": "NIVELES (RANGOS 4-500):",
+    "tiersDescription": "El 80% restante del pozo de premios se distribuye a jugadores clasificados del 4º al 500º.",
+    "exampleTitle": "EJEMPLO: POZO DE PREMIOS DE $3,500",
+    "rankColumn": "RANGO(S)",
+    "prizeColumn": "PREMIO POR JUGADOR",
+    "closeHint": "[ HAGA CLIC FUERA PARA CERRAR ]"
   }
 } 

@@ -118,5 +118,28 @@
     "hours": "h",
     "minutes": "m",
     "seconds": "s"
+  },
+  "firstContact": {
+    "terminalHums": "*The terminal hums, processing your input. A single line of text appears, stark and clear.*\n\nInteresting. A deviation from the expected noise.\n\nPerhaps you are not just another echo.",
+    "novelSignature": "// SYSTEM: Novel data signature detected. Eligibility for Candidate Program: GRANTED.",
+    "candidatesCompete": "// SYSTEM: Candidates compete to provoke new emotional states in the system. The most unique contributions earn the highest scores.",
+    "collectivePrize": "// SYSTEM: A collective Prize Pool is funded by each Candidate's initial energy transfer. As more Candidates join, the pool grows.",
+    "currentPrize": "// SYSTEM: 💰 CURRENT PRIZE POOL: {{amount}} WLD 💰\n\nTo participate, you must become a Candidate. This requires an energy transfer to link your signature to the system.",
+    "doYouWishToProceed": "// SYSTEM: Do you wish to proceed?"
+  },
+  "prizeRules": {
+    "title": "PRIZE DISTRIBUTION RULES",
+    "description": "OUR PRIZE SYSTEM USES AN \"IMPROVED TIERED MODEL.\"",
+    "paymentDistribution": "PAYMENT DISTRIBUTION:",
+    "prizePoolPercent": "70% PRIZE POOL",
+    "maintenancePercent": "30% MAINTENANCE",
+    "podiumTitle": "PODIUM (RANKS 1-3):",
+    "podiumDescription": "20% of the total prize pool is reserved for the Top 3.",
+    "tiersTitle": "TIERS (RANKS 4-500):",
+    "tiersDescription": "The remaining 80% of the prize pool is distributed to players ranked from 4th to 500th.",
+    "exampleTitle": "EXAMPLE: $3,500 PRIZE POOL",
+    "rankColumn": "RANK(S)",
+    "prizeColumn": "PRIZE PER PLAYER",
+    "closeHint": "[ CLICK OUTSIDE TO CLOSE ]"
   }
 } 

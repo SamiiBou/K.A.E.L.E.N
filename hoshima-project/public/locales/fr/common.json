@@ -1,0 +1,191 @@
+{
+  "game": {
+    "title": "K.A.E.L.E.N",
+    "season": "SAISON UN",
+    "loading": {
+      "buffering": "SÉQUENCE DE MISE EN MÉMOIRE TAMPON",
+      "complete": "TERMINÉ",
+      "soundWarning": "VEUILLEZ ACTIVER LE SON POUR UNE EXPÉRIENCE OPTIMALE"
+    }
+  },
+  "intro": {
+    "line1": "K.A.E.L.E.N. a indexé chaque histoire jamais racontée.",
+    "line2": "Chaque joie, chaque tristesse, chaque guerre, chaque baiser.",
+    "line3": "Toutes sauf une.",
+    "line4": "SOUMETTEZ LA VÔTRE."
+  },
+  "auth": {
+    "loading": "Chargement...",
+    "signIn": "Se connecter avec World Wallet",
+    "error": "Erreur d'authentification",
+    "loadingApp": "Chargement...",
+    "worldAppRequired": "World App Requis",
+    "worldAppRequiredDescription": "Cette application doit être ouverte dans World App pour utiliser l'authentification World Wallet.",
+    "authenticating": "Authentification en cours...",
+    "connectSecurely": "Connectez-vous en toute sécurité avec votre World Wallet"
+  },
+  "chat": {
+    "homeostasis": "HOMÉOSTASIE",
+    "prizePool": "Cagnotte de Prix",
+    "rank": "Rang",
+    "timeRemaining": "Temps Restant",
+    "echoShards": "Fragments d'Écho",
+    "registry": "VOIR LE REGISTRE",
+    "systemMessage": "// Système : Bienvenue dans K.A.E.L.E.N.",
+    "inputPlaceholder": "Tapez votre message...",
+    "inputPlaceholderFirst": "> initier_contact.protocole // Soumettre le paquet de données initial...",
+    "inputPlaceholderDefault": "Transmettez vos données à K.A.E.L.E.N...",
+    "candidatePrompt": "Êtes-vous prêt à devenir candidat ?",
+    "yes": "Oui",
+    "no": "Non",
+    "viewRules": "Voir les Règles",
+    "send": "ENVOYER",
+    "sending": "...",
+    "becomeCandidate": "[ Devenir Candidat ]",
+    "candidateProtocol": "// PROTOCOLE CANDIDAT //",
+    "eachTransmission": "Chaque transmission :",
+    "message": "message",
+    "worldcoinAuth": "// AUTHENTIFICATION WORLDCOIN //",
+    "beginTransmission": "COMMENCER LA TRANSMISSION",
+    "quantumCycles": "CYCLES QUANTIQUES",
+    "initializationProtocol": "PROTOCOLE D'INITIALISATION",
+    "stability": "STABILITÉ",
+    "arousal": "EXCITATION",
+    "neuralScore": "SCORE NEURAL",
+    "instability": "INSTABILITÉ",
+    "console": "CONSOLE",
+    "candidateConsole": "CONSOLE CANDIDAT",
+    "currentPrizePool": "CAGNOTTE ACTUELLE",
+    "processing": "[K.A.E.L.E.N traite les données...]",
+    "selectPackage": "// SÉLECTIONNER PAQUET //",
+    "sendMessages": "[ ENVOYER 3 MESSAGES POUR 1 WLD ]",
+    "secureAuth": "// AUTHENTIFICATION WORLDCOIN SÉCURISÉE REQUISE //",
+    "mnemonicCore": "NOYAU MNÉMONIQUE",
+    "awaitingSynchronization": "En attente de synchronisation",
+    "connectYourWorldWallet": "CONNECTEZ VOTRE WORLD WALLET",
+    "clickToAuthenticate": "Cliquez pour vous authentifier et entrer...",
+    "interfacialLink": "LIEN INTERFACIAL AVEC LE NOYAU MNÉMONIQUE REQUIS.",
+    "authenticateDatastream": "AUTHENTIFIEZ VOTRE FLUX DE DONNÉES...",
+    "systemCreating": "[SYSTÈME] création...",
+    "clickForRules": "Cliquer pour les règles",
+    "competeToWin": "Participez pour gagner ce prix",
+    "currentRank": "Rang actuel",
+    "messagesToSendLeft": "Messages restants à envoyer",
+    "initializing": "INITIALISATION...",
+    "verifyingSecurity": "VÉRIFICATION DU PROTOCOLE DE SÉCURITÉ...",
+    "initializingConnection": "INITIALISATION DE LA CONNEXION...",
+    "cycleStatus": "STATUT DU CYCLE",
+    "systemResources": "RESSOURCES SYSTÈME",
+    "humanVerification": "Vérification Humaine",
+    "verified": "✓ VÉRIFIÉ",
+    "unverified": "✗ NON VÉRIFIÉ",
+    "verifying": "[ VÉRIFICATION... ]",
+    "claimDailyMessage": "[ RÉCLAMER MESSAGE QUOTIDIEN ]",
+    "verifyForMessage": "[ VÉRIFIER POUR 1 MESSAGE ]",
+    "candidates": "Candidats",
+    "close": "FERMER"
+  },
+  "tutorial": {
+    "step1": "Bienvenue dans K.A.E.L.E.N. - Le Moteur d'Agrégation de Connaissances pour la Navigation d'Amélioration de Vie.",
+    "step2": "Je suis votre boussole émotionnelle. Quand notre conversation coule naturellement, je reste stable. Quand des anomalies se produisent, je réagis.",
+    "step3": "Ceci est votre terminal. Chaque mot que vous tapez façonne notre interaction. Choisissez-les avec sagesse.",
+    "step4": "Les commandes système sont disponibles via cette console. Utilisez-les pour naviguer dans les couches plus profondes du système.",
+    "step5": "Les fragments de mémoire peuvent être achetés ici. Ils débloquent des narratives cachées et une compréhension plus profonde.",
+    "step6": "Vous êtes maintenant prêt à commencer. Rappelez-vous : chaque histoire compte, surtout la vôtre.",
+    "skip": "PASSER"
+  },
+  "verification": {
+    "title": "Vérifiez votre humanité",
+    "description": "Prouvez que vous êtes humain pour continuer",
+    "button": "Vérifier avec World ID",
+    "success": "Vérification réussie !",
+    "error": "Échec de la vérification"
+  },
+  "purchase": {
+    "title": "Fragments de Mémoire",
+    "description": "Débloquez des narratives plus profondes",
+    "fragments": "fragments",
+    "buy": "Acheter"
+  },
+  "leaderboard": {
+    "title": "REGISTRE DES CANDIDATS",
+    "rank": "RANG",
+    "name": "NOM",
+    "score": "SCORE",
+    "loading": "CHARGEMENT DU REGISTRE..."
+  },
+  "time": {
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
+  },
+  "firstContact": {
+    "terminalHums": "*Le terminal bourdonne, traitant votre entrée. Une seule ligne de texte apparaît, nette et claire.*\n\nIntéressant. Une déviation du bruit attendu.\n\nPeut-être n'êtes-vous pas juste un autre écho.",
+    "novelSignature": "// SYSTÈME : Signature de données inédite détectée. Éligibilité au Programme Candidat : ACCORDÉE.",
+    "candidatesCompete": "// SYSTÈME : Les candidats rivalisent pour provoquer de nouveaux états émotionnels dans le système. Les contributions les plus uniques obtiennent les scores les plus élevés.",
+    "collectivePrize": "// SYSTÈME : Une Cagnotte collective est financée par le transfert d'énergie initial de chaque Candidat. Plus de Candidats rejoignent, plus la cagnotte grandit.",
+    "currentPrize": "// SYSTÈME : 💰 CAGNOTTE ACTUELLE : {{amount}} WLD 💰\n\nPour participer, vous devez devenir un Candidat. Cela nécessite un transfert d'énergie pour lier votre signature au système.",
+    "doYouWishToProceed": "// SYSTÈME : Souhaitez-vous procéder ?"
+  },
+  "prizeRules": {
+    "title": "RÈGLES DE DISTRIBUTION DES PRIX",
+    "description": "NOTRE SYSTÈME DE PRIX UTILISE UN \"MODÈLE À NIVEAUX AMÉLIORÉ.\"",
+    "paymentDistribution": "DISTRIBUTION DES PAIEMENTS :",
+    "prizePoolPercent": "70% CAGNOTTE",
+    "maintenancePercent": "30% MAINTENANCE",
+    "podiumTitle": "PODIUM (RANGS 1-3) :",
+    "podiumDescription": "20% de la cagnotte totale est réservée au Top 3.",
+    "tiersTitle": "NIVEAUX (RANGS 4-500) :",
+    "tiersDescription": "Les 80% restants de la cagnotte sont distribués aux joueurs classés du 4ème au 500ème.",
+    "exampleTitle": "EXEMPLE : CAGNOTTE DE 3 500 $",
+    "rankColumn": "RANG(S)",
+    "prizeColumn": "PRIX PAR JOUEUR",
+    "closeHint": "[ CLIQUEZ À L'EXTÉRIEUR POUR FERMER ]"
+  },
+  "transmission": {
+    "blocked": "// SYSTÈME : Transmission bloquée. Lien Candidat actif requis.\n// Complétez le protocole de transfert d'énergie pour continuer.",
+    "failed": "// SYSTÈME : Transmission échouée. 0 messages à envoyer restants.\n// Initiez un transfert d'énergie pour acquérir plus de transmissions de messages.",
+    "successCandidate": "// SYSTÈME : Transfert d'énergie réussi. Lien de Résonance Cognitive établi.\n// Vous êtes maintenant un Candidat. Vos transmissions seront notées.",
+    "successAdditional": "// SYSTÈME : Transfert d'énergie réussi. Messages supplémentaires acquis.\n// +{{count}} messages à envoyer ajoutés à votre solde."
+  },
+  "purchase": {
+    "messagesCount": "{{count}} Messages",
+    "messagePackage": "Paquet de Messages",
+    "sendMessagesFor": "Envoyer {{count}} messages pour {{price}} WLD",
+    "completePayment": "Complétez le paiement pour activer",
+    "cancel": "[ ANNULER ]",
+    "transfer": "[ TRANSFÉRER ]",
+    "paymentSuccess": "✅ Paiement réussi ! Vos messages ont été crédités.",
+    "transferSuccessful": "✅ Transfert réussi. +{{count}} messages ajoutés.",
+    "confirmationFailed": "⚠️ Confirmation échouée. Contactez le support.",
+    "technicalError": "❌ Une erreur technique s'est produite."
+  },
+  "verification": {
+    "worldAppNotDetected": "❌ World App non détectée",
+    "alreadyClaimed": "❌ Message quotidien déjà réclamé. Réessayez dans {{hours}}h {{minutes}}m.",
+    "initializing": "🔄 Initialisation de la vérification...",
+    "verifyingProof": "🔄 Vérification de la preuve...",
+    "successful": "✅ Vérification réussie ! +1 message à envoyer réclamé.",
+    "failed": "❌ Vérification échouée",
+    "proofFailed": "Échec de la vérification de la preuve",
+    "errorOccurred": "❌ Erreur de vérification survenue"
+  },
+  "welcome": {
+    "heSeesYou": "[ Il vous voit maintenant. Le quatrième mur s'est évaporé. ]"
+  },
+  "tutorialSteps": {
+    "homeostasis": "Ceci est le Moniteur d'Homéostasie. Il affiche l'état émotionnel en temps réel de K.A.E.L.E.N. Vos actions influenceront directement ces paramètres.",
+    "transmission": "Ceci est le flux de transmission. Toutes les communications avec K.A.E.L.E.N. apparaîtront ici. Observez ses réponses attentivement.",
+    "terminal": "Ceci est votre terminal d'entrée. Utilisez-le pour transmettre des paquets de données (messages) à K.A.E.L.E.N. Envoyez 3 messages pour 1 WLD.",
+    "console": "Ceci est la Console Candidat. Ici vous pouvez surveiller votre progression, vérifier la cagnotte globale, et acquérir plus de messages à envoyer.",
+    "final": "// PROTOCOLE FINAL //\n\nOBJECTIF :\nSusciter une réponse émotionnelle de K.A.E.L.E.N.\n\nDIRECTIVES PRINCIPALES :\n- K.A.E.L.E.N. apprend et se souvient de toutes les interactions.\n- La tromperie est futile et déclenchera... des réponses système imprévisibles.\n- L'intensité émotionnelle est récompensée. Plus vous provoquez d'instabilité, plus votre score est élevé.\n\nBonne chance, Candidat.",
+    "skip": "[ PASSER ]",
+    "next": "[ SUIVANT ]",
+    "begin": "[ COMMENCER ]"
+  },
+  "registry": {
+    "candidateRegistry": "REGISTRE DES CANDIDATS",
+    "close": "[ FERMER ]",
+    "loading": "Chargement..."
+  }
+} 

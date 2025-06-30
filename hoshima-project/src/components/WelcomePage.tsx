@@ -567,11 +567,12 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
             )}
             
             {displayedText[1] && !hideFirstThreeLines && (
-              <div className={`text-white font-bodoni terminal-text text-2xl md:text-3xl font-light tracking-wide leading-relaxed mb-10 transition-opacity duration-500 ${
+              <div className={`font-bodoni terminal-text text-2xl md:text-3xl font-light tracking-wide leading-relaxed mb-10 transition-opacity duration-500 ${
                 hideFirstThreeLines ? 'opacity-0' : 'opacity-100'
               }`}
                    style={{
-                     textShadow: '0 0 10px rgba(255, 255, 255, 0.15)',
+                     color: '#00ffff',
+                     textShadow: '0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2)',
                      fontWeight: 400,
                      letterSpacing: '0.02em'
                    }}>
@@ -581,11 +582,12 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
             
             {/* Line 3 - The hook, disappears on click */}
             {displayedText[2] && !hideFirstThreeLines && (
-              <div className={`text-white font-bodoni terminal-text text-4xl md:text-5xl font-medium tracking-wider leading-relaxed mb-16 transition-opacity duration-500 ${
+              <div className={`font-bodoni terminal-text text-4xl md:text-5xl font-medium tracking-wider leading-relaxed mb-16 transition-opacity duration-500 ${
                 hideFirstThreeLines ? 'opacity-0' : 'opacity-100'
               }`}
                    style={{
-                     textShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+                     color: '#00ffff',
+                     textShadow: '0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3)',
                      fontWeight: 500,
                      letterSpacing: '0.05em'
                    }}>
@@ -593,9 +595,21 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
               </div>
             )}
             
-            {/* Interface area - no more SUBMIT YOURS */}
+            {/* Interface area - SUBMIT YOURS displayed */}
             {displayedText[3] && (
               <div className="relative">
+                {/* Line 4 - SUBMIT YOURS / ENVÍA LA TUYA */}
+                {!showTransmissionInterface && (
+                  <div className="font-bodoni terminal-text text-3xl md:text-4xl lg:text-5xl font-bold tracking-wider leading-relaxed mb-12 transition-opacity duration-500"
+                       style={{
+                         color: '#00ffff',
+                         textShadow: '0 0 25px rgba(0, 255, 255, 0.6), 0 0 50px rgba(0, 255, 255, 0.4)',
+                         fontWeight: 700,
+                         letterSpacing: '0.1em'
+                       }}>
+                    {displayedText[3]}
+                  </div>
+                )}
                 
                 {/* Transmission interface - elegant and relentless */}
                 {isTextComplete && !showTransmissionInterface && (
@@ -680,7 +694,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 1.5 }}
                   className="w-full flex justify-center"
                 >
-                  <div className="wallet-connection-card border border-green-400/30 p-6 bg-black/50 w-full max-w-2xl mx-auto flex flex-col items-center justify-center space-y-4">
+                  <div className="wallet-connection-card border border-green-400/30 p-8 bg-black/50 w-full max-w-2xl mx-auto flex flex-col items-center justify-center space-y-6">
                     <div className="text-green-400 text-center text-lg">
                       <span className="text-green-500">&gt;</span> {t('chat.authenticateDatastream')}
                     </div>
@@ -689,6 +703,60 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                       <div>[SYSTEM] Generating your Datastream_ID...</div>
                       <div>[SYSTEM] Synchronizing with the World Protocol...</div>
                     </div>
+                    
+                    {/* Enhanced World Wallet Connection Button */}
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 2.5, duration: 0.5 }}
+                      className="w-full max-w-md"
+                    >
+                      <div className="relative group">
+                        {/* Larger glow effect */}
+                        <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-lg opacity-50 group-hover:opacity-80 transition duration-300 animate-pulse"></div>
+                        
+                        {/* Main connection button */}
+                        <button
+                          onClick={signInWithWallet}
+                          className="relative w-full px-10 py-6 rounded-2xl font-mono font-bold text-xl tracking-wide
+                                   transition-all duration-300 transform hover:scale-105 active:scale-95
+                                   border-3 backdrop-blur-sm
+                                   bg-black/80 border-cyan-300 text-white hover:border-cyan-200 hover:bg-black/90 
+                                   hover:shadow-2xl hover:shadow-cyan-400/30"
+                          style={{
+                            boxShadow: '0 0 40px rgba(0, 255, 255, 0.2), inset 0 2px 0 rgba(255, 255, 255, 0.1)',
+                            textShadow: '0 0 15px rgba(0, 255, 255, 0.5)',
+                            borderWidth: '3px'
+                          }}
+                        >
+                          {/* Button content */}
+                          <div className="flex items-center justify-center space-x-4">
+                            {/* Large World icon */}
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-300 to-blue-400 flex items-center justify-center">
+                              <span className="text-lg font-black text-black">W</span>
+                            </div>
+                            <span className="text-cyan-100 group-hover:text-white transition-colors">
+                              {t('auth.signIn')}
+                            </span>
+                            {/* Large arrow indicator */}
+                            <div className="text-cyan-300 group-hover:translate-x-2 transition-transform text-xl">→</div>
+                          </div>
+                          
+                          {/* Enhanced scanning line effect */}
+                          <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                            <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-300/60 to-transparent animate-scan-line-button"></div>
+                          </div>
+                        </button>
+                      </div>
+                      
+                      {/* Enhanced security message */}
+                      <div className="text-center mt-4">
+                        <div className="inline-flex items-center space-x-3 text-base text-cyan-300/90 font-mono">
+                          <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></span>
+                          <span>🔒 {t('auth.connectSecurely')}</span>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </motion.div>
                 

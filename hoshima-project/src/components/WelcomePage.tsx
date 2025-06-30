@@ -589,10 +589,10 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                 {isTextComplete && !showTransmissionInterface && (
                   <div className="mt-20 space-y-4 animate-fade-in" style={{ animationDelay: '3s' }}>
                     <div className="text-green-400/40 text-sm font-mono tracking-wider">
-                      [ MNEMONIC CORE - Awaiting Synchronization ]
+                      [ {t('chat.mnemonicCore')} - {t('chat.awaitingSynchronization')} ]
                     </div>
                     <div className="text-green-400/60 text-xs font-mono tracking-wide animate-pulse">
-                      {'>'} CONNECT YOUR WORLD WALLET - Click to authenticate and enter...
+                      {'>'} {t('chat.connectYourWorldWallet')} - {t('chat.clickToAuthenticate')}
                     </div>
                   </div>
                 )}
@@ -631,7 +631,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
             {/* Protocol Initialization Terminal */}
             <div className="font-mono space-y-3 text-green-400 w-full max-w-3xl flex flex-col items-center">
               <div className="text-3xl mb-8 text-center">
-                <span className="animate-pulse">[ INITIALIZATION PROTOCOL ]</span>
+                <span className="animate-pulse">[ {t('chat.initializationProtocol')} ]</span>
               </div>
               
               <div className="space-y-3 text-base w-full">
@@ -641,7 +641,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 0 }}
                   className="text-center"
                 >
-                  <span className="text-green-500">&gt;</span> INITIALIZING CONNECTION...
+                  <span className="text-green-500">&gt;</span> {t('chat.initializingConnection')}
                 </motion.div>
                 
                 <motion.div
@@ -650,7 +650,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 0.5 }}
                   className="text-center"
                 >
-                  <span className="text-green-500">&gt;</span> VERIFYING SECURITY PROTOCOL...
+                  <span className="text-green-500">&gt;</span> {t('chat.verifyingSecurity')}
                 </motion.div>
                 
                 <motion.div
@@ -659,7 +659,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
                   transition={{ delay: 1 }}
                   className="interfacial-message text-yellow-400 text-center"
                 >
-                  <span className="text-yellow-500">&gt;</span> INTERFACIAL LINK WITH MNEMONIC CORE REQUIRED.
+                  <span className="text-yellow-500">&gt;</span> {t('chat.interfacialLink')}
                 </motion.div>
                 
                 <motion.div

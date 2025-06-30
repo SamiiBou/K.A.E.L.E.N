@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { authenticateWithWorldWallet, User } from '@/utils/worldWalletAuth';
 import { MiniKit } from '@worldcoin/minikit-js';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WorldWalletAuthProps {
   onAuthSuccess: (user: User, token: string) => void;
@@ -10,6 +11,7 @@ interface WorldWalletAuthProps {
 }
 
 const WorldWalletAuth: React.FC<WorldWalletAuthProps> = ({ onAuthSuccess, onAuthError }) => {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [isWorldAppInstalled, setIsWorldAppInstalled] = useState(false);
 
@@ -35,10 +37,10 @@ const WorldWalletAuth: React.FC<WorldWalletAuthProps> = ({ onAuthSuccess, onAuth
     return (
       <div className="text-center p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
         <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-          World App Requis
+          {t('auth.worldAppRequired')}
         </h3>
         <p className="text-yellow-700">
-          Cette application doit être ouverte dans World App pour utiliser l'authentification World Wallet.
+          {t('auth.worldAppRequiredDescription')}
         </p>
       </div>
     );
@@ -60,15 +62,15 @@ const WorldWalletAuth: React.FC<WorldWalletAuthProps> = ({ onAuthSuccess, onAuth
         {isLoading ? (
           <div className="flex items-center justify-center space-x-2">
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            <span>Authentification en cours...</span>
+            <span>{t('auth.authenticating')}</span>
           </div>
         ) : (
-          'Se connecter avec World Wallet'
+          t('auth.signIn')
         )}
       </button>
 
       <div className="text-center text-sm text-gray-600">
-                        <p>Connect securely with your World Wallet</p>
+        <p>{t('auth.connectSecurely')}</p>
       </div>
     </div>
   );

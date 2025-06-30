@@ -2514,7 +2514,7 @@ Good luck, Candidate.`,
                             {t('chat.currentPrizePool')}
                           </div>
                           <div className="text-green-400/60 text-xs font-mono animate-pulse">
-                            [ CLICK FOR RULES ]
+                            [ {t('chat.clickForRules')} ]
                           </div>
                         </div>
                         <div className="text-green-300/60 text-xs font-mono">WLD</div>
@@ -2577,7 +2577,7 @@ Good luck, Candidate.`,
                           ease: "easeInOut" 
                         }}
                       >
-                        ► COMPETE TO WIN THIS PRIZE ◄
+                        ► {t('chat.competeToWin')} ◄
                       </motion.div>
                     </div>
                   </motion.div>
@@ -2650,12 +2650,12 @@ Good luck, Candidate.`,
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
-                    <div className="text-yellow-400 text-xs font-mono tracking-wider mb-3">CYCLE STATUS</div>
+                    <div className="text-yellow-400 text-xs font-mono tracking-wider mb-3">{t('chat.cycleStatus')}</div>
                     
                     <div className="space-y-2">
                       {/* Timer */}
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-xs font-mono">Time Remaining:</span>
+                        <span className="text-slate-400 text-xs font-mono">{t('chat.timeRemaining')}:</span>
                         <motion.span 
                           className="text-yellow-300 font-mono text-sm"
                           animate={{
@@ -2669,9 +2669,9 @@ Good luck, Candidate.`,
                       
                       {/* Rang */}
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-xs font-mono">Current Rank:</span>
+                        <span className="text-slate-400 text-xs font-mono">{t('chat.currentRank')}:</span>
                         <span className="text-white font-mono text-sm">
-                          #{currentRank.toLocaleString()} / {totalCandidates.toLocaleString()} Candidates
+                                                      #{currentRank.toLocaleString()} / {totalCandidates.toLocaleString()} {t('chat.candidates')}
                         </span>
                       </div>
                       
@@ -2695,12 +2695,12 @@ Good luck, Candidate.`,
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    <div className="text-green-400 text-xs font-mono tracking-wider mb-3">SYSTEM RESOURCES</div>
+                    <div className="text-green-400 text-xs font-mono tracking-wider mb-3">{t('chat.systemResources')}</div>
                     
                     <div className="space-y-3">
                       {/* CRU */}
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-xs font-mono">Messages to send left:</span>
+                        <span className="text-slate-400 text-xs font-mono">{t('chat.messagesToSendLeft')}:</span>
                         <motion.span 
                           className="text-green-300 font-mono text-sm font-bold"
                           animate={{
@@ -2722,12 +2722,12 @@ Good luck, Candidate.`,
                           handleCruPurchase();
                         }}
                       >
-                        [ SEND 3 MESSAGES FOR 1 WLD ]
+                        {t('chat.sendMessages')}
                       </motion.button>
                       
                       {/* Human Verification Status */}
                       <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
-                        <span className="text-slate-400 text-xs font-mono">Human Verification:</span>
+                        <span className="text-slate-400 text-xs font-mono">{t('chat.humanVerification')}:</span>
                         <motion.span 
                           className={`font-mono text-sm font-bold ${isVerified ? 'text-cyan-300' : 'text-red-300'}`}
                           animate={{
@@ -2739,7 +2739,7 @@ Good luck, Candidate.`,
                           }}
                           transition={{ duration: 2, repeat: isVerified ? Infinity : 0 }}
                         >
-                          {isVerified ? '✓ VERIFIED' : '✗ UNVERIFIED'}
+                          {isVerified ? t('chat.verified') : t('chat.unverified')}
                         </motion.span>
                       </div>
                       
@@ -2754,7 +2754,7 @@ Good luck, Candidate.`,
                         onClick={handleHumanityVerification}
                         disabled={isVerifying}
                       >
-                        {isVerifying ? '[ VERIFYING... ]' : isVerified ? '[ CLAIM DAILY MESSAGE ]' : '[ VERIFY FOR 1 MESSAGE ]'}
+                        {isVerifying ? t('chat.verifying') : isVerified ? t('chat.claimDailyMessage') : t('chat.verifyForMessage')}
                       </motion.button>
                       
                       {verificationMessage && (
@@ -2869,7 +2869,7 @@ Good luck, Candidate.`,
           
           {/* Texte court */}
           <span className="text-cyan-400 font-mono text-xs tracking-wide">
-            {isSubTerminalExpanded ? 'CLOSE' : t('chat.console')}
+            {isSubTerminalExpanded ? t('chat.close') : t('chat.console')}
           </span>
         </motion.button>
 

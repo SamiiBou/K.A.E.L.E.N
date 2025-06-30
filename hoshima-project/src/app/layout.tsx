@@ -33,18 +33,39 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
-        <script 
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof window !== 'undefined') {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-                script.onload = function() { eruda.init(); };
-                document.head.appendChild(script);
-              }
-            `
-          }}
-        />
+        {process.env.NODE_ENV === 'development' && (
+          <script 
+            dangerouslySetInnerHTML={{
+              __html: `
+                if (typeof window !== 'undefined') {
+                  try {
+                    const script = document.createElement('script');
+                    script.src = '/node_modules/eruda/eruda.js';
+                    script.onerror = function() {
+                      // Fallback to CDN if local version fails
+                      const fallbackScript = document.createElement('script');
+                      fallbackScript.src = 'https://cdn.jsdelivr.net/npm/eruda@3.4.3/eruda.min.js';
+                      fallbackScript.onload = function() { 
+                        if (typeof eruda !== 'undefined') {
+                          eruda.init(); 
+                        }
+                      };
+                      document.head.appendChild(fallbackScript);
+                    };
+                    script.onload = function() { 
+                      if (typeof eruda !== 'undefined') {
+                        eruda.init(); 
+                      }
+                    };
+                    document.head.appendChild(script);
+                  } catch (e) {
+                    console.warn('Eruda failed to load:', e);
+                  }
+                }
+              `
+            }}
+          />
+        )}
       </head>
       <MiniKitProvider>
         <LanguageProvider>

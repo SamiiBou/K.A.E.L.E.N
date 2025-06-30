@@ -29,6 +29,8 @@
     "registry": "LIHAT REGISTRI",
     "systemMessage": "// Sistem: Selamat datang di K.A.E.L.E.N.",
     "inputPlaceholder": "Ketik pesan Anda...",
+    "inputPlaceholderFirst": "> inisiasi_kontak.protokol // Kirim paket data awal...",
+    "inputPlaceholderDefault": "Transmisikan data Anda ke K.A.E.L.E.N...",
     "candidatePrompt": "Apakah Anda siap menjadi kandidat?",
     "yes": "Ya",
     "no": "Tidak",

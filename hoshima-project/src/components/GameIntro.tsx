@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface GameIntroProps {
   onComplete: () => void;
 }
 
 export default function GameIntro({ onComplete }: GameIntroProps) {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const [step, setStep] = useState<'loading' | 'video' | 'kaelen'>('loading');
   const [loadingProgress, setLoadingProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);

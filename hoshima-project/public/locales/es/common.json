@@ -29,6 +29,8 @@
     "registry": "VER REGISTRO",
     "systemMessage": "// Sistema: Bienvenido a K.A.E.L.E.N.",
     "inputPlaceholder": "Escribe tu mensaje...",
+    "inputPlaceholderFirst": "> iniciar_contacto.protocolo // Enviar paquete de datos inicial...",
+    "inputPlaceholderDefault": "Transmite tus datos a K.A.E.L.E.N...",
     "candidatePrompt": "¿Estás listo para convertirte en candidato?",
     "yes": "Sí",
     "no": "No",

@@ -1,10 +1,10 @@
 'use client';
 
-import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 
 export default function LanguageDebug() {
-  const { t, locale } = useTranslation();
+  const { t, locale } = useLanguage();
   const [storedLang, setStoredLang] = useState<string | null>(null);
   const [languageSelected, setLanguageSelected] = useState<string | null>(null);
 

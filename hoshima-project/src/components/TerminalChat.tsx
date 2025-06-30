@@ -8,6 +8,7 @@ import PrizeDistributionModal from './PrizeDistributionModal';
 
 // Ajout des imports pour l'optimisation
 import { useCallback, useMemo, memo } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Détection de la performance du device
 const getDevicePerformance = () => {
@@ -147,6 +148,7 @@ interface TutorialStep {
 }
 
 export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseRequest, onSubTerminalToggle, userAddr }: TerminalChatProps) {
+  const { t, locale } = useLanguage();
   const isWorldWallet = typeof userAddr === 'string' && userAddr.startsWith('EQA');
 
   // Affichage des informations de débogage du montage
@@ -2124,7 +2126,7 @@ Good luck, Candidate.`,
           {/* ══════════ L'INDICATEUR DU PRIZE POOL ══════════ */}
           <div className="flex flex-col items-center space-y-1.5 relative w-28">
             <div className="text-yellow-400/80 text-[11px] font-mono tracking-[0.15em] uppercase">
-              PRIZE POOL
+                              {t('chat.prizePool')}
             </div>
             <div className="relative w-full h-14 flex items-center justify-center bg-gradient-to-br from-slate-900/90 via-black/90 to-slate-800/90 border border-yellow-400/30 rounded-md overflow-hidden backdrop-blur-sm">
               <motion.div
@@ -2146,7 +2148,7 @@ Good luck, Candidate.`,
 
           {/* ══════════ L'OSCILLOSCOPE CARDIAQUE (Indicateur Central) ══════════ */}
           <div className="flex flex-col items-center space-y-2 flex-1 mx-8">
-            <div className="text-slate-400 text-[10px] font-mono tracking-wider">HOMEOSTASIS</div>
+                            <div className="text-slate-400 text-[10px] font-mono tracking-wider">{t('chat.homeostasis')}</div>
             
             {/* Zone d'oscilloscope */}
             <div className="relative w-full h-12 bg-black/80 border border-slate-700/40 rounded-sm overflow-hidden">
@@ -2681,7 +2683,7 @@ Good luck, Candidate.`,
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        [ VIEW REGISTRY ]
+                        [ {t('chat.registry')} ]
                       </motion.button>
                     </div>
                   </motion.div>
@@ -3225,7 +3227,7 @@ Good luck, Candidate.`,
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKey}
-              placeholder={isFirstMessage ? "> initiate_contact.protocol // Submit initial data packet..." : "Transmit your data to K.A.E.L.E.N..."}
+              placeholder={isFirstMessage ? t('chat.inputPlaceholderFirst') : t('chat.inputPlaceholderDefault')}
               className="flex-1 bg-slate-800/60 border border-green-500/40 rounded px-3 py-2 text-green-400 placeholder-green-600 focus:outline-none focus:border-green-400 font-mono text-sm backdrop-blur-sm"
               disabled={isLoading || !isInitialized}
               style={{

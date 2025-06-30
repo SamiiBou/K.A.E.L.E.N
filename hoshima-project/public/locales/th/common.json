@@ -29,6 +29,8 @@
     "registry": "ดูทะเบียน",
     "systemMessage": "// ระบบ: ยินดีต้อนรับสู่ K.A.E.L.E.N.",
     "inputPlaceholder": "พิมพ์ข้อความของคุณ...",
+    "inputPlaceholderFirst": "> เริ่มต้นการติดต่อ.โปรโตคอล // ส่งแพ็กเก็ตข้อมูลเริ่มต้น...",
+    "inputPlaceholderDefault": "ส่งข้อมูลของคุณไปยัง K.A.E.L.E.N...",
     "candidatePrompt": "คุณพร้อมที่จะเป็นผู้สมัครหรือไม่?",
     "yes": "ใช่",
     "no": "ไม่",

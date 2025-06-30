@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -12,7 +12,7 @@ const languages = [
 ];
 
 export default function LanguageSelectorClient() {
-  const { locale, changeLanguage } = useTranslation();
+  const { locale, changeLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
@@ -54,8 +54,12 @@ export default function LanguageSelectorClient() {
     // Animation de transition
     await new Promise(resolve => setTimeout(resolve, 300));
     
-    // Changement de langue
+    // Changement de langue (sans recharger)
     changeLanguage(langCode);
+    
+    // Fermer le menu
+    setIsChanging(false);
+    setIsOpen(false);
   };
 
   return (

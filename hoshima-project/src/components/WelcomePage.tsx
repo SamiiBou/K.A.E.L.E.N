@@ -5,7 +5,7 @@ import { MiniKit } from '@worldcoin/minikit-js';
 import { authenticateWithWorldWallet } from '@/utils/worldWalletAuth';
 import TerminalChat from '@/components/TerminalChat';
 import { motion } from 'framer-motion';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WelcomePageProps {
   onComplete: () => void;
@@ -14,7 +14,7 @@ interface WelcomePageProps {
 }
 
 export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: WelcomePageProps) {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const [videoEnded, setVideoEnded] = useState(false);
   const [displayedText, setDisplayedText] = useState<string[]>(['', '', '', '']);
   const [isTextComplete, setIsTextComplete] = useState(false);

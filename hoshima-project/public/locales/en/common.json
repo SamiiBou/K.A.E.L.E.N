@@ -29,6 +29,8 @@
     "registry": "VIEW REGISTRY",
     "systemMessage": "// System: Welcome to K.A.E.L.E.N.",
     "inputPlaceholder": "Type your message...",
+    "inputPlaceholderFirst": "> initiate_contact.protocol // Submit initial data packet...",
+    "inputPlaceholderDefault": "Transmit your data to K.A.E.L.E.N...",
     "candidatePrompt": "Are you ready to become a candidate?",
     "yes": "Yes",
     "no": "No",

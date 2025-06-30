@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { MiniKitProvider } from '@worldcoin/minikit-js/minikit-provider';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,11 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <MiniKitProvider>
-        <body className={`${geist.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}>
-          {children}
-        </body>
+        <LanguageProvider>
+          <body className={`${geist.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}>
+            {children}
+          </body>
+        </LanguageProvider>
       </MiniKitProvider>
     </html>
   );

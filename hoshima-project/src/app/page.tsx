@@ -8,11 +8,11 @@ import useWorldWalletAuth from "@/hooks/useWorldWalletAuth";
 import TerminalChat from "@/components/TerminalChat";
 import LanguageSelectionScreen from "@/components/LanguageSelectionScreen";
 import LanguageSelectorClient from "@/components/LanguageSelectorClient";
-import { useTranslation } from '@/hooks/useTranslation';
+import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageDebug from "@/components/LanguageDebug";
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const { isAuthenticated, isLoading, login, user } = useWorldWalletAuth();
   const [authError, setAuthError] = useState<string | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -67,11 +67,8 @@ export default function Home() {
 
   const handleLanguageSelected = (langCode: string) => {
     console.log('🌍 [Page] Langue sélectionnée:', langCode);
-    // Ne pas mettre à jour l'état car on va recharger la page
-    // window.location.reload() va tout réinitialiser
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    // Mettre à jour l'état pour cacher l'écran de sélection
+    setLanguageSelected(true);
   };
 
   // Si on charge encore les données d'authentification ou de langue

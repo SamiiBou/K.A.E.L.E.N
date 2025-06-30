@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', greeting: 'Welcome', terminal: 'ENG' },
@@ -21,6 +22,7 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
   const [scanLine, setScanLine] = useState(0);
   const [glitchActive, setGlitchActive] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
+  const { changeLanguage } = useLanguage();
 
   useEffect(() => {
     const scanInterval = setInterval(() => {
@@ -68,7 +70,8 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
     setSelectedLang(langCode);
     setIsTransitioning(true);
     
-    localStorage.setItem('preferred-language', langCode);
+    // Changer la langue via le contexte (cela met automatiquement à jour localStorage)
+    changeLanguage(langCode);
     localStorage.setItem('language-selected', 'true');
     
     await new Promise(resolve => setTimeout(resolve, 2000));

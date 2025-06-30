@@ -2234,7 +2234,7 @@ Good luck, Candidate.`,
             </div>
             
             <div className="text-slate-500 text-[8px] font-mono">
-              {(emotionalState.stability * 100).toFixed(0)}% STABILITY
+                              {(emotionalState.stability * 100).toFixed(0)}% {t('chat.stability')}
             </div>
           </div>
 
@@ -2242,7 +2242,7 @@ Good luck, Candidate.`,
           <div className="flex flex-col items-center space-y-1.5 relative w-28">
             {/* Header with enhanced styling */}
             <div className="text-cyan-400/80 text-[11px] font-mono tracking-[0.15em] uppercase">
-              INSTABILITY
+                              {t('chat.instability')}
             </div>
             
             {/* Enhanced Score Box */}
@@ -2300,7 +2300,7 @@ Good luck, Candidate.`,
             <div className="flex items-center space-x-1">
               <div className="w-1 h-1 bg-cyan-400/60 rounded-full animate-pulse"></div>
               <div className="text-slate-400 text-[9px] font-mono tracking-wide uppercase">
-                NEURAL SCORE
+                {t('chat.neuralScore')}
               </div>
               <div className="w-1 h-1 bg-cyan-400/60 rounded-full animate-pulse"></div>
             </div>
@@ -2372,7 +2372,7 @@ Good luck, Candidate.`,
           transition={{ duration: 0.5 }}
         >
           <span className="relative">
-            [ Begin transmission... ]
+                            [ {t('chat.beginTransmission')}... ]
             <motion.span
               className="absolute -right-2 top-0 w-1 h-4 bg-blue-400/60"
               animate={{ opacity: [0, 1, 0] }}
@@ -2390,7 +2390,7 @@ Good luck, Candidate.`,
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            Quantum Cycles: {localFragments}
+                            {t('chat.quantumCycles')}: {localFragments}
           </motion.span>
         </motion.div>
 
@@ -2511,7 +2511,7 @@ Good luck, Candidate.`,
                             transition={{ duration: 1.5, repeat: Infinity }}
                           />
                           <div className="text-green-400 text-xs font-mono tracking-widest font-bold">
-                            CURRENT PRIZE POOL
+                            {t('chat.currentPrizePool')}
                           </div>
                           <div className="text-green-400/60 text-xs font-mono animate-pulse">
                             [ CLICK FOR RULES ]
@@ -2592,7 +2592,7 @@ Good luck, Candidate.`,
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="text-cyan-400 text-xs font-mono tracking-wider mb-2">INSTABILITY SCORE</div>
+                        <div className="text-cyan-400 text-xs font-mono tracking-wider mb-2">{t('chat.instability')} {t('chat.neuralScore')}</div>
                         <motion.div 
                           className="text-2xl font-mono text-white"
                           animate={{
@@ -2869,7 +2869,7 @@ Good luck, Candidate.`,
           
           {/* Texte court */}
           <span className="text-cyan-400 font-mono text-xs tracking-wide">
-            {isSubTerminalExpanded ? 'CLOSE' : 'CONSOLE'}
+            {isSubTerminalExpanded ? 'CLOSE' : t('chat.console')}
           </span>
         </motion.button>
 
@@ -3026,7 +3026,7 @@ Good luck, Candidate.`,
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <span>[K.A.E.L.E.N processing data...]</span>
+                <span>{t('chat.processing')}</span>
                 <div className="flex space-x-1">
                   <div className="w-1 h-1 bg-blue-400/60 rounded-full animate-pulse"></div>
                   <div className="w-1 h-1 bg-blue-400/40 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
@@ -3055,7 +3055,7 @@ Good luck, Candidate.`,
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  [ Become a Candidate ]
+                  {t('chat.becomeCandidate')}
                 </motion.button>
               </motion.div>
             )}
@@ -3070,15 +3070,15 @@ Good luck, Candidate.`,
               >
                 <div className="bg-slate-900/60 border border-cyan-400/20 rounded-sm p-3 backdrop-blur-sm">
                   <div className="text-cyan-400/80 font-mono text-xs space-y-2">
-                    <div className="text-cyan-300 font-semibold text-center">// CANDIDATE PROTOCOL //</div>
-                    <div className="text-slate-300 text-center">Each transmission: <span className="text-white font-bold">1 message</span></div>
+                    <div className="text-cyan-300 font-semibold text-center">{t('chat.candidateProtocol')}</div>
+                    <div className="text-slate-300 text-center">{t('chat.eachTransmission')} <span className="text-white font-bold">1 {t('chat.message')}</span></div>
                     
                     <div className="pt-1">
                       {renderSimplifiedCruPurchaseUI()}
                     </div>
 
                     <div className="text-center text-slate-500 font-mono text-xs pt-1 border-t border-slate-700/30">
-                      // WORLDCOIN AUTH //
+                      {t('chat.worldcoinAuth')}
                     </div>
                   </div>
                 </div>
@@ -3151,7 +3151,7 @@ Good luck, Candidate.`,
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      [ SEND 3 MESSAGES FOR 1 WLD ]
+                      {t('chat.sendMessages')}
                     </motion.div>
                     <motion.button
                       onClick={() => {
@@ -3174,7 +3174,7 @@ Good luck, Candidate.`,
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
-                    // SELECT PACKAGE //
+                    {t('chat.selectPackage')}
                   </motion.div>
 
                   {/* Packages Grid */}
@@ -3187,7 +3187,7 @@ Good luck, Candidate.`,
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.6 }}
                   >
-                    // SECURE WORLDCOIN AUTHENTICATION REQUIRED //
+                    {t('chat.secureAuth')}
                   </motion.div>
                 </div>
               </motion.div>
@@ -3243,7 +3243,7 @@ Good luck, Candidate.`,
               className="px-4 py-2 bg-green-600/60 hover:bg-green-500/60 disabled:bg-gray-600/60 text-white rounded border border-green-500/60 transition-colors font-mono text-sm"
               type="button"
             >
-              {isLoading ? '...' : 'SEND'}
+              {isLoading ? t('chat.sending') : t('chat.send')}
             </button>
           </div>
         </motion.div>

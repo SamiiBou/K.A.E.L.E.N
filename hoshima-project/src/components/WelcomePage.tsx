@@ -542,27 +542,26 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
           <div className="text-center max-w-6xl px-8">
             {/* Line 1 - K.A.E.L.E.N title with enhanced design */}
             {displayedText[0] && !hideFirstThreeLines && (
-              <div className={`relative group transition-opacity duration-500 mb-8 ${
+              <div className={`relative transition-opacity duration-500 mb-8 ${
                 hideFirstThreeLines ? 'opacity-0' : 'opacity-100'
               }`}>
-                {/* Glow background effect */}
-                <div className="absolute inset-0 blur-xl bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 opacity-60 animate-pulse"></div>
+                {/* Subtle glow background */}
+                <div className="absolute inset-0 blur-2xl bg-cyan-500/10 opacity-50 animate-pulse"></div>
                 
-                {/* Main text with gradient and enhanced effects */}
-                <div className="relative font-bodoni terminal-text text-3xl md:text-4xl lg:text-5xl font-semibold tracking-wider leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-cyan-300"
+                {/* Main text with enhanced effects */}
+                <div className="relative font-bodoni terminal-text text-2xl md:text-3xl lg:text-4xl font-medium tracking-wide leading-relaxed"
                      style={{
-                       textShadow: '0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 255, 0.1), 0 0 60px rgba(255, 255, 255, 0.05)',
-                       fontWeight: 600,
-                       letterSpacing: '0.05em',
-                       filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.2))'
+                       color: '#00ffff',
+                       textShadow: '0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2)',
+                       fontWeight: 500,
+                       letterSpacing: '0.03em'
                      }}>
-                  <span className="inline-block animate-pulse">K.A.E.L.E.N.</span>
-                  <span className="text-white/90 font-light"> has indexed every story ever told.</span>
+                  {displayedText[0]}
                 </div>
                 
-                {/* Scanning line effect */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent animate-scan-line"></div>
+                {/* Subtle scanning line effect */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+                  <div className="absolute w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-scan-line"></div>
                 </div>
               </div>
             )}

@@ -17,7 +17,8 @@
   "auth": {
     "loading": "Memuat...",
     "signIn": "Masuk dengan World Wallet",
-    "error": "Kesalahan autentikasi"
+    "error": "Kesalahan autentikasi",
+    "loadingApp": "Memuat..."
   },
   "chat": {
     "homeostasis": "HOMEOSTASIS",

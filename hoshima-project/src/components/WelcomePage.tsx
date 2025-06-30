@@ -177,7 +177,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     setShowSubmitPulse(true);
     setIsTextComplete(true);
     
-  }, [oscillator, audioContext]);
+  }, [oscillator, audioContext, t]);
 
   const stopAmbientAudio = useCallback(() => {
     if (oscillator) {

@@ -59,7 +59,7 @@ export default function LanguageSelectorClient() {
   };
 
   return (
-    <div className="fixed top-6 left-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       <motion.button
         onClick={() => {
           playSound(600, 0.1);
@@ -92,7 +92,7 @@ export default function LanguageSelectorClient() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 min-w-[200px] bg-black/90 backdrop-blur-lg 
+            className="absolute bottom-full left-0 mb-2 min-w-[200px] bg-black/90 backdrop-blur-lg 
                        border border-cyan-500/30 rounded-sm overflow-hidden"
           >
             {languages.map((lang, index) => (

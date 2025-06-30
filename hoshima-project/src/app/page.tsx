@@ -8,8 +8,11 @@ import useWorldWalletAuth from "@/hooks/useWorldWalletAuth";
 import TerminalChat from "@/components/TerminalChat";
 import LanguageSelectionScreen from "@/components/LanguageSelectionScreen";
 import LanguageSelectorClient from "@/components/LanguageSelectorClient";
+import { useTranslation } from '@/hooks/useTranslation';
+import LanguageDebug from "@/components/LanguageDebug";
 
 export default function Home() {
+  const { t } = useTranslation();
   const { isAuthenticated, isLoading, login, user } = useWorldWalletAuth();
   const [authError, setAuthError] = useState<string | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -64,9 +67,11 @@ export default function Home() {
 
   const handleLanguageSelected = (langCode: string) => {
     console.log('🌍 [Page] Langue sélectionnée:', langCode);
-    setLanguageSelected(true);
-    // Recharger pour appliquer la nouvelle langue
-    window.location.reload();
+    // Ne pas mettre à jour l'état car on va recharger la page
+    // window.location.reload() va tout réinitialiser
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   // Si on charge encore les données d'authentification ou de langue
@@ -74,7 +79,7 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 flex items-center justify-center">
         <div className="text-white text-xl">
-          Chargement...
+          {t('auth.loadingApp')}
         </div>
       </div>
     );
@@ -112,6 +117,7 @@ export default function Home() {
           className="fixed top-0 left-0 w-screen h-screen object-cover object-center brightness-90 blur-[2px] -z-10"
         />
         <LanguageSelectorClient />
+        <LanguageDebug />
         <TerminalChat 
           fragments={fragments} 
           onFragmentsUpdate={setFragments}

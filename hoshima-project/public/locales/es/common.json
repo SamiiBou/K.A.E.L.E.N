@@ -17,7 +17,8 @@
   "auth": {
     "loading": "Cargando...",
     "signIn": "Iniciar sesión con World Wallet",
-    "error": "Error de autenticación"
+    "error": "Error de autenticación",
+    "loadingApp": "Cargando..."
   },
   "chat": {
     "homeostasis": "HOMEOSTASIS",

@@ -287,7 +287,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const prompted = localStorage.getItem('hoshima-candidacy-prompted');
-      setIsFirstMessage(!prompted);
+      // Si l'utilisateur a des crédits, ne pas marquer comme premier message
+      if (localFragments > 0) {
+        setIsFirstMessage(false);
+        localStorage.setItem('hoshima-candidacy-prompted', 'true');
+      } else {
+        setIsFirstMessage(!prompted);
+      }
     }
   }, []);
 
@@ -774,7 +780,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         await userService.startNewConversation();
         // Correction : n'afficher l'intro que si jamais vue
         const prompted = localStorage.getItem('hoshima-candidacy-prompted');
-        setIsFirstMessage(!prompted);
+        // Si l'utilisateur a déjà des crédits, ne pas afficher la séquence d'intro
+        if (usr && typeof usr.cruBalance === 'number' && usr.cruBalance > 0) {
+          setIsFirstMessage(false);
+          localStorage.setItem('hoshima-candidacy-prompted', 'true');
+        } else {
+          setIsFirstMessage(!prompted);
+        }
         setMessages([]); // Effacer les messages précédents
         // console.log('🔧 [TerminalChat] Messages effacés, première conversation');
 
@@ -868,6 +880,16 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   }, [messages]);
 
   const onSend = useCallback(async () => {
+    console.log('[DEBUG] onSend appelé - État initial:', {
+      input: input.trim(),
+      isLoading,
+      isInitialized,
+      isFirstMessage,
+      localFragments,
+      isCandidate,
+      hasReceivedInitialResponse
+    });
+    
     if (!input.trim() || isLoading || !isInitialized) return;
     
           if (input.startsWith('/clearcache')) {
@@ -893,80 +915,22 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       return;
     }
 
-    setIsLoading(true);
-    playSendSound();
-    
-    const userMessage: SystemMessage = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input,
-      timestamp: new Date(),
-      cardiacPulse: emotionalState.cardiacPulse
-    };
-    
-    const allMessages = [...messages, userMessage];
-    setMessages(allMessages);
-    setInput('');
-    
-    // The code below is kept for local sensitivity analysis (visual effects)
-    // but score calculation is now handled by the backend.
-    const sensitivity = analyzeSensitivity(input);
-    setCurrentMessageSensitivity(sensitivity);
-    const messageHash = simpleHash(input);
-    
-    // Update emotional state based on sensitivity and redundancy (for visuals)
-    setEmotionalState(prev => {
-      // Calculate redundancy
-      let newRedundancy = prev.redundancyIndex;
-      if (prev.lastMessageHash === messageHash) {
-        newRedundancy = Math.min(100, prev.redundancyIndex + 25); // Identical message
-      } else if (input.length < 10) {
-        newRedundancy = Math.min(100, prev.redundancyIndex + 10); // Message too short
-      } else if (sensitivity < 0.2) {
-        newRedundancy = Math.min(100, prev.redundancyIndex + 5); // Banal message
-      } else {
-        newRedundancy = Math.max(0, prev.redundancyIndex - 10); // Good message, reduction
-      }
-      
-      const newStability = Math.max(0.1, prev.stability - (sensitivity * 0.3));
-      const newArousal = Math.min(1, prev.arousal + (sensitivity * 0.4));
-      let newAscotColor = prev.ascotColor;
-      
-      // Change ascot color according to emotion (rare break)
-      if (sensitivity > 0.8 && Math.random() < 0.1) { // 10% chance only
-        newAscotColor = sensitivity > 0.9 ? '#dc2626' : '#f59e0b'; // red or orange for high sensitivity
-      } else if (sensitivity > 0.7 && Math.random() < 0.05) { // 5% chance
-        newAscotColor = '#8b5cf6'; // purple for moderate sensitivity
-      } else if (newStability > 0.8 && newRedundancy < 20) {
-        newAscotColor = '#10b981'; // green for stability
-      } else {
-        newAscotColor = '#9ca3af'; // default pearl gray
-      }
-      
-      return {
-        ...prev,
-        stability: newStability,
-        arousal: newArousal,
-        lastSensitiveTime: sensitivity > 0.5 ? Date.now() : prev.lastSensitiveTime,
-        glitchIntensity: sensitivity,
-        ascotColor: newAscotColor,
-        redundancyIndex: newRedundancy,
-        lastMessageHash: messageHash,
-        cardiacPulse: Math.max(0.3, Math.min(1, 0.5 + (sensitivity * 0.3)))
-      };
-    });
-
-    // Score calculation is now delegated to the backend.
-    
-    // Small chance to improve rank (visual only, real rank is on backend)
-    if (Math.random() < 0.3 && currentRank > 1) {
-      setCurrentRank((prev: number) => Math.max(1, prev - Math.floor(Math.random() * 5)));
-    }
-    
     try {
       // If it's the first message, a new narrative sequence unfolds.
       if (isFirstMessage) {
-        setIsLoading(true); // Ensures the input field remains blocked
+        setIsLoading(true);
+        playSendSound();
+        
+        const userMessage: SystemMessage = {
+          id: Date.now().toString(),
+          role: 'user',
+          content: input,
+          timestamp: new Date(),
+          cardiacPulse: emotionalState.cardiacPulse
+        };
+        
+        setMessages(prev => [...prev, userMessage]);
+        setInput('');
 
         const addMessageWithDelay = (content: string, delay: number, role: 'assistant' | 'user' = 'assistant') => {
           return new Promise(resolve => {
@@ -1022,6 +986,20 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
       } else {
         // For subsequent messages, block only if no CRU available
+        console.log('[DEBUG] Envoi de message - État:', {
+          localFragments,
+          isCandidate,
+          isFirstMessage,
+          input: input.trim()
+        });
+        
+        // Si l'utilisateur a des CRU mais n'est pas candidat, le marquer automatiquement
+        if (localFragments > 0 && !isCandidate) {
+          console.log('[DEBUG] Utilisateur avec CRU mais pas candidat - activation automatique');
+          setIsCandidate(true);
+          localStorage.setItem('hoshima-candidate-status', 'true');
+        }
+        
         if (localFragments <= 0) {
             setIsLoading(true);
             setTimeout(() => { // Dramatic effect
@@ -1040,22 +1018,20 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         }
         
         // If we get here, the user has CRU available
-        const currentInput = input;
-        setInput('');
         setIsLoading(true);
         playSendSound();
         
         const userMessage: SystemMessage = {
           id: Date.now().toString(),
           role: 'user',
-          content: currentInput,
+          content: input,
           timestamp: new Date(),
           cardiacPulse: emotionalState.cardiacPulse
         };
         
-        const allMessages = [...messages, userMessage];
-        setMessages(allMessages);
-
+        setMessages(prev => [...prev, userMessage]);
+        setInput('');
+        
         // Decrement CRU
         const newFragments = localFragments - 1;
         setLocalFragments(newFragments);
@@ -1064,7 +1040,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         }
         
         // Logic for subsequent messages: backend call
-        const data = await userService.sendMessage(allMessages);
+        const data = await userService.sendMessage([...messages, userMessage]);
 
         if (data.error) {
           throw new Error(data.error);

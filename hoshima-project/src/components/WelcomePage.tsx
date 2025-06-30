@@ -614,7 +614,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
             {/* Message for Kaelen - he is watching you now */}
             {showTransmissionInterface && !isSubTerminalOpen && (
               <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/30 text-xs font-mono animate-fade-in" style={{ animationDelay: '1s' }}>
-                [ He sees you now. The fourth wall has evaporated. ]
+                {t('welcome.heSeesYou')}
               </div>
             )}
           </div>

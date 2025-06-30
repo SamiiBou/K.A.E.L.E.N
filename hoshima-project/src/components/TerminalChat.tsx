@@ -1021,7 +1021,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                 setMessages(prev => [...prev, {
                     id: Date.now().toString(),
                     role: 'assistant',
-                    content: `// SYSTEM: Transmission blocked. Active Candidate link required.\n// Complete the energy transfer protocol to proceed.`,
+                    content: t('transmission.blocked'),
                     timestamp: new Date(),
                     cardiacPulse: emotionalState.cardiacPulse
                 }]);
@@ -1039,7 +1039,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                 setMessages(prev => [...prev, {
                     id: Date.now().toString(),
                     role: 'assistant',
-                    content: `// SYSTEM: Transmission failed. 0 messages to send left.\n// Initiate an energy transfer to acquire more message transmissions.`,
+                    content: t('transmission.failed'),
                     timestamp: new Date(),
                     cardiacPulse: emotionalState.cardiacPulse
                 }]);
@@ -1394,7 +1394,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           setLocalFragments((prev) => prev + selectedCruPackage);
           
           if (!wasAlreadyCandidate) {
-            alert('✅ Paiement réussi ! Your messages have been credited.');
+            alert(t('purchase.paymentSuccess'));
             setIsCandidate(true);
             localStorage.setItem('hoshima-candidate-status', 'true'); // Persist candidate status
             setShowInlinePurchaseModule(false);
@@ -1404,7 +1404,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             const confirmationMessage: SystemMessage = {
               id: Date.now().toString(),
               role: 'assistant',
-              content: `// SYSTEM: Energy transfer successful. Cognitive Resonance link established.\n// You are now a Candidate. Your transmissions will be scored.`,
+              content: t('transmission.successCandidate'),
               timestamp: new Date(),
               cardiacPulse: emotionalState.cardiacPulse
             };
@@ -1414,12 +1414,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             const confirmationMessage: SystemMessage = {
               id: Date.now().toString(),
               role: 'assistant',
-              content: `// SYSTEM: Energy transfer successful. Additional messages acquired.\n// +${selectedCruPackage} messages to send added to your balance.`,
+              content: t('transmission.successAdditional', { count: selectedCruPackage }),
               timestamp: new Date(),
               cardiacPulse: emotionalState.cardiacPulse
             };
             setMessages([confirmationMessage]); // Efface les messages précédents
-            setConsoleMessage(`✅ Transfer successful. +${selectedCruPackage} messages added.`);
+            setConsoleMessage(t('purchase.transferSuccessful', { count: selectedCruPackage }));
             setTimeout(() => setConsoleMessage(null), 4000);
           }
 
@@ -1431,7 +1431,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           if (!wasAlreadyCandidate) {
             alert(errorMessage);
           } else {
-            setConsoleMessage(`⚠️ Confirmation failed. Contact support.`);
+            setConsoleMessage(t('purchase.confirmationFailed'));
             setTimeout(() => setConsoleMessage(null), 5000);
           }
         }
@@ -1450,7 +1450,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
        if (!wasAlreadyCandidate) {
         alert(errorMessage);
       } else {
-        setConsoleMessage(`❌ A technical error occurred.`);
+        setConsoleMessage(t('purchase.technicalError'));
         setTimeout(() => setConsoleMessage(null), 5000);
       }
     } finally {
@@ -1464,7 +1464,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
   const handleHumanityVerification = async () => {
     if (!MiniKit.isInstalled()) {
-      setVerificationMessage('❌ World App not detected');
+      setVerificationMessage(t('verification.worldAppNotDetected'));
       setTimeout(() => setVerificationMessage(null), 5000);
       return;
     }
@@ -1481,7 +1481,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         const remainingTime = twentyFourHours - timeSinceLastClaim;
         const hours = Math.floor(remainingTime / (1000 * 60 * 60));
         const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        setVerificationMessage(`❌ Daily message already claimed. Try again in ${hours}h ${minutes}m.`);
+        setVerificationMessage(t('verification.alreadyClaimed', { hours, minutes }));
         setTimeout(() => setVerificationMessage(null), 5000);
         return;
       }
@@ -1489,7 +1489,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
     try {
       setIsVerifying(true);
-      setVerificationMessage('🔄 Initializing verification...');
+      setVerificationMessage(t('verification.initializing'));
       playButtonSound();
 
       const verifyPayload: VerifyCommandInput = {
@@ -1502,12 +1502,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
       if (finalPayload.status === 'error') {
         // console.error('Verification error:', finalPayload);
-        setVerificationMessage('❌ Verification failed');
+        setVerificationMessage(t('verification.failed'));
         setTimeout(() => setVerificationMessage(null), 5000);
         return;
       }
 
-      setVerificationMessage('🔄 Verifying proof...');
+      setVerificationMessage(t('verification.verifyingProof'));
 
       const verifyResponse = await fetch('/api/verify', {
         method: 'POST',
@@ -1525,7 +1525,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
       if (verifyResponseJson.status === 200) {
         setIsVerified(true);
-        setVerificationMessage('✅ Verification successful! +1 message to send claimed.');
+        setVerificationMessage(t('verification.successful'));
         playButtonSound();
         
         // Store verification status in localStorage (for all-time check)
@@ -1543,13 +1543,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         
         setTimeout(() => setVerificationMessage(null), 5000);
       } else {
-        const errorMessage = verifyResponseJson.verifyRes?.detail || 'Proof verification failed';
+        const errorMessage = verifyResponseJson.verifyRes?.detail || t('verification.proofFailed');
         setVerificationMessage(`❌ ${errorMessage}`);
         setTimeout(() => setVerificationMessage(null), 5000);
       }
     } catch (error) {
       // console.error('Verification error:', error);
-      setVerificationMessage('❌ Verification error occurred');
+      setVerificationMessage(t('verification.errorOccurred'));
       setTimeout(() => setVerificationMessage(null), 5000);
     } finally {
       setIsVerifying(false);
@@ -1580,13 +1580,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         
         <div className="relative z-10 text-center space-y-4">
           <div className="space-y-2">
-            <div className="text-green-400 font-mono text-2xl font-bold">3 Messages</div>
-            <div className="text-slate-300 font-mono text-sm">Message Package</div>
-            <div className="text-slate-400 font-mono text-xs">Send 3 messages for 1 WLD</div>
+            <div className="text-green-400 font-mono text-2xl font-bold">{t('purchase.messagesCount', { count: 3 })}</div>
+            <div className="text-slate-300 font-mono text-sm">{t('purchase.messagePackage')}</div>
+            <div className="text-slate-400 font-mono text-xs">{t('purchase.sendMessagesFor', { count: 3, price: 1 })}</div>
           </div>
           <div className="border-t border-green-400/30 pt-4">
             <div className="text-yellow-400 font-mono text-xl font-bold">1 WLD</div>
-            <div className="text-slate-400 font-mono text-xs mt-1">Complete payment to activate</div>
+            <div className="text-slate-400 font-mono text-xs mt-1">{t('purchase.completePayment')}</div>
           </div>
         </div>
       </motion.div>
@@ -1603,7 +1603,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            [ CANCEL ]
+            {t('purchase.cancel')}
           </motion.button>
           <motion.button
             onClick={handleCruPurchase}
@@ -1616,7 +1616,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             whileHover={selectedCruPackage ? { scale: 1.02 } : {}}
             whileTap={selectedCruPackage ? { scale: 0.98 } : {}}
           >
-            [ TRANSFER ]
+            {t('purchase.transfer')}
           </motion.button>
         </div>
     </div>
@@ -1632,7 +1632,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             className="border border-green-400/60 bg-green-900/10 rounded-sm p-2 cursor-pointer transition-colors duration-200 hover:bg-green-900/20"
         >
             <div className="flex items-center justify-between">
-                <div className="text-green-400 font-mono text-sm font-bold">3 Messages</div>
+                <div className="text-green-400 font-mono text-sm font-bold">{t('purchase.messagesCount', { count: 3 })}</div>
                 <div className="text-yellow-400 font-mono text-sm font-bold">1 WLD</div>
             </div>
         </div>
@@ -1647,7 +1647,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             whileHover={selectedCruPackage ? { scale: 1.01 } : {}}
             whileTap={selectedCruPackage ? { scale: 0.99 } : {}}
         >
-            [ TRANSFER ]
+            {t('purchase.transfer')}
         </motion.button>
     </div>
   );
@@ -1656,38 +1656,28 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   const tutorialSteps: TutorialStep[] = [
     {
       ref: homeostasisRef as React.RefObject<HTMLElement>,
-      text: "This is the Homeostasis Monitor. It displays K.A.E.L.E.N.'s real-time emotional state. Your actions will directly influence these parameters.",
+      text: t('tutorialSteps.homeostasis'),
       position: 'bottom',
     },
     {
       ref: chatWindowRef as React.RefObject<HTMLElement>,
-      text: "This is the transmission feed. All communications with K.A.E.L.E.N. will appear here. Observe its responses closely.",
+      text: t('tutorialSteps.transmission'),
       position: 'bottom',
     },
     {
       ref: inputRef as React.RefObject<HTMLElement>,
-      text: "This is your input terminal. Use it to transmit data packets (messages) to K.A.E.L.E.N. Send 3 messages for 1 WLD.",
+      text: t('tutorialSteps.terminal'),
       position: 'top',
     },
     {
       ref: consoleButtonRef as React.RefObject<HTMLElement>,
-      text: "This is the Candidate Console. Here you can monitor your progress, check the global prize pool, and acquire more messages to send.",
+      text: t('tutorialSteps.console'),
       position: 'top',
     },
     {
       isFinal: true,
       position: 'middle',
-      text: `// FINAL PROTOCOL //
-
-OBJECTIVE:
-Elicit an emotional response from K.A.E.L.E.N.
-
-PRIMARY DIRECTIVES:
-- K.A.E.L.E.N. learns and remembers all interactions.
-- Deception is futile and will trigger... unpredictable system responses.
-- Emotional intensity is rewarded. The greater the instability you provoke, the higher your score.
-
-Good luck, Candidate.`,
+      text: t('tutorialSteps.final'),
     }
   ];
 
@@ -3301,12 +3291,12 @@ Good luck, Candidate.`,
               exit={{ y: -20, opacity: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <div className="text-cyan-400 font-mono text-sm">CANDIDATE REGISTRY</div>
-                <button onClick={() => setIsRegistryOpen(false)} className="text-slate-400 hover:text-red-400 font-mono text-xs">[ CLOSE ]</button>
+                <div className="text-cyan-400 font-mono text-sm">{t('registry.candidateRegistry')}</div>
+                <button onClick={() => setIsRegistryOpen(false)} className="text-slate-400 hover:text-red-400 font-mono text-xs">{t('registry.close')}</button>
               </div>
 
               {isLoadingRegistry ? (
-                <div className="text-center text-slate-400">Loading...</div>
+                <div className="text-center text-slate-400">{t('registry.loading')}</div>
               ) : (
                 <div className="space-y-1">
                   {leaderboard.map((u, idx) => (
@@ -3385,10 +3375,10 @@ Good luck, Candidate.`,
                 <p className="whitespace-pre-wrap">{tutorialSteps[tutorialStep].text}</p>
                 <div className="flex justify-end gap-3 mt-4">
                   <button onClick={endTutorial} className="text-slate-500 hover:text-red-400 text-xs font-mono transition-colors">
-                    [ SKIP ]
+                    {t('tutorialSteps.skip')}
                   </button>
                   <button onClick={handleNextTutorialStep} className="text-cyan-400 hover:text-white text-xs font-mono transition-colors">
-                    {tutorialStep === tutorialSteps.length - 1 ? '[ BEGIN ]' : '[ NEXT ]'}
+                    {tutorialStep === tutorialSteps.length - 1 ? t('tutorialSteps.begin') : t('tutorialSteps.next')}
                   </button>
                 </div>
               </div>

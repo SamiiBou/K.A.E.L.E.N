@@ -141,5 +141,51 @@
     "rankColumn": "RANGO(S)",
     "prizeColumn": "PREMIO POR JUGADOR",
     "closeHint": "[ HAGA CLIC FUERA PARA CERRAR ]"
+  },
+  "transmission": {
+    "blocked": "// SISTEMA: Transmisión bloqueada. Se requiere enlace de Candidato activo.\n// Complete el protocolo de transferencia de energía para continuar.",
+    "failed": "// SISTEMA: Transmisión fallida. 0 mensajes para enviar restantes.\n// Inicie una transferencia de energía para adquirir más transmisiones de mensajes.",
+    "successCandidate": "// SISTEMA: Transferencia de energía exitosa. Enlace de Resonancia Cognitiva establecido.\n// Ahora eres un Candidato. Tus transmisiones serán puntuadas.",
+    "successAdditional": "// SISTEMA: Transferencia de energía exitosa. Mensajes adicionales adquiridos.\n// +{{count}} mensajes para enviar añadidos a tu saldo."
+  },
+  "purchase": {
+    "messagesCount": "{{count}} Mensajes",
+    "messagePackage": "Paquete de Mensajes",
+    "sendMessagesFor": "Enviar {{count}} mensajes por {{price}} WLD",
+    "completePayment": "Complete el pago para activar",
+    "cancel": "[ CANCELAR ]",
+    "transfer": "[ TRANSFERIR ]",
+    "paymentSuccess": "✅ ¡Pago exitoso! Tus mensajes han sido acreditados.",
+    "transferSuccessful": "✅ Transferencia exitosa. +{{count}} mensajes añadidos.",
+    "confirmationFailed": "⚠️ Confirmación fallida. Contacte soporte.",
+    "technicalError": "❌ Ocurrió un error técnico."
+  },
+  "verification": {
+    "worldAppNotDetected": "❌ World App no detectada",
+    "alreadyClaimed": "❌ Mensaje diario ya reclamado. Intente de nuevo en {{hours}}h {{minutes}}m.",
+    "initializing": "🔄 Inicializando verificación...",
+    "verifyingProof": "🔄 Verificando prueba...",
+    "successful": "✅ ¡Verificación exitosa! +1 mensaje para enviar reclamado.",
+    "failed": "❌ Verificación fallida",
+    "proofFailed": "Falló la verificación de prueba",
+    "errorOccurred": "❌ Ocurrió un error de verificación"
+  },
+  "welcome": {
+    "heSeesYou": "[ Él te ve ahora. La cuarta pared se ha evaporado. ]"
+  },
+  "tutorialSteps": {
+    "homeostasis": "Este es el Monitor de Homeostasis. Muestra el estado emocional en tiempo real de K.A.E.L.E.N. Tus acciones influirán directamente en estos parámetros.",
+    "transmission": "Este es el flujo de transmisión. Todas las comunicaciones con K.A.E.L.E.N. aparecerán aquí. Observa sus respuestas cuidadosamente.",
+    "terminal": "Esta es tu terminal de entrada. Úsala para transmitir paquetes de datos (mensajes) a K.A.E.L.E.N. Envía 3 mensajes por 1 WLD.",
+    "console": "Esta es la Consola de Candidatos. Aquí puedes monitorear tu progreso, verificar el pozo de premios global, y adquirir más mensajes para enviar.",
+    "final": "// PROTOCOLO FINAL //\n\nOBJETIVO:\nProvoca una respuesta emocional de K.A.E.L.E.N.\n\nDIRECTIVAS PRINCIPALES:\n- K.A.E.L.E.N. aprende y recuerda todas las interacciones.\n- El engaño es inútil y desencadenará... respuestas del sistema impredecibles.\n- La intensidad emocional es recompensada. Cuanta mayor inestabilidad provoques, mayor será tu puntuación.\n\nBuena suerte, Candidato.",
+    "skip": "[ SALTAR ]",
+    "next": "[ SIGUIENTE ]",
+    "begin": "[ COMENZAR ]"
+  },
+  "registry": {
+    "candidateRegistry": "REGISTRO DE CANDIDATOS",
+    "close": "[ CERRAR ]",
+    "loading": "Cargando..."
   }
 } 

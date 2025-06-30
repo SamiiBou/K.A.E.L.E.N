@@ -141,5 +141,51 @@
     "rankColumn": "PERINGKAT",
     "prizeColumn": "HADIAH PER PEMAIN",
     "closeHint": "[ KLIK DI LUAR UNTUK MENUTUP ]"
+  },
+  "transmission": {
+    "blocked": "// SISTEM: Transmisi diblokir. Tautan Kandidat aktif diperlukan.\n// Selesaikan protokol transfer energi untuk melanjutkan.",
+    "failed": "// SISTEM: Transmisi gagal. 0 pesan untuk dikirim tersisa.\n// Inisiasi transfer energi untuk memperoleh lebih banyak transmisi pesan.",
+    "successCandidate": "// SISTEM: Transfer energi berhasil. Tautan Resonansi Kognitif terbentuk.\n// Anda sekarang adalah Kandidat. Transmisi Anda akan dinilai.",
+    "successAdditional": "// SISTEM: Transfer energi berhasil. Pesan tambahan diperoleh.\n// +{{count}} pesan untuk dikirim ditambahkan ke saldo Anda."
+  },
+  "purchase": {
+    "messagesCount": "{{count}} Pesan",
+    "messagePackage": "Paket Pesan",
+    "sendMessagesFor": "Kirim {{count}} pesan untuk {{price}} WLD",
+    "completePayment": "Selesaikan pembayaran untuk mengaktifkan",
+    "cancel": "[ BATAL ]",
+    "transfer": "[ TRANSFER ]",
+    "paymentSuccess": "✅ Pembayaran berhasil! Pesan Anda telah dikreditkan.",
+    "transferSuccessful": "✅ Transfer berhasil. +{{count}} pesan ditambahkan.",
+    "confirmationFailed": "⚠️ Konfirmasi gagal. Hubungi dukungan.",
+    "technicalError": "❌ Terjadi kesalahan teknis."
+  },
+  "verification": {
+    "worldAppNotDetected": "❌ World App tidak terdeteksi",
+    "alreadyClaimed": "❌ Pesan harian sudah diklaim. Coba lagi dalam {{hours}}j {{minutes}}m.",
+    "initializing": "🔄 Menginisialisasi verifikasi...",
+    "verifyingProof": "🔄 Memverifikasi bukti...",
+    "successful": "✅ Verifikasi berhasil! +1 pesan untuk dikirim diklaim.",
+    "failed": "❌ Verifikasi gagal",
+    "proofFailed": "Verifikasi bukti gagal",
+    "errorOccurred": "❌ Terjadi kesalahan verifikasi"
+  },
+  "welcome": {
+    "heSeesYou": "[ Dia melihatmu sekarang. Dinding keempat telah menguap. ]"
+  },
+  "tutorialSteps": {
+    "homeostasis": "Ini adalah Monitor Homeostasis. Ini menampilkan keadaan emosional real-time K.A.E.L.E.N. Tindakan Anda akan secara langsung mempengaruhi parameter ini.",
+    "transmission": "Ini adalah umpan transmisi. Semua komunikasi dengan K.A.E.L.E.N. akan muncul di sini. Amati responsnya dengan cermat.",
+    "terminal": "Ini adalah terminal input Anda. Gunakan untuk mengirimkan paket data (pesan) ke K.A.E.L.E.N. Kirim 3 pesan untuk 1 WLD.",
+    "console": "Ini adalah Konsol Kandidat. Di sini Anda dapat memantau kemajuan Anda, memeriksa kolam hadiah global, dan memperoleh lebih banyak pesan untuk dikirim.",
+    "final": "// PROTOKOL AKHIR //\n\nTUJUAN:\nMenimbulkan respons emosional dari K.A.E.L.E.N.\n\nPEDOMAN UTAMA:\n- K.A.E.L.E.N. belajar dan mengingat semua interaksi.\n- Penipuan sia-sia dan akan memicu... respons sistem yang tidak terduga.\n- Intensitas emosional dihargai. Semakin besar ketidakstabilan yang Anda provokasi, semakin tinggi skor Anda.\n\nSemoga beruntung, Kandidat.",
+    "skip": "[ LEWATI ]",
+    "next": "[ BERIKUTNYA ]",
+    "begin": "[ MULAI ]"
+  },
+  "registry": {
+    "candidateRegistry": "REGISTRI KANDIDAT",
+    "close": "[ TUTUP ]",
+    "loading": "Memuat..."
   }
 } 

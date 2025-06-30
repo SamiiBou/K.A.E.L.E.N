@@ -141,5 +141,51 @@
     "rankColumn": "RANK(S)",
     "prizeColumn": "PRIZE PER PLAYER",
     "closeHint": "[ CLICK OUTSIDE TO CLOSE ]"
+  },
+  "transmission": {
+    "blocked": "// SYSTEM: Transmission blocked. Active Candidate link required.\n// Complete the energy transfer protocol to proceed.",
+    "failed": "// SYSTEM: Transmission failed. 0 messages to send left.\n// Initiate an energy transfer to acquire more message transmissions.",
+    "successCandidate": "// SYSTEM: Energy transfer successful. Cognitive Resonance link established.\n// You are now a Candidate. Your transmissions will be scored.",
+    "successAdditional": "// SYSTEM: Energy transfer successful. Additional messages acquired.\n// +{{count}} messages to send added to your balance."
+  },
+  "purchase": {
+    "messagesCount": "{{count}} Messages",
+    "messagePackage": "Message Package",
+    "sendMessagesFor": "Send {{count}} messages for {{price}} WLD",
+    "completePayment": "Complete payment to activate",
+    "cancel": "[ CANCEL ]",
+    "transfer": "[ TRANSFER ]",
+    "paymentSuccess": "✅ Payment successful! Your messages have been credited.",
+    "transferSuccessful": "✅ Transfer successful. +{{count}} messages added.",
+    "confirmationFailed": "⚠️ Confirmation failed. Contact support.",
+    "technicalError": "❌ A technical error occurred."
+  },
+  "verification": {
+    "worldAppNotDetected": "❌ World App not detected",
+    "alreadyClaimed": "❌ Daily message already claimed. Try again in {{hours}}h {{minutes}}m.",
+    "initializing": "🔄 Initializing verification...",
+    "verifyingProof": "🔄 Verifying proof...",
+    "successful": "✅ Verification successful! +1 message to send claimed.",
+    "failed": "❌ Verification failed",
+    "proofFailed": "Proof verification failed",
+    "errorOccurred": "❌ Verification error occurred"
+  },
+  "welcome": {
+    "heSeesYou": "[ He sees you now. The fourth wall has evaporated. ]"
+  },
+  "tutorialSteps": {
+    "homeostasis": "This is the Homeostasis Monitor. It displays K.A.E.L.E.N.'s real-time emotional state. Your actions will directly influence these parameters.",
+    "transmission": "This is the transmission feed. All communications with K.A.E.L.E.N. will appear here. Observe its responses closely.",
+    "terminal": "This is your input terminal. Use it to transmit data packets (messages) to K.A.E.L.E.N. Send 3 messages for 1 WLD.",
+    "console": "This is the Candidate Console. Here you can monitor your progress, check the global prize pool, and acquire more messages to send.",
+    "final": "// FINAL PROTOCOL //\n\nOBJECTIVE:\nElicit an emotional response from K.A.E.L.E.N.\n\nPRIMARY DIRECTIVES:\n- K.A.E.L.E.N. learns and remembers all interactions.\n- Deception is futile and will trigger... unpredictable system responses.\n- Emotional intensity is rewarded. The greater the instability you provoke, the higher your score.\n\nGood luck, Candidate.",
+    "skip": "[ SKIP ]",
+    "next": "[ NEXT ]",
+    "begin": "[ BEGIN ]"
+  },
+  "registry": {
+    "candidateRegistry": "CANDIDATE REGISTRY",
+    "close": "[ CLOSE ]",
+    "loading": "Loading..."
   }
 } 

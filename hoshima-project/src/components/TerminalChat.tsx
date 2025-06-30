@@ -1677,17 +1677,17 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     {
       isFinal: true,
       position: 'middle',
-      text: `// FINAL PROTOCOL //
+      text: `${t('chat.finalProtocol')}
 
-OBJECTIVE:
-Elicit an emotional response from K.A.E.L.E.N.
+${t('tutorial.finalObjective')}
+${t('tutorial.finalObjectiveText')}
 
-PRIMARY DIRECTIVES:
-- K.A.E.L.E.N. learns and remembers all interactions.
-- Deception is futile and will trigger... unpredictable system responses.
-- Emotional intensity is rewarded. The greater the instability you provoke, the higher your score.
+${t('tutorial.finalDirectives')}
+${t('tutorial.finalDirective1')}
+${t('tutorial.finalDirective2')}
+${t('tutorial.finalDirective3')}
 
-Good luck, Candidate.`,
+${t('tutorial.finalLuck')}`,
     }
   ];
 
@@ -2722,12 +2722,12 @@ Good luck, Candidate.`,
                           handleCruPurchase();
                         }}
                       >
-                        [ SEND 3 MESSAGES FOR 1 WLD ]
+                        {t('chat.sendMessages')}
                       </motion.button>
                       
                       {/* Human Verification Status */}
                       <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
-                        <span className="text-slate-400 text-xs font-mono">Human Verification:</span>
+                        <span className="text-slate-400 text-xs font-mono">{t('chat.humanVerification')}</span>
                         <motion.span 
                           className={`font-mono text-sm font-bold ${isVerified ? 'text-cyan-300' : 'text-red-300'}`}
                           animate={{
@@ -2739,7 +2739,7 @@ Good luck, Candidate.`,
                           }}
                           transition={{ duration: 2, repeat: isVerified ? Infinity : 0 }}
                         >
-                          {isVerified ? '✓ VERIFIED' : '✗ UNVERIFIED'}
+                          {isVerified ? t('chat.verified') : t('chat.unverified')}
                         </motion.span>
                       </div>
                       
@@ -2754,7 +2754,7 @@ Good luck, Candidate.`,
                         onClick={handleHumanityVerification}
                         disabled={isVerifying}
                       >
-                        {isVerifying ? '[ VERIFYING... ]' : isVerified ? '[ CLAIM DAILY MESSAGE ]' : '[ VERIFY FOR 1 MESSAGE ]'}
+                        {isVerifying ? `[ ${t('chat.verifying')} ]` : isVerified ? t('chat.claimDaily') : t('chat.verifyMessage')}
                       </motion.button>
                       
                       {verificationMessage && (
@@ -2869,7 +2869,7 @@ Good luck, Candidate.`,
           
           {/* Texte court */}
           <span className="text-cyan-400 font-mono text-xs tracking-wide">
-            {isSubTerminalExpanded ? 'CLOSE' : t('chat.console')}
+            {isSubTerminalExpanded ? t('chat.close') : t('chat.console')}
           </span>
         </motion.button>
 

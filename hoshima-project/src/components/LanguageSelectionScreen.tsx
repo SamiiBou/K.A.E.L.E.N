@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', greeting: 'Welcome' },
@@ -15,6 +16,7 @@ interface LanguageSelectionScreenProps {
 }
 
 export default function LanguageSelectionScreen({ onLanguageSelected }: LanguageSelectionScreenProps) {
+  const { t } = useLanguage();
   const [selectedLang, setSelectedLang] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
@@ -198,7 +200,7 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
               className="text-center"
             >
               <div className="text-cyan-400 font-mono text-2xl tracking-wider mb-4">
-                INITIALIZING
+                {t('chat.initializing')}
               </div>
               <div className="flex justify-center space-x-2">
                 {[0, 1, 2].map((i) => (

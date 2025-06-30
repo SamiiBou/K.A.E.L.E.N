@@ -464,3 +464,45 @@ body {
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
+
+/* Enhanced scanning line animation for KAELEN title */
+@keyframes scan-line {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Scanning line animation for wallet button */
+@keyframes scan-line-button {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-scan-line-button {
+  animation: scan-line-button 2s ease-in-out infinite;
+  animation-delay: 1s;
+  top: 50%;
+  transform: translateY(-50%);
+}

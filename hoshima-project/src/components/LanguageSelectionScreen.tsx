@@ -121,13 +121,13 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
       </div>
 
       {/* Main terminal interface */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-8">
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-4 py-8">
         {/* Terminal header */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="mb-8"
+          className="mb-6"
         >
           <div className="bg-black/80 border border-cyan-500/50 rounded-t-lg p-4 backdrop-blur-sm">
             <div className="flex items-center justify-between">
@@ -151,25 +151,23 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className={`bg-black/90 border-x border-b border-cyan-500/50 rounded-b-lg p-8 backdrop-blur-sm relative overflow-hidden ${
+          className={`bg-black/90 border-x border-b border-cyan-500/50 rounded-b-lg p-6 backdrop-blur-sm relative overflow-hidden ${
             glitchActive ? 'animate-pulse' : ''
           }`}
         >
           {/* Terminal prompt */}
-          <div className="mb-6">
+          <div className="mb-4">
             <div className="text-cyan-400 text-sm mb-2">
               <span className="text-cyan-500/60">root@kaelen:~$ </span>
               <span className="animate-pulse">init_language_selection</span>
             </div>
-            <div className="text-white/80 text-sm mb-4">
-              // SYSTEM INITIALIZATION REQUIRES LANGUAGE CONFIGURATION
-              <br />
+            <div className="text-white/80 text-sm mb-3">
               // SELECT PRIMARY INTERFACE LANGUAGE
             </div>
           </div>
 
           {/* Language grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
             {languages.map((lang, index) => (
               <motion.button
                 key={lang.code}
@@ -180,7 +178,7 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
                 disabled={isTransitioning}
                 onMouseEnter={() => playSound(400 + index * 50, 0.1)}
                 className={`
-                  relative group p-4 bg-black/60 border transition-all duration-300
+                  relative group p-3 bg-black/60 border transition-all duration-300
                   ${selectedLang === lang.code 
                     ? 'border-cyan-400 bg-cyan-400/20 shadow-lg shadow-cyan-400/20' 
                     : 'border-gray-700/50 hover:border-cyan-400/70 hover:bg-cyan-400/10'
@@ -194,9 +192,9 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
                 )}
 
                 <div className="text-center">
-                  <div className="text-2xl mb-2">{lang.flag}</div>
+                  <div className="text-xl mb-1">{lang.flag}</div>
                   <div className="text-cyan-400 text-xs font-mono mb-1">[{lang.terminal}]</div>
-                  <div className="text-white/90 text-sm font-mono">{lang.name}</div>
+                  <div className="text-white/90 text-xs font-mono">{lang.name}</div>
                 </div>
 
                 {/* Hover effect */}
@@ -210,16 +208,15 @@ export default function LanguageSelectionScreen({ onLanguageSelected }: Language
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="space-y-1 text-xs text-gray-500/80"
+            className="space-y-1 text-xs text-gray-500/80 mb-3"
           >
             <div>// AVAILABLE LANGUAGES: {languages.length} DETECTED</div>
-            <div>// NEURAL INTERFACE: READY</div>
             <div>// WAITING FOR USER INPUT...</div>
           </motion.div>
 
           {/* Terminal cursor */}
           <motion.div
-            className="mt-4 flex items-center"
+            className="flex items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}

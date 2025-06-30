@@ -761,6 +761,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           setLocalFragments(usr.cruBalance);
           if (onFragmentsUpdate) onFragmentsUpdate(usr.cruBalance);
           // console.log('🔧 [TerminalChat] Solde CRU synchronisé:', usr.cruBalance);
+          
+          // Si l'utilisateur a des crédits, le marquer automatiquement comme candidat
+          if (usr.cruBalance > 0 && !isCandidate) {
+            setIsCandidate(true);
+            localStorage.setItem('hoshima-candidate-status', 'true');
+            // console.log('🔧 [TerminalChat] Utilisateur avec crédits - statut candidat activé');
+          }
         }
         
         // console.log('🔧 [TerminalChat] Démarrage nouvelle conversation');
@@ -1014,14 +1021,14 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         })();
 
       } else {
-        // For subsequent messages, block if not a candidate
-        if (!isCandidate) {
+        // For subsequent messages, block only if no CRU available
+        if (localFragments <= 0) {
             setIsLoading(true);
             setTimeout(() => { // Dramatic effect
                 setMessages(prev => [...prev, {
                     id: Date.now().toString(),
                     role: 'assistant',
-                    content: t('transmission.blocked'),
+                    content: !isCandidate ? t('transmission.blocked') : t('transmission.failed'),
                     timestamp: new Date(),
                     cardiacPulse: emotionalState.cardiacPulse
                 }]);
@@ -1032,24 +1039,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             return; // Block sending
         }
         
-        // Block if no more CRU
-        if (isCandidate && localFragments <= 0) {
-            setIsLoading(true);
-            setTimeout(() => {
-                setMessages(prev => [...prev, {
-                    id: Date.now().toString(),
-                    role: 'assistant',
-                    content: t('transmission.failed'),
-                    timestamp: new Date(),
-                    cardiacPulse: emotionalState.cardiacPulse
-                }]);
-                setShowInlinePurchaseModule(true);
-                setIsLoading(false);
-            }, 500);
-            return;
-        }
-        
-        // If we get here, the user is a candidate.
+        // If we get here, the user has CRU available
         const currentInput = input;
         setInput('');
         setIsLoading(true);
@@ -1440,7 +1430,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         if (!wasAlreadyCandidate) {
           alert(errorDetails);
         } else {
-          setConsoleMessage(`❌ ${errorDetails}`);
+          setConsoleMessage(t('purchase.technicalError'));
           setTimeout(() => setConsoleMessage(null), 5000);
         }
       }
@@ -1539,6 +1529,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         setLocalFragments(newFragments);
         if (onFragmentsUpdate) {
           onFragmentsUpdate(newFragments);
+        }
+        
+        // Si l'utilisateur n'était pas candidat, le marquer comme tel
+        if (!isCandidate) {
+          setIsCandidate(true);
+          localStorage.setItem('hoshima-candidate-status', 'true');
         }
         
         setTimeout(() => setVerificationMessage(null), 5000);
@@ -1711,7 +1707,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   // Effet pour mettre à jour la position du highlight et de la text box du tutoriel
   useEffect(() => {
-    // console.log('[Tutorial] 🎨 useEffect positionnement - showTutorial:', showTutorial);
+    // console.log('[Tutorial] �� useEffect positionnement - showTutorial:', showTutorial);
     if (!showTutorial) {
       // console.log('[Tutorial] showTutorial est false - Pas de positionnement');
       return;

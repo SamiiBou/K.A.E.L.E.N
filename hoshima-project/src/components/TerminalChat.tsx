@@ -1310,42 +1310,108 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       const { id } = await initRes.json();
       console.log('[PAY][FRONT] ① Received reference id', id);
 
-      // 2) Prépare la charge utile PayCommandInput
+      // 2) Prépare la charge utile selon la langue
       const wldAmount = 1; // Always 1 WLD for 3 CRU
-      const payload: PayCommandInput = {
-        reference: id,
-        to: '0x21bee69e692ceb4c02b66c7a45620684904ba395', // REMPLACER PAR VOTRE ADRESSE DE TRÉSORERIE
-        tokens: [
-          {
-            symbol: Tokens.WLD,
-            token_amount: tokenToDecimals(wldAmount, Tokens.WLD).toString(),
-          },
-        ],
-        description: `Send ${selectedCruPackage} messages for 1 WLD`,
-      } as PayCommandInput;
-      console.log('[PAY][FRONT] ② Prepared PayCommandInput', payload);
-
+      
       if (!MiniKit.isInstalled()) {
         console.warn('[PAY][FRONT] World App / MiniKit not detected');
         alert('World App est requis pour effectuer ce paiement');
         return;
       }
 
-      // 3) Envoie la commande pay via MiniKit
-      console.log('[PAY][FRONT] ③ Executing MiniKit.commandsAsync.pay');
-      const { finalPayload } = await MiniKit.commandsAsync.pay(payload);
-      console.log('[PAY][FRONT] ③ MiniKit finalPayload', finalPayload);
+      let finalPayload: any;
+      
+      // Pour les utilisateurs indonésiens, utiliser sendTransaction (transfer direct)
+      if (locale === 'id') {
+        console.log('[PAY][FRONT] ② Indonesian user - Using sendTransaction for direct transfer');
+        
+        // Configuration du transfert
+        const recipientAddress = '0x21bee69e692ceb4c02b66c7a45620684904ba395';
+        const wldTokenAddress = '0x2cFc85d8E48F8EAB294be644d9E25C3030863003';
+        const amount = tokenToDecimals(wldAmount, Tokens.WLD);
+        
+        // ABI minimal pour la fonction transfer
+        const erc20ABI = [
+          {
+            "inputs": [
+              { "name": "to", "type": "address" },
+              { "name": "amount", "type": "uint256" }
+            ],
+            "name": "transfer",
+            "outputs": [{ "name": "", "type": "bool" }],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ] as const;
+
+        console.log('[PAY][FRONT] ② Prepared sendTransaction payload', {
+          to: recipientAddress,
+          amount: amount.toString(),
+          token: wldTokenAddress
+        });
+        
+        // 3) Envoie la commande sendTransaction via MiniKit
+        console.log('[PAY][FRONT] ③ Executing MiniKit.commandsAsync.sendTransaction');
+        const result = await MiniKit.commandsAsync.sendTransaction({
+          transaction: [
+            {
+              address: wldTokenAddress,
+              abi: erc20ABI,
+              functionName: 'transfer',
+              args: [recipientAddress, amount],
+            },
+          ],
+        });
+        
+        finalPayload = result.finalPayload;
+        console.log('[PAY][FRONT] ③ MiniKit sendTransaction finalPayload', finalPayload);
+      } else {
+        // Pour les autres langues, utiliser pay (comportement normal)
+        console.log('[PAY][FRONT] ② Non-Indonesian user - Using pay command');
+        
+        const payload: PayCommandInput = {
+          reference: id,
+          to: '0x21bee69e692ceb4c02b66c7a45620684904ba395',
+          tokens: [
+            {
+              symbol: Tokens.WLD,
+              token_amount: tokenToDecimals(wldAmount, Tokens.WLD).toString(),
+            },
+          ],
+          description: `Send ${selectedCruPackage} messages for 1 WLD`,
+        } as PayCommandInput;
+        console.log('[PAY][FRONT] ② Prepared PayCommandInput', payload);
+        
+        // 3) Envoie la commande pay via MiniKit
+        console.log('[PAY][FRONT] ③ Executing MiniKit.commandsAsync.pay');
+        const result = await MiniKit.commandsAsync.pay(payload);
+        finalPayload = result.finalPayload;
+        console.log('[PAY][FRONT] ③ MiniKit pay finalPayload', finalPayload);
+      }
 
       if (finalPayload.status === 'success') {
-        // 4) Confirmation backend
-        console.log('[PAY][FRONT] ④ Fetch /payments/confirm');
-        const confirmRes = await fetch(getApiUrl('/api/payments/confirm'), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ payload: finalPayload }),
-        });
+        // 4) Confirmation backend - Utiliser différents endpoints selon le type
+        let confirmRes;
+        
+        if (locale === 'id') {
+          // Pour les utilisateurs indonésiens, confirmer la transaction
+          console.log('[PAY][FRONT] ④ Fetch /api/confirm-transaction for Indonesian user');
+          confirmRes = await fetch('/api/confirm-transaction', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payload: finalPayload }),
+          });
+        } else {
+          // Pour les autres, confirmer le paiement normal
+          console.log('[PAY][FRONT] ④ Fetch /payments/confirm');
+          confirmRes = await fetch(getApiUrl('/api/payments/confirm'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payload: finalPayload }),
+          });
+        }
 
-        console.log('[PAY][FRONT] ④ Response /payments/confirm', {
+        console.log('[PAY][FRONT] ④ Response from confirmation endpoint', {
           ok: confirmRes.ok,
           status: confirmRes.status,
         });

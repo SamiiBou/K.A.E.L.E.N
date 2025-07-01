@@ -19,10 +19,10 @@ export default function GameIntro({ onComplete }: GameIntroProps) {
   const MIN_SPLASH_DURATION = 4; // seconds
   const preloadedVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  const videoUrl = "https://KAELEN.b-cdn.net/last_one.mp4";
+  const videoUrl = "https://KAELEN.b-cdn.net/My_Movie.mp4";
 
   // URL of the video that will be displayed in the WelcomePage background.
-  const nextVideoUrl = "https://KAELEN.b-cdn.net/My_Movie.mp4";
+  const nextVideoUrl = "https://KAELEN.b-cdn.net/last_one.mp4";
 
   /**
    * Pre-loads the next video (used in the WelcomePage) so that

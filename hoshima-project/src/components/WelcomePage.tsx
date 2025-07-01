@@ -460,7 +460,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
           onEnded={handleVideoEnd}
           preload="auto"
         >
-          <source src="https://KAELEN.b-cdn.net/My_Movie.mp4" type="video/mp4" />
+          <source src="https://KAELEN.b-cdn.net/last_one.mp4" type="video/mp4" />
           Your browser does not support video playback.
         </video>
       )}

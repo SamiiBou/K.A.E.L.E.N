@@ -421,18 +421,18 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
   }, [stopAmbientAudio, stopPianoNote]);
 
   // Eruda debugging console - DISABLED
-  // useEffect(() => {
-  //   // Initialize Eruda to allow debugging even on the home screen
-  //   if (typeof window !== 'undefined' && !(window as any).eruda) {
-  //     const script = document.createElement('script');
-  //     script.src = '//cdn.jsdelivr.net/npm/eruda';
-  //     script.onload = () => {
-  //       (window as any).eruda.init();
-  //       console.log('🔧 Eruda console (WelcomePage) enabled');
-  //     };
-  //     document.head.appendChild(script);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Initialize Eruda to allow debugging even on the home screen
+    if (typeof window !== 'undefined' && !(window as any).eruda) {
+      const script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/eruda';
+      script.onload = () => {
+        (window as any).eruda.init();
+        console.log('🔧 Eruda console (WelcomePage) enabled');
+      };
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden" style={{ height: '100vh', width: '100vw' }}>
@@ -460,7 +460,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
           onEnded={handleVideoEnd}
           preload="auto"
         >
-          <source src="https://res.cloudinary.com/detrymeup/video/upload/mu1yv5vfc0j8xcsevntj.mp4" type="video/mp4" />
+          <source src="https://KAELEN.b-cdn.net/My_Movie.mp4" type="video/mp4" />
           Your browser does not support video playback.
         </video>
       )}

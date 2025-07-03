@@ -5,6 +5,20 @@ import useWorldWalletAuth from '@/hooks/useWorldWalletAuth';
 import { AUTH_CONFIG, getApiUrl } from '@/config/constants';
 import { MiniKit, tokenToDecimals, Tokens, PayCommandInput, VerifyCommandInput, VerificationLevel, ISuccessResult } from '@worldcoin/minikit-js';
 import PrizeDistributionModal from './PrizeDistributionModal';
+import TokenRulesModal from './TokenRulesModal';
+import ECHOTokenABI from '@/abi/ECHOTokenABI.json';
+
+// Icône Telegram personnalisée
+const TelegramIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+  </svg>
+);
 
 // Ajout des imports pour l'optimisation
 import { useCallback, useMemo, memo } from 'react';
@@ -194,6 +208,16 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   const [consoleMessage, setConsoleMessage] = useState<string | null>(null);
   const [showPrizeDistributionModal, setShowPrizeDistributionModal] = useState(false);
   
+  // État pour le bouton Grab ECHO
+  const [isClaimingEcho, setIsClaimingEcho] = useState(false);
+  const [echoMessage, setEchoMessage] = useState<string | null>(null);
+  const [showTokenRules, setShowTokenRules] = useState(false);
+  
+  // État pour la balance ECHO
+  const [echoBalance, setEchoBalance] = useState(0);
+  const [lastEchoUpdate, setLastEchoUpdate] = useState<Date | null>(null);
+  const [echoRewardNotification, setEchoRewardNotification] = useState<{ amount: number, message: string } | null>(null);
+  
   // États pour le tutoriel
   const [showTutorial, setShowTutorial] = useState(false);
   const [tutorialStep, setTutorialStep] = useState(0);
@@ -224,6 +248,11 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   // Prize Pool (en WLD)
   const [prizePool, setPrizePool] = useState<number>(20);
+
+  // ECHO Token contract address
+  const ECHO_TOKEN_ADDRESS = '0xEDE26E239947d5203942b8A297E755a6B44DcdA8';
+
+  // No longer checking daily claim limit
 
   // Retrieves the current Prize Pool on component mount
   useEffect(() => {
@@ -1061,6 +1090,20 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           setPlayerScore((prev: number) => prev + data.scoreChange);
         }
         
+        // Gérer la récompense ECHO
+        if (data.echoReward?.success) {
+          setEchoBalance(data.echoReward.newBalance);
+          console.log('💰 Récompense ECHO reçue:', data.echoReward.reward);
+          
+          // Afficher une notification de récompense
+          setEchoRewardNotification({
+            amount: data.echoReward.reward,
+            message: `+${data.echoReward.reward} ECHO`
+          });
+          
+          setTimeout(() => setEchoRewardNotification(null), 3000);
+        }
+        
         // Optional: update local emotional state with backend analysis
         if (data.emotionAnalysis) {
           // This part can be refined to map color and intensity
@@ -1594,6 +1637,99 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   };
 
+  const handleGrabEcho = async () => {
+    // Vérifier si l'utilisateur a une balance à claim
+    if (echoBalance === 0) {
+      setEchoMessage(t('chat.noEchoToClaim'));
+      setTimeout(() => setEchoMessage(null), 5000);
+      return;
+    }
+
+    // Vérifier si MiniKit est installé (World App)
+    if (!MiniKit.isInstalled()) {
+      setEchoMessage(t('verification.worldAppNotDetected'));
+      setTimeout(() => setEchoMessage(null), 5000);
+      return;
+    }
+
+    try {
+      setIsClaimingEcho(true);
+      setEchoMessage(t('chat.preparingTransaction'));
+      playButtonSound();
+
+      // Obtenir l'adresse de l'utilisateur depuis World App
+      const userId = user?.userId || 'anonymous';
+      const userAddress = user?.walletAddress;
+      
+      if (!userAddress) {
+        setEchoMessage('Please connect your wallet first');
+        setTimeout(() => setEchoMessage(null), 5000);
+        setIsClaimingEcho(false);
+        return;
+      }
+      
+      // Appeler le backend pour préparer le voucher signé
+      const response = await fetch(getApiUrl('/api/echo-claim'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          userAddress: userAddress
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setEchoMessage(t('chat.alreadyClaimedToday'));
+        } else {
+          setEchoMessage(data.error || t('chat.transactionFailed'));
+        }
+        setTimeout(() => setEchoMessage(null), 5000);
+        setIsClaimingEcho(false);
+        return;
+      }
+
+      // Si le backend a retourné les données pour MiniKit
+      if (data.success && data.transaction) {
+        setEchoMessage('Sending transaction...');
+        
+        // Envoyer la transaction via MiniKit
+        const { finalPayload } = await MiniKit.commandsAsync.sendTransaction({
+          transaction: [data.transaction],
+          formatPayload: true
+        });
+
+        if (finalPayload.status === 'error') {
+          console.error('Transaction error:', finalPayload);
+          setEchoMessage(t('chat.transactionFailed'));
+          setTimeout(() => setEchoMessage(null), 5000);
+        } else {
+          // Réinitialiser la balance localement
+          setEchoBalance(0);
+          
+          setEchoMessage(`✅ ${t('chat.echoReceived')} (${echoBalance} ECHO réclamés)`);
+          console.log('Transaction sent:', finalPayload);
+          
+          // Attendre un peu plus longtemps pour le message de succès
+          setTimeout(() => setEchoMessage(null), 10000);
+        }
+      } else {
+        setEchoMessage(t('chat.transactionFailed'));
+        setTimeout(() => setEchoMessage(null), 5000);
+      }
+    } catch (error) {
+      console.error('Error claiming ECHO:', error);
+      setEchoMessage(t('chat.errorClaiming'));
+      setTimeout(() => setEchoMessage(null), 5000);
+    } finally {
+      setIsClaimingEcho(false);
+    }
+  };
+
   const renderModalCruPurchaseUI = () => (
     <div className="space-y-6">
       {/* Single Package: 3 CRU - 1 WLD */}
@@ -2088,6 +2224,39 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
     // eslint-disable-next-line
   }, [isUserAuthenticated, isAudioInitialized]);
+
+  // Fonction pour récupérer la balance ECHO
+  const fetchEchoBalance = useCallback(async () => {
+    if (!user?.userId) return;
+    
+    try {
+      const response = await fetch(getApiUrl(`/api/echo-balance/${user.userId}`));
+      const data = await response.json();
+      
+      if (data.success) {
+        setEchoBalance(data.balance || 0);
+        setLastEchoUpdate(new Date());
+        
+        // Si bonus de connexion reçu, afficher un message
+        if (data.connectionBonus?.success) {
+          console.log('🎁 Bonus de connexion reçu:', data.connectionBonus.bonus);
+        }
+      }
+    } catch (error) {
+      console.error('Erreur récupération balance ECHO:', error);
+    }
+  }, [user?.userId]);
+
+  // Récupérer la balance au chargement et à chaque changement d'utilisateur
+  useEffect(() => {
+    fetchEchoBalance();
+  }, [fetchEchoBalance]);
+  
+  // Mettre à jour la balance toutes les minutes (pour voir les récompenses horaires)
+  useEffect(() => {
+    const interval = setInterval(fetchEchoBalance, 60000); // 1 minute
+    return () => clearInterval(interval);
+  }, [fetchEchoBalance]);
 
   return (
     <div className="space-y-4 font-mono text-white relative min-h-screen">
@@ -2867,39 +3036,111 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           )}
         </AnimatePresence>
 
-        {/* Bouton Dashboard minimaliste mais clair */}
-        <motion.button
-          onClick={() => {
-            playSubTerminalSound();
-            setIsSubTerminalExpanded(!isSubTerminalExpanded);
-            if (onSubTerminalToggle) onSubTerminalToggle(!isSubTerminalExpanded);
-          }}
-          ref={consoleButtonRef}
-          className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-black/60 border border-cyan-400/40 backdrop-blur-sm rounded-sm hover:border-cyan-400/80 hover:bg-black/80 transition-all duration-200 flex items-center space-x-2"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.5 }}
-        >
-          {/* Icône Dashboard */}
+        {/* Conteneur pour les boutons en bas */}
+        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3">
+          {/* Bouton Grab ECHO avec balance */}
           <motion.div 
-            className="flex items-center space-x-1"
-            animate={{
-              rotate: isSubTerminalExpanded ? 180 : 0
-            }}
-            transition={{ duration: 0.3 }}
+            className="flex flex-col items-end space-y-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
           >
-            <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-80"></div>
-            <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-60"></div>
-            <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-40"></div>
+            {/* Notification de récompense */}
+            <AnimatePresence>
+              {echoRewardNotification && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.8 }}
+                  className="bg-green-500/20 border border-green-400/60 backdrop-blur-sm rounded-sm px-3 py-1"
+                >
+                  <span className="font-mono text-xs text-green-300 font-bold animate-pulse">
+                    {echoRewardNotification.message}
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {/* Claim button plus indicatif */}
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={handleGrabEcho}
+                onDoubleClick={() => setShowTokenRules(true)}
+                disabled={isClaimingEcho || echoBalance === 0}
+                className={`px-3 py-1.5 font-mono text-xs border ${
+                  echoBalance === 0
+                    ? 'text-gray-500 border-gray-600 cursor-not-allowed' 
+                    : 'text-green-400 border-green-500/30 hover:text-green-300 hover:border-green-400/50 hover:bg-green-500/5'
+                } transition-all rounded-sm`}
+                title={echoBalance > 0 ? 'Click to claim • Double-click for rules' : ''}
+              >
+                {isClaimingEcho ? '...' : 
+                 echoBalance === 0 ? 'No ECHO' :
+                 `Claim ${echoBalance.toFixed(1)} ECHO`}
+              </button>
+              
+              {echoBalance > 0 && (
+                <button
+                  onClick={() => setShowTokenRules(true)}
+                  className="text-gray-500 hover:text-cyan-400 transition-colors"
+                  title={t('chat.tokenRules')}
+                >
+                  <span className="font-mono text-xs">?</span>
+                </button>
+              )}
+            </div>
           </motion.div>
-          
-          {/* Texte court */}
-          <span className="text-cyan-400 font-mono text-xs tracking-wide">
-            {isSubTerminalExpanded ? t('chat.close') : t('chat.console')}
-          </span>
-        </motion.button>
+
+          {/* Message ECHO */}
+          <AnimatePresence>
+            {echoMessage && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="absolute bottom-16 right-0 bg-black/80 border border-cyan-400/60 backdrop-blur-sm rounded-sm p-3 text-xs font-mono max-w-xs"
+              >
+                {echoMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Bouton Dashboard minimaliste mais clair */}
+          <motion.button
+            onClick={() => {
+              playSubTerminalSound();
+              setIsSubTerminalExpanded(!isSubTerminalExpanded);
+              if (onSubTerminalToggle) onSubTerminalToggle(!isSubTerminalExpanded);
+            }}
+            ref={consoleButtonRef}
+            className="px-4 py-2 bg-black/60 border border-cyan-400/40 backdrop-blur-sm rounded-sm hover:border-cyan-400/80 hover:bg-black/80 transition-all duration-200 flex items-center space-x-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+          >
+            {/* Icône Dashboard */}
+            <motion.div 
+              className="flex items-center space-x-1"
+              animate={{
+                rotate: isSubTerminalExpanded ? 180 : 0
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-80"></div>
+              <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-60"></div>
+              <div className="w-2 h-2 bg-cyan-400 rounded-sm opacity-40"></div>
+            </motion.div>
+            
+            {/* Texte court */}
+            <span className="text-cyan-400 font-mono text-xs tracking-wide">
+              {isSubTerminalExpanded ? t('chat.close') : t('chat.console')}
+            </span>
+          </motion.button>
+
+
+        </div>
 
         {/* Zone d'affichage des conversations - Moniteur de l'Homéostasie Émotionnelle */}
         <motion.div 
@@ -3425,10 +3666,28 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         )}
       </AnimatePresence>
 
+      {/* Telegram link avec texte */}
+      <a
+        href="https://t.me/+RACbqe403XwxYjlk"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 left-6 z-50 flex items-center space-x-2 text-blue-400/80 hover:text-blue-400 transition-colors p-2 rounded group"
+        title={t('chat.joinTelegram')}
+      >
+        <TelegramIcon className="w-4 h-4" />
+        <span className="font-mono text-xs">{t('chat.joinUs')}</span>
+      </a>
+
       {/* Prize Distribution Modal */}
       <PrizeDistributionModal 
         isOpen={showPrizeDistributionModal}
         onClose={() => setShowPrizeDistributionModal(false)}
+      />
+      
+      {/* Token Rules Modal */}
+      <TokenRulesModal 
+        isOpen={showTokenRules}
+        onClose={() => setShowTokenRules(false)}
       />
     </div>
   );

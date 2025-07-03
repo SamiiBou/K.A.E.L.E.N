@@ -112,7 +112,7 @@ export class AuthDebugger {
    */
   static async checkUserExists(walletAddress: string): Promise<boolean> {
     try {
-      const response = await fetch(`https://k-a-e-l-e-n.onrender.com/api/world-wallet/check-user/${walletAddress.toLowerCase()}`);
+      const response = await fetch(`https://7048b6546b0f.ngrok.app/api/world-wallet/check-user/${walletAddress.toLowerCase()}`);
       
       if (response.ok) {
         const data = await response.json();

@@ -1,7 +1,7 @@
 // URL configuration for Hoshima application
 export const API_CONFIG = {
   // Backend URL (uses ngrok in development)
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://k-a-e-l-e-n.onrender.com',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://7048b6546b0f.ngrok.app',
   
   // Endpoints World Wallet
   WORLD_WALLET: {

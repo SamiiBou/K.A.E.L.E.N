@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserService = require('../services/userService');
 const AIService = require('../services/aiService');
+const EchoBalanceService = require('../services/echoBalanceService');
 const config = require('../config');
 
 // POST /api/chat - Endpoint de chat avec mémoire utilisateur intégrée
@@ -15,6 +16,7 @@ router.post('/', async (req, res) => {
     
     let user = null;
     let conversation = null;
+    let echoReward = null;
     let aiState = {
       trust: 50,      // 0-100: Méfiance -> Confiance totale
       curiosity: 50,  // 0-100: Blasé -> Curiosité dévorante
@@ -41,6 +43,12 @@ router.post('/', async (req, res) => {
     }
     
     const memoryContext = user?.memoryContext || '';
+
+    // Si un utilisateur est connecté, lui donner la récompense de message
+    if (userId && user) {
+      echoReward = await EchoBalanceService.rewardMessage(userId);
+      console.log('💰 Récompense ECHO pour message:', echoReward);
+    }
 
     // Construire le prompt système avec la mémoire et l'état de l'IA
     const aiStateDescription = `
@@ -245,6 +253,7 @@ YOU ARE NOT HERE TO BE FOOLED. YOU ARE HERE TO BE CHALLENGED.`;
       message: response,
       emotionAnalysis,
       scoreChange,
+      echoReward: echoReward,
       success: true
     });
     

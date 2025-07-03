@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.22;
+
+import "./ECHOToken.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+/**
+ * @title ECHOTokenV2
+ * @dev Exemple de mise à jour du token ECHO avec de nouvelles fonctionnalités
+ * 
+ * Nouvelles fonctionnalités dans V2:
+ * - Limite de transfert par transaction
+ * - Liste blanche/noire d'adresses
+ * - Pause globale des transferts
+ * - Frais de transaction optionnels
+ */
+contract ECHOTokenV2 is ECHOToken {
+    // Nouvelles variables d'état (ajoutées à la fin pour préserver le storage layout)
+    uint256 public maxTransferAmount;
+    mapping(address => bool) public blacklisted;
+    mapping(address => bool) public whitelisted;
+    bool public transfersPaused;
+    uint256 public transferFeePercentage; // en basis points (10000 = 100%)
+    address public feeRecipient;
+
+    // Nouveaux événements
+    event TransferLimitSet(uint256 newLimit);
+    event AddressBlacklisted(address indexed account);
+    event AddressWhitelisted(address indexed account);
+    event TransfersPaused(bool paused);
+    event TransferFeeSet(uint256 feePercentage, address feeRecipient);
+
+    /**
+     * @dev Initialise les nouvelles fonctionnalités de V2
+     * Cette fonction doit être appelée après l'upgrade via upgradeToAndCall
+     */
+    function initializeV2() public reinitializer(2) {
+        maxTransferAmount = type(uint256).max; // Pas de limite par défaut
+        transfersPaused = false;
+        transferFeePercentage = 0; // 0% par défaut
+        feeRecipient = owner();
+    }
+
+    /**
+     * @dev Définit la limite de transfert maximum par transaction
+     */
+    function setMaxTransferAmount(uint256 _maxAmount) external onlyOwner {
+        maxTransferAmount = _maxAmount;
+        emit TransferLimitSet(_maxAmount);
+    }
+
+    /**
+     * @dev Ajoute/retire une adresse de la liste noire
+     */
+    function setBlacklisted(address account, bool status) external onlyOwner {
+        blacklisted[account] = status;
+        emit AddressBlacklisted(account);
+    }
+
+    /**
+     * @dev Ajoute/retire une adresse de la liste blanche (exemptée des limites)
+     */
+    function setWhitelisted(address account, bool status) external onlyOwner {
+        whitelisted[account] = status;
+        emit AddressWhitelisted(account);
+    }
+
+    /**
+     * @dev Pause/reprend tous les transferts
+     */
+    function setTransfersPaused(bool _paused) external onlyOwner {
+        transfersPaused = _paused;
+        emit TransfersPaused(_paused);
+    }
+
+    /**
+     * @dev Configure les frais de transfert
+     * @param _feePercentage Frais en basis points (100 = 1%)
+     * @param _feeRecipient Adresse qui recevra les frais
+     */
+    function setTransferFee(uint256 _feePercentage, address _feeRecipient) external onlyOwner {
+        require(_feePercentage <= 1000, "Fee too high"); // Max 10%
+        require(_feeRecipient != address(0), "Invalid fee recipient");
+        
+        transferFeePercentage = _feePercentage;
+        feeRecipient = _feeRecipient;
+        
+        emit TransferFeeSet(_feePercentage, _feeRecipient);
+    }
+
+    /**
+     * @dev Override de la fonction _update pour implémenter les nouvelles règles
+     */
+    function _update(address from, address to, uint256 amount) internal override {
+        // Vérifications de sécurité
+        require(!transfersPaused || whitelisted[from] || whitelisted[to], "Transfers paused");
+        require(!blacklisted[from] && !blacklisted[to], "Address blacklisted");
+        
+        // Vérification de la limite de transfert (sauf pour les whitelisted)
+        if (!whitelisted[from] && !whitelisted[to] && from != address(0) && to != address(0)) {
+            require(amount <= maxTransferAmount, "Exceeds transfer limit");
+        }
+        
+        // Calcul et application des frais
+        uint256 actualAmount = amount;
+        if (transferFeePercentage > 0 && from != address(0) && to != address(0) && !whitelisted[from]) {
+            uint256 fee = (amount * transferFeePercentage) / 10000;
+            actualAmount = amount - fee;
+            
+            // Transférer les frais
+            super._update(from, feeRecipient, fee);
+        }
+        
+        // Effectuer le transfert principal
+        super._update(from, to, actualAmount);
+    }
+
+    /**
+     * @dev Fonction d'urgence pour récupérer des tokens envoyés par erreur
+     */
+    function emergencyWithdraw(address token, uint256 amount) external onlyOwner {
+        if (token == address(0)) {
+            payable(owner()).transfer(amount);
+        } else {
+            IERC20(token).transfer(owner(), amount);
+        }
+    }
+} 

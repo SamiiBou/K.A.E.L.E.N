@@ -1,7 +1,7 @@
 // Script de test pour l'authentification World Wallet
 const axios = require('axios');
 
-const BASE_URL = 'https://k-a-e-l-e-n.onrender.com/api/world-wallet';
+const BASE_URL = 'https://7048b6546b0f.ngrok.app/api/world-wallet';
 
 // Adresse de test - celle mentionnée par l'utilisateur
 const TEST_WALLET = '0x21bee69e692ceb4c02b66c7a45620684904ba395';

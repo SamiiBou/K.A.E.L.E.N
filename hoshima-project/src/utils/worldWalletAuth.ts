@@ -25,7 +25,7 @@ export async function authenticateWithWorldWallet (): Promise<AuthResult> {
   }
 
   // 1. Récupérer le nonce depuis le backend
-  const nonceResponse = await fetch('https://k-a-e-l-e-n.onrender.com/api/world-wallet/nonce');
+  const nonceResponse = await fetch('https://7048b6546b0f.ngrok.app/api/world-wallet/nonce');
   if (!nonceResponse.ok) {
     throw new Error('Impossible de récupérer le nonce');
   }
@@ -45,7 +45,7 @@ export async function authenticateWithWorldWallet (): Promise<AuthResult> {
   }
 
   // 3. Vérification côté backend
-  const verifyResponse = await fetch('https://k-a-e-l-e-n.onrender.com/api/world-wallet/complete-siwe', {
+  const verifyResponse = await fetch('https://7048b6546b0f.ngrok.app/api/world-wallet/complete-siwe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export async function authenticateWithWorldWallet (): Promise<AuthResult> {
   const profilePictureUrl = MiniKit.user?.profilePictureUrl;
 
   if (worldUsername || profilePictureUrl) {
-    await fetch('https://k-a-e-l-e-n.onrender.com/api/world-wallet/update-profile', {
+    await fetch('https://7048b6546b0f.ngrok.app/api/world-wallet/update-profile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

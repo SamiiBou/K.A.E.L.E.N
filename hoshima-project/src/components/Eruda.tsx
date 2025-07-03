@@ -17,7 +17,7 @@ export default function Eruda() {
     if (process.env.NODE_ENV === 'development') {
       const loadEruda = async () => {
         try {
-          // Try to import the local version first
+          // Try to import the local version first ,
           const eruda = await import('eruda')
           eruda.default.init()
         } catch (error) {

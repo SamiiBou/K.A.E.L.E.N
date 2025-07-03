@@ -1,7 +1,7 @@
 // Service pour gérer les utilisateurs et la mémoire
 class UserService {
   constructor() {
-    this.backendUrl = 'https://7048b6546b0f.ngrok.app/api';
+    this.backendUrl = 'https://k-a-e-l-e-n.onrender.com/api';
     this.currentUser = null;
     this.currentSessionId = null;
   }

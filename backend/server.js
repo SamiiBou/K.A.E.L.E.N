@@ -9,6 +9,9 @@ const chatRoutes = require('./routes/chatRoutes');
 const worldWalletRoutes = require('./routes/worldWalletRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const prizePoolRoutes = require('./routes/prizePoolRoutes');
+const echoClaimRoutes = require('./routes/echoClaimRoutes');
+const echoBalanceRoutes = require('./routes/echoBalanceRoutes');
+const EchoBalanceService = require('./services/echoBalanceService');
 
 // Initialisation de l'application Express
 const app = express();
@@ -77,6 +80,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/world-wallet', worldWalletRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/prize-pool', prizePoolRoutes);
+app.use('/api/echo-claim', echoClaimRoutes);
+app.use('/api/echo-balance', echoBalanceRoutes);
 
 // Middleware de gestion des erreurs 404
 app.use('*', (req, res) => {
@@ -92,7 +97,8 @@ app.use('*', (req, res) => {
       'POST /api/chat',
       'GET /api/world-wallet/nonce',
       'POST /api/world-wallet/complete-siwe',
-      'PUT /api/world-wallet/update-profile'
+      'PUT /api/world-wallet/update-profile',
+      'POST /api/echo-claim'
     ]
   });
 });
@@ -151,6 +157,9 @@ async function startServer() {
       } else {
         console.log('⚠️  Fonctionnement en mode dégradé (sans persistance)');
       }
+      
+      // Démarrer le timer pour les récompenses horaires ECHO
+      EchoBalanceService.startHourlyRewardTimer();
     });
     
     // Gestion de l'arrêt propre du serveur

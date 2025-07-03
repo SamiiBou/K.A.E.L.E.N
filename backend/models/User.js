@@ -170,6 +170,36 @@ const UserSchema = new mongoose.Schema({
   cruBalance: {
     type: Number,
     default: 0
+  },
+  // Balance ECHO du joueur (accumulée via différentes actions)
+  echoBalance: {
+    type: Number,
+    default: 0
+  },
+  // Dernière connexion pour donner le bonus de 0.1 ECHO
+  lastConnectionBonus: {
+    type: Date,
+    default: null
+  },
+  // Dernier claim ECHO (pour réinitialiser la balance)
+  lastEchoClaim: {
+    type: Date,
+    default: null
+  },
+  // Dernier message envoyé (pour éviter le spam)
+  lastMessageSent: {
+    type: Date,
+    default: null
+  },
+  // Nombre de messages envoyés aujourd'hui (pour limiter les abus)
+  dailyMessageCount: {
+    type: Number,
+    default: 0
+  },
+  // Date de réinitialisation du compteur de messages
+  dailyMessageCountReset: {
+    type: Date,
+    default: Date.now
   }
 });
 

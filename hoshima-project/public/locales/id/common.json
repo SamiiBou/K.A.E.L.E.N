@@ -213,5 +213,14 @@
     "candidateRegistry": "REGISTRI KANDIDAT",
     "close": "[ TUTUP ]",
     "loading": "Memuat..."
+  },
+  "notifications": {
+    "permissionTitle": "Tetap Terhubung dengan Hoshima",
+    "permissionDescription": "Dapatkan notifikasi tentang pembaruan penting, acara game, dan hadiah eksklusif. Kami menghormati privasi Anda dan hanya mengirim notifikasi yang relevan.",
+    "allowNotifications": "Izinkan Notifikasi",
+    "notNow": "Tidak Sekarang",
+    "requesting": "Meminta...",
+    "openSettings": "Buka Pengaturan World App",
+    "privacyNote": "Anda dapat mengubah pengaturan ini kapan saja di pengaturan World App"
   }
 } 

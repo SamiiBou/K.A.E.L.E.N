@@ -11,6 +11,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const prizePoolRoutes = require('./routes/prizePoolRoutes');
 const echoClaimRoutes = require('./routes/echoClaimRoutes');
 const echoBalanceRoutes = require('./routes/echoBalanceRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 const EchoBalanceService = require('./services/echoBalanceService');
 
 // Initialisation de l'application Express
@@ -82,6 +83,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/prize-pool', prizePoolRoutes);
 app.use('/api/echo-claim', echoClaimRoutes);
 app.use('/api/echo-balance', echoBalanceRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Middleware de gestion des erreurs 404
 app.use('*', (req, res) => {
@@ -98,7 +100,11 @@ app.use('*', (req, res) => {
       'GET /api/world-wallet/nonce',
       'POST /api/world-wallet/complete-siwe',
       'PUT /api/world-wallet/update-profile',
-      'POST /api/echo-claim'
+      'POST /api/echo-claim',
+      'PUT /api/notifications/permission',
+      'GET /api/notifications/permission/:identifier',
+      'GET /api/notifications/stats',
+      'GET /api/notifications/users'
     ]
   });
 });

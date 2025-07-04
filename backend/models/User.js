@@ -200,6 +200,24 @@ const UserSchema = new mongoose.Schema({
   dailyMessageCountReset: {
     type: Date,
     default: Date.now
+  },
+  
+  // === PERMISSIONS DE NOTIFICATIONS ===
+  // Statut de la permission de notification
+  notificationPermission: {
+    type: String,
+    enum: ['granted', 'denied', 'not_requested', 'unknown'],
+    default: 'not_requested'
+  },
+  // Si la permission a été demandée (pour éviter de redemander)
+  notificationPermissionRequested: {
+    type: Boolean,
+    default: false
+  },
+  // Timestamp de la dernière demande/mise à jour de permission
+  notificationPermissionTimestamp: {
+    type: Date,
+    default: null
   }
 });
 
@@ -216,6 +234,7 @@ UserSchema.index({ userId: 1 });
 UserSchema.index({ walletAddress: 1 });
 UserSchema.index({ 'conversations.sessionId': 1 });
 UserSchema.index({ currentScore: -1 });
+UserSchema.index({ notificationPermission: 1 }); // Pour segmenter les utilisateurs selon leurs permissions
 
 // Méthode pour obtenir le nom d'affichage de l'utilisateur
 UserSchema.methods.getDisplayName = function() {

@@ -213,5 +213,14 @@
     "candidateRegistry": "REGISTRO DE CANDIDATOS",
     "close": "[ CERRAR ]",
     "loading": "Cargando..."
+  },
+  "notifications": {
+    "permissionTitle": "Mantente Actualizado con Hoshima",
+    "permissionDescription": "Recibe notificaciones sobre actualizaciones importantes, eventos del juego y recompensas exclusivas. Respetamos tu privacidad y solo enviamos notificaciones relevantes.",
+    "allowNotifications": "Permitir Notificaciones",
+    "notNow": "Ahora No",
+    "requesting": "Solicitando...",
+    "openSettings": "Abrir Configuración de World App",
+    "privacyNote": "Puedes cambiar esta configuración en cualquier momento en la configuración de World App"
   }
 } 

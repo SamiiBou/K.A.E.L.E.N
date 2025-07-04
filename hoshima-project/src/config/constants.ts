@@ -16,7 +16,7 @@ export const API_CONFIG = {
   HEALTH: '/api/health',
 };
 
-// Authentication configuration
+// Authentication configuration,
 export const AUTH_CONFIG = {
   // Local storage keys
   TOKEN_KEY: 'hoshima_auth_token',

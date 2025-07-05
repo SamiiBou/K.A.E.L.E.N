@@ -326,6 +326,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   }, []);
 
+  // DÉSACTIVÉ - Vérification World ID au démarrage
+  // Pour réactiver : décommenter ce useEffect
+  /*
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const verified = localStorage.getItem('humanity_verified');
@@ -334,6 +337,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       }
     }
   }, []);
+  */
 
   const [playerScore, setPlayerScore] = useState(initialStoredScore);
   const [scoreChange, setScoreChange] = useState<number | null>(null);
@@ -1537,6 +1541,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   };
 
+  // FONCTION DÉSACTIVÉE - Message gratuit quotidien avec World ID
+  // Pour réactiver : décommenter cette fonction et le bouton dans l'interface
+  /*
   const handleHumanityVerification = async () => {
     if (!MiniKit.isInstalled()) {
       setVerificationMessage(t('verification.worldAppNotDetected'));
@@ -1636,6 +1643,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       setIsVerifying(false);
     }
   };
+  */
 
   const handleGrabEcho = async () => {
     // Vérifier si l'utilisateur a une balance à claim
@@ -2922,8 +2930,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                         {t('chat.sendMessages')}
                       </motion.button>
                       
-                      {/* Human Verification Status */}
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
+                      {/* Human Verification Status - TEMPORAIREMENT DÉSACTIVÉ */}
+                      {/* 
+                      FONCTIONNALITÉ DÉSACTIVÉE - Message gratuit quotidien avec World ID
+                      Pour réactiver : décommenter cette section et la fonction handleHumanityVerification
+                      */}
+                      {/* <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
                         <span className="text-slate-400 text-xs font-mono">{t('chat.humanVerification')}:</span>
                         <motion.span 
                           className={`font-mono text-sm font-bold ${isVerified ? 'text-cyan-300' : 'text-red-300'}`}
@@ -2952,8 +2964,10 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                         disabled={isVerifying}
                       >
                         {isVerifying ? t('chat.verifying') : isVerified ? t('chat.claimDailyMessage') : t('chat.verifyForMessage')}
-                      </motion.button>
+                      </motion.button> */}
                       
+                      {/* DÉSACTIVÉ - Messages de vérification World ID */}
+                      {/* 
                       {verificationMessage && (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -2971,6 +2985,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                           {verificationMessage}
                         </motion.div>
                       )}
+                      */}
                       
                       {consoleMessage && (
                         <motion.div

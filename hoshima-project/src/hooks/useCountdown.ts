@@ -58,18 +58,28 @@ export function useCountdown(): CountdownHookResult {
   // Fonction pour récupérer les données du compte à rebours
   const fetchCountdown = useCallback(async () => {
     try {
-      const response = await fetch(`${getApiUrl()}/countdown`, {
+      const apiUrl = getApiUrl();
+      console.log('🔄 Tentative de connexion à l\'API:', `${apiUrl}/countdown`);
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+      
+      const response = await fetch(`${apiUrl}/countdown`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('✅ Données reçues du backend:', data);
       
       setCountdown({
         days: data.days || 0,
@@ -85,8 +95,24 @@ export function useCountdown(): CountdownHookResult {
       
       setError(null);
     } catch (err) {
-      console.error('Erreur lors de la récupération du compte à rebours:', err);
-      setError(err instanceof Error ? err.message : 'Erreur inconnue');
+      console.warn('⚠️ Backend non disponible, utilisation du mode fallback');
+      
+      // Mode fallback : compte à rebours local de 7 jours
+      const now = Date.now();
+      const sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);
+      
+      setCountdown({
+        days: 7,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        timeRemaining: 7 * 24 * 60 * 60 * 1000,
+        isActive: true,
+        endTime: sevenDaysFromNow,
+        startTime: now
+      });
+      
+      setError('Mode hors ligne - Backend indisponible');
     } finally {
       setLoading(false);
     }

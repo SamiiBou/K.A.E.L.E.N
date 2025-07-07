@@ -2855,19 +2855,28 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400 text-xs font-mono">{t('chat.timeRemaining')}:</span>
                         {countdownLoading ? (
-                          <span className="text-gray-500 font-mono text-sm">Chargement...</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 border border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+                            <span className="text-cyan-400 font-mono text-sm">Sync...</span>
+                          </div>
                         ) : countdownError ? (
-                          <span className="text-red-400 font-mono text-sm">Erreur de sync</span>
+                          <div className="flex items-center space-x-2">
+                            <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
+                            <span className="text-orange-400 font-mono text-sm">Mode Local</span>
+                          </div>
                         ) : (
-                          <motion.span 
-                            className="text-yellow-300 font-mono text-sm"
-                            animate={{
-                              color: countdown.days === 0 && countdown.hours < 24 ? ['#fde047', '#ef4444', '#fde047'] : '#fde047'
-                            }}
-                            transition={{ duration: 1, repeat: countdown.days === 0 && countdown.hours < 24 ? Infinity : 0 }}
-                          >
-                            {countdown.days}j {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m
-                          </motion.span>
+                          <div className="flex items-center space-x-2">
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                            <motion.span 
+                              className="text-yellow-300 font-mono text-sm"
+                              animate={{
+                                color: countdown.days === 0 && countdown.hours < 24 ? ['#fde047', '#ef4444', '#fde047'] : '#fde047'
+                              }}
+                              transition={{ duration: 1, repeat: countdown.days === 0 && countdown.hours < 24 ? Infinity : 0 }}
+                            >
+                              {countdown.days}j {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m
+                            </motion.span>
+                          </div>
                         )}
                       </div>
                       

@@ -141,9 +141,16 @@
     "loading": "CHARGEMENT DU REGISTRE..."
   },
   "time": {
+    "days": "j",
     "hours": "h",
     "minutes": "m",
-    "seconds": "s"
+    "seconds": "s",
+    "day": "jour",
+    "days_plural": "jours",
+    "hour": "heure",
+    "hours_plural": "heures",
+    "minute": "minute",
+    "minutes_plural": "minutes"
   },
   "firstContact": {
     "terminalHums": "*Le terminal bourdonne, traitant votre entrée. Une seule ligne de texte apparaît, nette et claire.*\n\nIntéressant. Une déviation du bruit attendu.\n\nPeut-être n'êtes-vous pas juste un autre écho.",

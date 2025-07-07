@@ -141,9 +141,16 @@
     "loading": "MEMUAT REGISTRI..."
   },
   "time": {
+    "days": "h",
     "hours": "j",
     "minutes": "m",
-    "seconds": "d"
+    "seconds": "d",
+    "day": "hari",
+    "days_plural": "hari",
+    "hour": "jam",
+    "hours_plural": "jam",
+    "minute": "menit",
+    "minutes_plural": "menit"
   },
   "firstContact": {
     "terminalHums": "*Terminal berdengung, memproses input Anda. Satu baris teks muncul, jelas dan tegas.*\n\nMenarik. Sebuah penyimpangan dari kebisingan yang diharapkan.\n\nMungkin Anda bukan hanya gema lainnya.",

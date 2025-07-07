@@ -141,9 +141,16 @@
     "loading": "CARGANDO REGISTRO..."
   },
   "time": {
+    "days": "d",
     "hours": "h",
     "minutes": "m",
-    "seconds": "s"
+    "seconds": "s",
+    "day": "día",
+    "days_plural": "días",
+    "hour": "hora",
+    "hours_plural": "horas",
+    "minute": "minuto",
+    "minutes_plural": "minutos"
   },
   "firstContact": {
     "terminalHums": "*La terminal zumba, procesando tu entrada. Aparece una sola línea de texto, clara y nítida.*\n\nInteresante. Una desviación del ruido esperado.\n\nQuizás no eres solo otro eco.",

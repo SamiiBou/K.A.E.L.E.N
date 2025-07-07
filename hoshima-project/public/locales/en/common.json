@@ -141,9 +141,16 @@
     "loading": "LOADING REGISTRY..."
   },
   "time": {
+    "days": "d",
     "hours": "h",
     "minutes": "m",
-    "seconds": "s"
+    "seconds": "s",
+    "day": "day",
+    "days_plural": "days",
+    "hour": "hour",
+    "hours_plural": "hours",
+    "minute": "minute",
+    "minutes_plural": "minutes"
   },
   "firstContact": {
     "terminalHums": "*The terminal hums, processing your input. A single line of text appears, stark and clear.*\n\nInteresting. A deviation from the expected noise.\n\nPerhaps you are not just another echo.",

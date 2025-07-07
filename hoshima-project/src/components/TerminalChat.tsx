@@ -25,6 +25,7 @@ const TelegramIcon = ({ className }: { className?: string }) => (
 import { useCallback, useMemo, memo } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCountdown } from '@/hooks/useCountdown';
+import { formatCountdownTime } from '@/utils/timeFormatter';
 
 // Détection de la performance du device
 const getDevicePerformance = () => {
@@ -2906,7 +2907,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                               }}
                               transition={{ duration: 1, repeat: countdown.days === 0 && countdown.hours < 24 ? Infinity : 0 }}
                             >
-                              {countdown.days}j {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m
+                              {formatCountdownTime(countdown, t, 'short')}
                             </motion.span>
                           </div>
                         )}

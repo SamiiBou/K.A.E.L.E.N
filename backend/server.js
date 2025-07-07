@@ -12,6 +12,7 @@ const prizePoolRoutes = require('./routes/prizePoolRoutes');
 const echoClaimRoutes = require('./routes/echoClaimRoutes');
 const echoBalanceRoutes = require('./routes/echoBalanceRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const countdownRoutes = require('./routes/countdownRoutes');
 const EchoBalanceService = require('./services/echoBalanceService');
 
 // Initialisation de l'application Express
@@ -55,6 +56,7 @@ app.get('/', (req, res) => {
       users: '/api/users',
       chat: '/api/chat',
       worldWallet: '/api/world-wallet',
+      countdown: '/api/countdown',
       health: '/api/health'
     }
   });
@@ -84,6 +86,7 @@ app.use('/api/prize-pool', prizePoolRoutes);
 app.use('/api/echo-claim', echoClaimRoutes);
 app.use('/api/echo-balance', echoBalanceRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/countdown', countdownRoutes);
 
 // Middleware de gestion des erreurs 404
 app.use('*', (req, res) => {

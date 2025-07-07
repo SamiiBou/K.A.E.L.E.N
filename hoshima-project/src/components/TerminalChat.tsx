@@ -23,6 +23,7 @@ const TelegramIcon = ({ className }: { className?: string }) => (
 // Ajout des imports pour l'optimisation
 import { useCallback, useMemo, memo } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCountdown } from '@/hooks/useCountdown';
 
 // Détection de la performance du device
 const getDevicePerformance = () => {
@@ -238,7 +239,8 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   const [isSubTerminalExpanded, setIsSubTerminalExpanded] = useState(false);
   const [currentRank, setCurrentRank] = useState(1138);
   const [totalCandidates, setTotalCandidates] = useState<number>(74281);
-  const [timeRemaining, setTimeRemaining] = useState({ hours: 118, minutes: 32, seconds: 5 });
+  // Compte à rebours synchronisé avec le backend
+  const { countdown, loading: countdownLoading, error: countdownError } = useCountdown();
   const [echoShards, setEchoShards] = useState(4281);
 
   // Leaderboard / Registry
@@ -1181,17 +1183,8 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           };
         });
         
-        // Mise à jour du timer du cycle (compte à rebours)
-        setTimeRemaining(prev => {
-          const totalSeconds = prev.hours * 3600 + prev.minutes * 60 + prev.seconds - 1;
-          if (totalSeconds <= 0) return { hours: 0, minutes: 0, seconds: 0 };
-          
-          return {
-            hours: Math.floor(totalSeconds / 3600),
-            minutes: Math.floor((totalSeconds % 3600) / 60),
-            seconds: totalSeconds % 60
-          };
-        });
+        // Le compte à rebours est maintenant géré par le hook useCountdown
+        // Plus besoin de mise à jour manuelle
       }
       
       // Continue l'animation seulement si le composant est visible
@@ -2858,18 +2851,24 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                     <div className="text-yellow-400 text-xs font-mono tracking-wider mb-3">{t('chat.cycleStatus')}</div>
                     
                     <div className="space-y-2">
-                      {/* Timer */}
+                      {/* Timer avec nouveau format jours:heures:minutes */}
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400 text-xs font-mono">{t('chat.timeRemaining')}:</span>
-                        <motion.span 
-                          className="text-yellow-300 font-mono text-sm"
-                          animate={{
-                            color: timeRemaining.hours < 24 ? ['#fde047', '#ef4444', '#fde047'] : '#fde047'
-                          }}
-                          transition={{ duration: 1, repeat: timeRemaining.hours < 24 ? Infinity : 0 }}
-                        >
-                          {String(timeRemaining.hours).padStart(3, '0')}:{String(timeRemaining.minutes).padStart(2, '0')}:{String(timeRemaining.seconds).padStart(2, '0')}
-                        </motion.span>
+                        {countdownLoading ? (
+                          <span className="text-gray-500 font-mono text-sm">Chargement...</span>
+                        ) : countdownError ? (
+                          <span className="text-red-400 font-mono text-sm">Erreur de sync</span>
+                        ) : (
+                          <motion.span 
+                            className="text-yellow-300 font-mono text-sm"
+                            animate={{
+                              color: countdown.days === 0 && countdown.hours < 24 ? ['#fde047', '#ef4444', '#fde047'] : '#fde047'
+                            }}
+                            transition={{ duration: 1, repeat: countdown.days === 0 && countdown.hours < 24 ? Infinity : 0 }}
+                          >
+                            {countdown.days}j {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m
+                          </motion.span>
+                        )}
                       </div>
                       
                       {/* Rang */}

@@ -506,3 +506,120 @@ body {
   top: 50%;
   transform: translateY(-50%);
 }
+
+/* Nouvelles animations pour la carte World Wallet redesignée */
+@keyframes holographic-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes circuit-flow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes data-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes security-indicator {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Classes utilitaires pour la nouvelle carte */
+.holographic-pulse {
+  animation: holographic-pulse 3s ease-in-out infinite;
+}
+
+.circuit-flow {
+  animation: circuit-flow 8s linear infinite;
+}
+
+.data-pulse {
+  animation: data-pulse 2s ease-in-out infinite;
+}
+
+.security-indicator {
+  animation: security-indicator 1.5s ease-in-out infinite;
+}
+
+.matrix-rain {
+  animation: matrix-rain 6s linear infinite;
+}
+
+/* Effets spéciaux pour la carte World Wallet */
+.world-wallet-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.world-wallet-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+  animation: shimmer 4s infinite;
+  pointer-events: none;
+}
+
+.world-wallet-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.world-wallet-card:hover::after {
+  opacity: 1;
+}

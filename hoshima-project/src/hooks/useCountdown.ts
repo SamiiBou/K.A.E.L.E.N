@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { BackendDiagnostic } from '@/utils/backendDiagnostic';
 
 interface CountdownData {
   days: number;
@@ -57,13 +58,36 @@ export function useCountdown(): CountdownHookResult {
 
   // Fonction pour récupérer les données du compte à rebours
   const fetchCountdown = useCallback(async () => {
+    console.log('🔍 === DÉBUT DIAGNOSTIC COUNTDOWN ===');
+    
     try {
+      // Étape 1: Déterminer l'URL de l'API
       const apiUrl = getApiUrl();
-      console.log('🔄 Tentative de connexion à l\'API:', `${apiUrl}/countdown`);
+      console.log('🌐 URL de l\'API déterminée:', apiUrl);
+      console.log('🌐 Hostname actuel:', typeof window !== 'undefined' ? window.location.hostname : 'SSR');
+      console.log('🌐 URL complète de la requête:', `${apiUrl}/countdown`);
       
+      // Étape 2: Test de connectivité réseau basique
+      console.log('🔌 Test de connectivité réseau...');
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        throw new Error('NETWORK_OFFLINE: Pas de connexion internet');
+      }
+      console.log('✅ Connexion internet détectée');
+      
+      // Étape 3: Configuration de la requête avec timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+      const timeoutId = setTimeout(() => {
+        console.log('⏰ TIMEOUT: Requête annulée après 5 secondes');
+        controller.abort();
+      }, 5000);
       
+      console.log('📡 Envoi de la requête HTTP...');
+      console.log('📡 Headers:', { 'Content-Type': 'application/json' });
+      console.log('📡 Method: GET');
+      console.log('📡 Timeout: 5000ms');
+      
+      // Étape 4: Tentative de connexion
+      const startTime = Date.now();
       const response = await fetch(`${apiUrl}/countdown`, {
         method: 'GET',
         headers: {
@@ -71,15 +95,43 @@ export function useCountdown(): CountdownHookResult {
         },
         signal: controller.signal
       });
-
+      
+      const responseTime = Date.now() - startTime;
       clearTimeout(timeoutId);
+      
+      console.log('📡 Réponse reçue en', responseTime, 'ms');
+      console.log('📡 Status HTTP:', response.status);
+      console.log('📡 Status Text:', response.statusText);
+      console.log('📡 Headers de réponse:', Object.fromEntries(response.headers.entries()));
 
+      // Étape 5: Vérification du statut HTTP
       if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
+        console.error('❌ Erreur HTTP:', response.status, response.statusText);
+        
+        // Détails selon le code d'erreur
+        if (response.status === 404) {
+          throw new Error(`HTTP_404: Endpoint /countdown non trouvé sur ${apiUrl}`);
+        } else if (response.status === 500) {
+          throw new Error(`HTTP_500: Erreur serveur interne`);
+        } else if (response.status === 502) {
+          throw new Error(`HTTP_502: Bad Gateway - Serveur indisponible`);
+        } else if (response.status === 503) {
+          throw new Error(`HTTP_503: Service temporairement indisponible`);
+        } else {
+          throw new Error(`HTTP_${response.status}: ${response.statusText}`);
+        }
       }
 
+      // Étape 6: Parsing des données JSON
+      console.log('📦 Parsing des données JSON...');
       const data = await response.json();
-      console.log('✅ Données reçues du backend:', data);
+      console.log('✅ Données reçues du backend:', JSON.stringify(data, null, 2));
+      
+      // Étape 7: Validation des données
+      console.log('🔍 Validation des données...');
+      if (typeof data.days !== 'number' || typeof data.hours !== 'number') {
+        console.warn('⚠️ Format de données inattendu:', data);
+      }
       
       setCountdown({
         days: data.days || 0,
@@ -94,8 +146,54 @@ export function useCountdown(): CountdownHookResult {
       });
       
       setError(null);
+      console.log('✅ === COUNTDOWN SYNC RÉUSSIE ===');
+      
     } catch (err) {
-      console.warn('⚠️ Backend non disponible, utilisation du mode fallback');
+      console.error('🚨 === ERREUR COUNTDOWN DÉTAILLÉE ===');
+      console.error('🚨 Type d\'erreur:', err.constructor.name);
+      console.error('🚨 Message d\'erreur:', err.message);
+      console.error('🚨 Stack trace:', err.stack);
+      
+      // Lancer le diagnostic complet automatiquement
+      console.log('🔍 Lancement du diagnostic automatique...');
+      BackendDiagnostic.runFullDiagnostic().then(results => {
+        console.log('📊 Diagnostic terminé, résultats disponibles:', results);
+      }).catch(diagErr => {
+        console.error('❌ Erreur lors du diagnostic:', diagErr);
+      });
+      
+      // Diagnostic spécifique selon le type d'erreur
+      if (err.name === 'AbortError') {
+        console.error('🚨 CAUSE: Timeout de 5 secondes dépassé');
+        console.error('🚨 SOLUTION: Vérifier que le serveur backend répond rapidement');
+        console.error('🚨 COMMANDES À ESSAYER:');
+        console.error('   cd backend && npm start');
+        console.error('   curl http://localhost:5000/api/health');
+      } else if (err.message.includes('Failed to fetch')) {
+        console.error('🚨 CAUSE: Impossible de joindre le serveur');
+        console.error('🚨 SOLUTIONS POSSIBLES:');
+        console.error('   1. Le serveur backend n\'est pas démarré');
+        console.error('      → cd backend && npm start');
+        console.error('   2. Problème de CORS');
+        console.error('      → Vérifier la config CORS dans server.js');
+        console.error('   3. URL incorrecte');
+        console.error('      → Vérifier getApiUrl() dans le hook');
+        console.error('   4. Firewall/proxy bloquant');
+        console.error('      → Vérifier les paramètres réseau');
+        console.error('   5. Port 5000 occupé');
+        console.error('      → lsof -ti:5000 | xargs kill -9');
+      } else if (err.message.includes('NETWORK_OFFLINE')) {
+        console.error('🚨 CAUSE: Pas de connexion internet');
+        console.error('🚨 SOLUTION: Vérifier la connexion réseau');
+      } else if (err.message.includes('HTTP_')) {
+        console.error('🚨 CAUSE: Erreur HTTP du serveur');
+        console.error('🚨 SOLUTION: Vérifier les logs du serveur backend');
+      } else {
+        console.error('🚨 CAUSE: Erreur inconnue');
+        console.error('🚨 Erreur complète:', err);
+      }
+      
+      console.warn('⚠️ Activation du mode fallback (compte à rebours local)');
       
       // Mode fallback : compte à rebours local de 7 jours
       const now = Date.now();
@@ -112,7 +210,8 @@ export function useCountdown(): CountdownHookResult {
         startTime: now
       });
       
-      setError('Mode hors ligne - Backend indisponible');
+      setError(`Backend indisponible: ${err.message}`);
+      console.log('🔄 === FIN DIAGNOSTIC COUNTDOWN ===');
     } finally {
       setLoading(false);
     }
@@ -151,20 +250,27 @@ export function useCountdown(): CountdownHookResult {
 
   // Fonction pour redémarrer le compte à rebours
   const resetCountdown = useCallback(async () => {
+    console.log('🔄 === RESET COUNTDOWN ===');
     try {
       setLoading(true);
-      const response = await fetch(`${getApiUrl()}/countdown/reset`, {
+      const apiUrl = getApiUrl();
+      console.log('🔄 URL de reset:', `${apiUrl}/countdown/reset`);
+      
+      const response = await fetch(`${apiUrl}/countdown/reset`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
+      console.log('🔄 Réponse reset:', response.status, response.statusText);
+
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('✅ Reset réussi:', data);
       
       setCountdown({
         days: data.days || 7,
@@ -179,7 +285,7 @@ export function useCountdown(): CountdownHookResult {
       
       setError(null);
     } catch (err) {
-      console.error('Erreur lors du redémarrage du compte à rebours:', err);
+      console.error('🚨 Erreur reset countdown:', err);
       setError(err instanceof Error ? err.message : 'Erreur inconnue');
     } finally {
       setLoading(false);

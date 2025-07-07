@@ -6,6 +6,7 @@ import { AUTH_CONFIG, getApiUrl } from '@/config/constants';
 import { MiniKit, tokenToDecimals, Tokens, PayCommandInput, VerifyCommandInput, VerificationLevel, ISuccessResult } from '@worldcoin/minikit-js';
 import PrizeDistributionModal from './PrizeDistributionModal';
 import TokenRulesModal from './TokenRulesModal';
+import DebugPanel from './DebugPanel';
 import ECHOTokenABI from '@/abi/ECHOTokenABI.json';
 
 // Icône Telegram personnalisée
@@ -240,7 +241,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   const [currentRank, setCurrentRank] = useState(1138);
   const [totalCandidates, setTotalCandidates] = useState<number>(74281);
   // Compte à rebours synchronisé avec le backend
-  const { countdown, loading: countdownLoading, error: countdownError } = useCountdown();
+  const { countdown, loading: countdownLoading, error: countdownError, refreshCountdown } = useCountdown();
   const [echoShards, setEchoShards] = useState(4281);
 
   // Leaderboard / Registry
@@ -250,6 +251,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   // Prize Pool (en WLD)
   const [prizePool, setPrizePool] = useState<number>(20);
+  
+  // Debug panel state
+  const [isDebugPanelOpen, setIsDebugPanelOpen] = useState(false);
 
   // ECHO Token contract address
   const ECHO_TOKEN_ADDRESS = '0xEDE26E239947d5203942b8A297E755a6B44DcdA8';
@@ -270,6 +274,24 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       }
     };
     fetchPrizePool();
+  }, []);
+  
+  // Raccourci clavier pour ouvrir le panneau de debug (Ctrl+Shift+D)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+        event.preventDefault();
+        console.log('🔍 Ouverture du panneau de diagnostic backend');
+        setIsDebugPanelOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    console.log('💡 Raccourci clavier activé: Ctrl+Shift+D pour ouvrir le diagnostic backend');
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const refreshPrizePool = async () => {
@@ -2863,6 +2885,16 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                           <div className="flex items-center space-x-2">
                             <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
                             <span className="text-orange-400 font-mono text-sm">Mode Local</span>
+                            <button
+                              onClick={() => {
+                                console.log('🔄 Retry manuel de la connexion backend...');
+                                refreshCountdown();
+                              }}
+                              className="ml-2 text-xs text-cyan-400 hover:text-cyan-300 underline"
+                              title="Réessayer la connexion backend"
+                            >
+                              ↻
+                            </button>
                           </div>
                         ) : (
                           <div className="flex items-center space-x-2">
@@ -3711,6 +3743,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       <TokenRulesModal 
         isOpen={showTokenRules}
         onClose={() => setShowTokenRules(false)}
+      />
+      
+      {/* Debug Panel - Raccourci Ctrl+Shift+D */}
+      <DebugPanel 
+        isVisible={isDebugPanelOpen}
+        onClose={() => setIsDebugPanelOpen(false)}
       />
     </div>
   );

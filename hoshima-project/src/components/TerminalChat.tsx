@@ -3735,17 +3735,16 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       </AnimatePresence>
 
       {/* Social Media Links */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">
+      <div className="fixed bottom-6 left-6 z-50 flex space-x-3">
         {/* Twitter/X Button */}
         <a
           href="https://x.com/K_A_E_L_E_N"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-cyan-500/30 rounded-xl hover:border-cyan-400/60 hover:bg-cyan-500/10 transition-all duration-300 hover:scale-105"
+          className="flex items-center justify-center w-8 h-8 text-white/60 hover:text-cyan-400 transition-colors duration-200"
           title="Follow on X"
         >
-          <XIcon className="w-5 h-5 text-cyan-400/80 group-hover:text-cyan-300 transition-colors" />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <XIcon className="w-4 h-4" />
         </a>
 
         {/* Telegram Button */}
@@ -3753,11 +3752,10 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           href="https://t.me/+RACbqe403XwxYjlk"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-blue-500/30 rounded-xl hover:border-blue-400/60 hover:bg-blue-500/10 transition-all duration-300 hover:scale-105"
+          className="flex items-center justify-center w-8 h-8 text-white/60 hover:text-blue-400 transition-colors duration-200"
           title={t('chat.joinTelegram')}
         >
-          <TelegramIcon className="w-5 h-5 text-blue-400/80 group-hover:text-blue-300 transition-colors" />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <TelegramIcon className="w-4 h-4" />
         </a>
       </div>
 

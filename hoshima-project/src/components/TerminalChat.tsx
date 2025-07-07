@@ -21,6 +21,18 @@ const TelegramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Icône X (Twitter) personnalisée
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
 // Ajout des imports pour l'optimisation
 import { useCallback, useMemo, memo } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -3722,17 +3734,32 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         )}
       </AnimatePresence>
 
-      {/* Telegram link avec texte */}
-      <a
-        href="https://t.me/+RACbqe403XwxYjlk"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-8 left-6 z-50 flex items-center space-x-2 text-blue-400/80 hover:text-blue-400 transition-colors p-2 rounded group"
-        title={t('chat.joinTelegram')}
-      >
-        <TelegramIcon className="w-4 h-4" />
-        <span className="font-mono text-xs">{t('chat.joinUs')}</span>
-      </a>
+      {/* Social Media Links */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">
+        {/* Twitter/X Button */}
+        <a
+          href="https://x.com/K_A_E_L_E_N"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-cyan-500/30 rounded-xl hover:border-cyan-400/60 hover:bg-cyan-500/10 transition-all duration-300 hover:scale-105"
+          title="Follow on X"
+        >
+          <XIcon className="w-5 h-5 text-cyan-400/80 group-hover:text-cyan-300 transition-colors" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+
+        {/* Telegram Button */}
+        <a
+          href="https://t.me/+RACbqe403XwxYjlk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-blue-500/30 rounded-xl hover:border-blue-400/60 hover:bg-blue-500/10 transition-all duration-300 hover:scale-105"
+          title={t('chat.joinTelegram')}
+        >
+          <TelegramIcon className="w-5 h-5 text-blue-400/80 group-hover:text-blue-300 transition-colors" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </a>
+      </div>
 
       {/* Prize Distribution Modal */}
       <PrizeDistributionModal 

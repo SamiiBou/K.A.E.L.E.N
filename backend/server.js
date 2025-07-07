@@ -25,20 +25,37 @@ app.use(cors({
     'http://localhost:3000', 
     'http://localhost:5000',
     'https://399c788608d9.ngrok.app',
-    'https://k-a-e-l-e-n-oafw.vercel.app',  // Frontend ngrok
-    'https://k-a-e-l-e-n.onrender.com'   // Backend ngrok (pour les redirections)
+    'https://k-a-e-l-e-n-oafw.vercel.app',  // Frontend Vercel
+    'https://k-a-e-l-e-n.onrender.com',     // Backend Render
+    // Support pour tous les sous-domaines Vercel
+    /^https:\/\/.*\.vercel\.app$/,
+    /^https:\/\/k-a-e-l-e-n.*\.vercel\.app$/
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
 }));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware de logging amélioré
+// Middleware de logging amélioré avec debug CORS
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   const origin = req.get('Origin') || 'N/A';
-  console.log(`${timestamp} - ${req.method} ${req.originalUrl} - Origin: ${origin}`);
+  const userAgent = req.get('User-Agent') || 'N/A';
+  
+  console.log(`${timestamp} - ${req.method} ${req.originalUrl}`);
+  console.log(`  Origin: ${origin}`);
+  console.log(`  User-Agent: ${userAgent.substring(0, 50)}...`);
+  
+  // Log spécial pour les requêtes OPTIONS (preflight CORS)
+  if (req.method === 'OPTIONS') {
+    console.log(`  🌐 CORS Preflight Request`);
+    console.log(`  Access-Control-Request-Method: ${req.get('Access-Control-Request-Method') || 'N/A'}`);
+    console.log(`  Access-Control-Request-Headers: ${req.get('Access-Control-Request-Headers') || 'N/A'}`);
+  }
+  
   next();
 });
 

@@ -39,12 +39,17 @@ export function useCountdown(): CountdownHookResult {
   const [error, setError] = useState<string | null>(null);
 
   // Fonction pour obtenir l'URL de l'API
-  const getApiUrl = () => {
+  const getApiUrl = (useProxy: boolean = false) => {
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
       
-      // En production sur Render
-      if (hostname.includes('onrender.com')) {
+      // Si on demande le proxy, utiliser l'endpoint local
+      if (useProxy) {
+        return window.location.origin + '/api';
+      }
+      
+      // En production sur Vercel, utiliser le backend Render
+      if (hostname.includes('vercel.app') || hostname.includes('onrender.com')) {
         return 'https://k-a-e-l-e-n.onrender.com/api';
       }
       
@@ -52,8 +57,8 @@ export function useCountdown(): CountdownHookResult {
       return 'http://localhost:5000/api';
     }
     
-    // Fallback pour le SSR
-    return 'http://localhost:5000/api';
+    // Fallback pour le SSR - utiliser Render en production
+    return 'https://k-a-e-l-e-n.onrender.com/api';
   };
 
   // Fonction pour récupérer les données du compte à rebours
@@ -74,27 +79,67 @@ export function useCountdown(): CountdownHookResult {
       }
       console.log('✅ Connexion internet détectée');
       
-      // Étape 3: Configuration de la requête avec timeout
+      // Étape 3: Détection mobile et ajustement du timeout
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const timeoutDuration = isMobile ? 10000 : 5000; // 10s sur mobile, 5s sur desktop
+      
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
-        console.log('⏰ TIMEOUT: Requête annulée après 5 secondes');
+        console.log(`⏰ TIMEOUT: Requête annulée après ${timeoutDuration/1000} secondes`);
         controller.abort();
-      }, 5000);
+      }, timeoutDuration);
       
+      console.log('📱 Détection de plateforme:', isMobile ? 'Mobile' : 'Desktop');
       console.log('📡 Envoi de la requête HTTP...');
       console.log('📡 Headers:', { 'Content-Type': 'application/json' });
       console.log('📡 Method: GET');
-      console.log('📡 Timeout: 5000ms');
+      console.log('📡 Timeout:', timeoutDuration + 'ms');
       
-      // Étape 4: Tentative de connexion
+      // Étape 4: Tentative de connexion avec headers spécifiques pour mobile
       const startTime = Date.now();
-      const response = await fetch(`${apiUrl}/countdown`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: controller.signal
-      });
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Headers supplémentaires pour mobile
+      if (isMobile) {
+        headers['Cache-Control'] = 'no-cache';
+        headers['Pragma'] = 'no-cache';
+      }
+      
+      let response;
+      
+      // Tentative normale d'abord
+      try {
+        response = await fetch(`${apiUrl}/countdown`, {
+          method: 'GET',
+          headers,
+          signal: controller.signal,
+          mode: 'cors',
+          credentials: 'omit'
+        });
+      } catch (fetchError) {
+        console.log('❌ Fetch direct échoué, tentative avec proxy NextJS...');
+        
+        // Fallback avec proxy NextJS
+        try {
+          const proxyUrl = getApiUrl(true);
+          console.log('🔄 Tentative avec proxy:', `${proxyUrl}/countdown-proxy`);
+          
+          response = await fetch(`${proxyUrl}/countdown-proxy`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            signal: controller.signal
+          });
+          
+          console.log('✅ Proxy NextJS réussi');
+        } catch (proxyError) {
+          console.log('❌ Proxy NextJS échoué aussi:', proxyError.message);
+          throw fetchError; // Garder l'erreur originale
+        }
+      }
       
       const responseTime = Date.now() - startTime;
       clearTimeout(timeoutId);

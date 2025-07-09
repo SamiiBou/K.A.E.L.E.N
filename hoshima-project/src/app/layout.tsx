@@ -36,7 +36,7 @@ export default function RootLayout({
       <MiniKitProvider>
         <LanguageProvider>
           <body className={`${geist.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}>
-            <Eruda />
+            {/* <Eruda /> */}
             {children}
           </body>
         </LanguageProvider>

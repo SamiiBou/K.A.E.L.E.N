@@ -2899,6 +2899,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                           <div className="flex items-center space-x-2">
                             <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></span>
                             <span className="text-orange-400 font-mono text-sm">Mode Local</span>
+                            {/* 
                             <button
                               onClick={() => {
                                 console.log('🔄 Retry manuel de la connexion backend...');
@@ -2909,6 +2910,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                             >
                               ↻
                             </button>
+                            */}
                           </div>
                         ) : (
                           <div className="flex items-center space-x-2">
@@ -3779,12 +3781,14 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       />
 
       {/* Gestionnaire des permissions de notifications */}
+      {/* 
       <NotificationPermissionManager
         delay={2000}
         onPermissionHandled={(granted) => {
           console.log('🔔 [TerminalChat] Permission de notification:', granted ? 'accordée' : 'refusée');
         }}
       />
+      */}
     </div>
   );
 }

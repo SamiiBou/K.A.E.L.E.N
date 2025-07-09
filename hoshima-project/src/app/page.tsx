@@ -10,7 +10,6 @@ import LanguageSelectionScreen from "@/components/LanguageSelectionScreen";
 import LanguageSelectorClient from "@/components/LanguageSelectorClient";
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageDebug from "@/components/LanguageDebug";
-import NotificationPermissionManager from "@/components/NotificationPermissionManager";
 import "@/utils/notificationDebugger"; // Pour exposer NotificationDebugger globalement
 
 export default function Home() {
@@ -117,14 +116,6 @@ export default function Home() {
         />
         <LanguageSelectorClient />
         <LanguageDebug />
-        
-        {/* Gestionnaire des permissions de notifications */}
-        <NotificationPermissionManager
-          delay={2000}
-          onPermissionHandled={(granted) => {
-            console.log('🔔 [Page] Permission de notification:', granted ? 'accordée' : 'refusée');
-          }}
-        />
         
         <TerminalChat 
           fragments={fragments} 

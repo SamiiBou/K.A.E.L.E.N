@@ -32,49 +32,20 @@ export default function NotificationPermissionManager({
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [hasShownModal, setHasShownModal] = useState(false);
 
-  // Debug: vérifier l'état
-  console.log('🔔 [NotificationPermissionManager] État:', {
-    isWorldAppInstalled,
-    shouldRequestPermission: shouldRequestPermission(),
-    status,
-    hasShownModal,
-    showPermissionModal,
-    forceShow,
-    delay
-  });
-
   // Effet pour afficher la modal après un délai si les conditions sont remplies
   useEffect(() => {
-    console.log('🔔 [NotificationPermissionManager] useEffect conditions:', {
-      forceShow,
-      hasShownModal,
-      isWorldAppInstalled,
-      shouldRequestPermission: shouldRequestPermission(),
-      status,
-      statusIsNotUnknown: status !== 'unknown'
-    });
-
     if (forceShow) {
-      console.log('🔔 [NotificationPermissionManager] ForceShow activé');
       setShowPermissionModal(true);
       setHasShownModal(true);
       return;
     }
 
     // Ne demander qu'une fois par session
-    if (hasShownModal) {
-      console.log('🔔 [NotificationPermissionManager] Modal déjà affichée');
-      return;
-    }
+    if (hasShownModal) return;
 
     // Vérifier si on doit demander les permissions
-    const canShow = isWorldAppInstalled && shouldRequestPermission() && status !== 'unknown';
-    console.log('🔔 [NotificationPermissionManager] Peut afficher?', canShow);
-
-    if (canShow) {
-      console.log(`🔔 [NotificationPermissionManager] Timer programmé dans ${delay}ms`);
+    if (isWorldAppInstalled && shouldRequestPermission() && status !== 'unknown') {
       const timer = setTimeout(() => {
-        console.log('🔔 [NotificationPermissionManager] Affichage de la modal');
         setShowPermissionModal(true);
         setHasShownModal(true);
       }, delay);
@@ -108,34 +79,29 @@ export default function NotificationPermissionManager({
 
   // Ne rien afficher si World App n'est pas installé
   if (!isWorldAppInstalled) {
-    console.log('🔔 [NotificationPermissionManager] World App non installé');
     return null;
   }
 
   return (
     <>
-      {/* Boutons de test temporaires pour forcer l'affichage */}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
+      {/* Boutons de test temporaires - À RETIRER PLUS TARD */}
+      <div className="fixed top-4 right-4 z-50 flex flex-col gap-1">
         <button
-          onClick={() => {
-            console.log('🔔 [NotificationPermissionManager] Test forcé');
-            setShowPermissionModal(true);
-          }}
-          className="bg-red-500 text-white px-3 py-1 rounded text-xs"
+          onClick={() => setShowPermissionModal(true)}
+          className="bg-blue-500/80 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs transition-colors"
         >
-          TEST
+          🔔
         </button>
         <button
           onClick={() => {
-            console.log('🔔 [NotificationPermissionManager] Reset localStorage');
             localStorage.removeItem('hoshima_notification_permission');
             localStorage.removeItem('hoshima_notification_requested');
             localStorage.removeItem('hoshima_notification_timestamp');
             window.location.reload();
           }}
-          className="bg-orange-500 text-white px-3 py-1 rounded text-xs"
+          className="bg-gray-500/80 hover:bg-gray-500 text-white px-2 py-1 rounded text-xs transition-colors"
         >
-          RESET
+          ↺
         </button>
       </div>
 

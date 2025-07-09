@@ -7,6 +7,7 @@ import { MiniKit, tokenToDecimals, Tokens, PayCommandInput, VerifyCommandInput, 
 import PrizeDistributionModal from './PrizeDistributionModal';
 import TokenRulesModal from './TokenRulesModal';
 import DebugPanel from './DebugPanel';
+import NotificationPermissionManager from './NotificationPermissionManager';
 import ECHOTokenABI from '@/abi/ECHOTokenABI.json';
 
 // Icône Telegram personnalisée
@@ -3775,6 +3776,14 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       <DebugPanel 
         isVisible={isDebugPanelOpen}
         onClose={() => setIsDebugPanelOpen(false)}
+      />
+
+      {/* Gestionnaire des permissions de notifications */}
+      <NotificationPermissionManager
+        delay={2000}
+        onPermissionHandled={(granted) => {
+          console.log('🔔 [TerminalChat] Permission de notification:', granted ? 'accordée' : 'refusée');
+        }}
       />
     </div>
   );

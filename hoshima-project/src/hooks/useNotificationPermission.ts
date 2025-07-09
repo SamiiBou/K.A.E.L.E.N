@@ -43,13 +43,24 @@ export function useNotificationPermission() {
       const timestampStr = localStorage.getItem(NOTIFICATION_PERMISSION_KEYS.PERMISSION_TIMESTAMP);
       const lastRequestTimestamp = timestampStr ? parseInt(timestampStr, 10) : null;
 
-      setPermissionState({
+      console.log('🔔 [useNotificationPermission] Chargement localStorage:', {
+        storedStatus,
+        hasBeenRequested,
+        timestampStr,
+        lastRequestTimestamp
+      });
+
+      const newState = {
         status: storedStatus || 'not_requested',
         isRequesting: false,
         hasBeenRequested,
         lastRequestTimestamp,
         error: null,
-      });
+      };
+
+      console.log('🔔 [useNotificationPermission] Nouvel état:', newState);
+
+      setPermissionState(newState);
     } catch (error) {
       console.error('[NotificationPermission] Erreur lors du chargement depuis le localStorage:', error);
       setPermissionState({
@@ -244,8 +255,16 @@ export function useNotificationPermission() {
 
   // Vérifier si on doit demander les permissions (première visite ou permissions non accordées)
   const shouldRequestPermission = useCallback((): boolean => {
-    return !permissionState.hasBeenRequested || 
+    const should = !permissionState.hasBeenRequested || 
            (permissionState.status !== 'granted' && permissionState.status !== 'denied');
+    
+    console.log('🔔 [useNotificationPermission] shouldRequestPermission?', {
+      hasBeenRequested: permissionState.hasBeenRequested,
+      status: permissionState.status,
+      shouldRequest: should
+    });
+    
+    return should;
   }, [permissionState.hasBeenRequested, permissionState.status]);
 
   // Réinitialiser l'état des permissions (pour le développement/debug)

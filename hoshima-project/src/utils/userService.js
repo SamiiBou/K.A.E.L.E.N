@@ -210,13 +210,14 @@ class UserService {
   }
 
   // Envoie un message avec mémoire intégrée
-  async sendMessage(messages) {
+  async sendMessage(messages, isFirstMessage = false) {
     try {
       const requestBody = {
         messages,
         userId: this.currentUser?.userId,
         sessionId: this.currentSessionId,
-        username: this.currentUser?.username
+        username: this.currentUser?.username,
+        isFirstMessage: isFirstMessage
       };
 
       const response = await fetch(`${this.backendUrl}/chat`, {
@@ -227,11 +228,30 @@ class UserService {
         body: JSON.stringify(requestBody)
       });
 
+      const data = await response.json();
+      
+      // Gérer les erreurs de crédit côté serveur
+      if (response.status === 402) {
+        return {
+          error: data.error,
+          requiresPayment: true,
+          currentBalance: data.currentBalance
+        };
+      }
+
+      // Gérer le rate limiting
+      if (response.status === 429) {
+        return {
+          error: data.error,
+          rateLimited: true,
+          retryAfter: data.retryAfter
+        };
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
       return data;
     } catch (error) {
       console.error('❌ Erreur lors de l\'envoi du message:', error);

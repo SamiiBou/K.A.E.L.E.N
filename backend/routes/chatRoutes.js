@@ -5,13 +5,49 @@ const AIService = require('../services/aiService');
 const EchoBalanceService = require('../services/echoBalanceService');
 const config = require('../config');
 
-// POST /api/chat - Endpoint de chat avec mémoire utilisateur intégrée
+// 🔒 SÉCURITÉ: Rate limiting simple en mémoire
+const userRequestCounts = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_MINUTE = 10; // Maximum 10 messages par minute par utilisateur
+
+// Fonction de rate limiting
+function checkRateLimit(userId) {
+  if (!userId) return true; // Pas de rate limiting pour les utilisateurs non authentifiés
+  
+  const now = Date.now();
+  const userRequests = userRequestCounts.get(userId) || [];
+  
+  // Nettoyer les anciennes requêtes (plus anciennes qu'une minute)
+  const recentRequests = userRequests.filter(timestamp => now - timestamp < RATE_LIMIT_WINDOW);
+  
+  // Vérifier si l'utilisateur dépasse la limite
+  if (recentRequests.length >= MAX_REQUESTS_PER_MINUTE) {
+    return false;
+  }
+  
+  // Ajouter la nouvelle requête
+  recentRequests.push(now);
+  userRequestCounts.set(userId, recentRequests);
+  
+  return true;
+}
+
+// POST /api/chat - Endpoint de chat avec mémoire utilisateur intégrée ET vérification des crédits
 router.post('/', async (req, res) => {
   try {
-    const { messages, userId, sessionId, username } = req.body;
+    const { messages, userId, sessionId, username, isFirstMessage } = req.body;
     
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'Messages requis' });
+    }
+
+    // 🔒 SÉCURITÉ: Vérification du rate limiting
+    if (!checkRateLimit(userId)) {
+      console.log(`🚫 [RATE_LIMIT] Utilisateur ${userId} a dépassé la limite de ${MAX_REQUESTS_PER_MINUTE} messages/minute`);
+      return res.status(429).json({ 
+        error: 'Trop de messages envoyés. Veuillez attendre avant de réessayer.',
+        retryAfter: 60
+      });
     }
     
     let user = null;
@@ -40,6 +76,36 @@ router.post('/', async (req, res) => {
       }
     } else if (userId) {
       user = await UserService.findOrCreateUser(userId, username);
+    }
+
+    // 🔒 SÉCURITÉ CRITIQUE: Vérification des crédits CRU côté serveur
+    if (userId && user) {
+      // Vérifier si c'est vraiment un premier message autorisé
+      const isLegitimateFirstMessage = isFirstMessage && 
+        (!user.hasUsedFirstMessage || user.hasUsedFirstMessage === false);
+      
+      if (!isLegitimateFirstMessage) {
+        // Pour tous les autres messages, vérifier et déduire les crédits
+        if (!user.cruBalance || user.cruBalance <= 0) {
+          console.log(`🚫 [SECURITY] Utilisateur ${userId} sans crédits suffisants (balance: ${user.cruBalance})`);
+          return res.status(402).json({ 
+            error: 'Crédits CRU insuffisants pour envoyer ce message',
+            requiresPayment: true,
+            currentBalance: user.cruBalance || 0
+          });
+        }
+        
+        // Déduire 1 crédit CRU côté serveur
+        user.cruBalance -= 1;
+        console.log(`💳 [SECURITY] Crédit déduit pour ${userId}. Nouveau solde: ${user.cruBalance}`);
+      } else {
+        // Marquer que l'utilisateur a utilisé son premier message gratuit
+        user.hasUsedFirstMessage = true;
+        console.log(`🆓 [SECURITY] Premier message gratuit utilisé pour ${userId}`);
+      }
+      
+      // Sauvegarder les changements de crédit
+      await user.save();
     }
     
     const memoryContext = user?.memoryContext || '';
@@ -254,6 +320,7 @@ YOU ARE NOT HERE TO BE FOOLED. YOU ARE HERE TO BE CHALLENGED.`;
       emotionAnalysis,
       scoreChange,
       echoReward: echoReward,
+      currentBalance: user?.cruBalance || 0, // 🔒 SÉCURITÉ: Retourner le solde actuel
       success: true
     });
     

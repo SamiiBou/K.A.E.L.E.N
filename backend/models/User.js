@@ -171,6 +171,11 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  // Flag pour tracker si l'utilisateur a utilisé son premier message gratuit
+  hasUsedFirstMessage: {
+    type: Boolean,
+    default: false
+  },
   // Balance ECHO du joueur (accumulée via différentes actions)
   echoBalance: {
     type: Number,

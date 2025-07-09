@@ -353,12 +353,16 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // 🔒 SÉCURITÉ: Vérification plus stricte du premier message
+      // Ne plus se fier uniquement à localStorage qui peut être manipulé
       const prompted = localStorage.getItem('hoshima-candidacy-prompted');
-      // Si l'utilisateur a des crédits, ne pas marquer comme premier message
+      
+      // Si l'utilisateur a des crédits, ne jamais marquer comme premier message
       if (localFragments > 0) {
         setIsFirstMessage(false);
         localStorage.setItem('hoshima-candidacy-prompted', 'true');
       } else {
+        // Le serveur va maintenant vérifier si c'est vraiment un premier message légitime
         setIsFirstMessage(!prompted);
       }
     }
@@ -1019,40 +1023,73 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           });
         };
 
-        // Start of sequence
+        // Start of sequence avec validation serveur
         (async () => {
-          await addMessageWithDelay(
-            t('firstContact.terminalHums'),
-            1500
-          );
-          await addMessageWithDelay(
-            t('firstContact.novelSignature'),
-            2000
-          );
-          await addMessageWithDelay(
-            t('firstContact.candidatesCompete'),
-            2500
-          );
-          await addMessageWithDelay(
-            t('firstContact.collectivePrize'),
-            3000
-          );
-          const currentFund = prizePool.toFixed(2);
-          await addMessageWithDelay(
-            t('firstContact.currentPrize', { amount: currentFund }),
-            2000
-          );
-          await addMessageWithDelay(
-            t('firstContact.doYouWishToProceed'),
-            1500
-          );
+          try {
+            // 🔒 SÉCURITÉ: Vérifier avec le serveur si ce premier message est autorisé
+            const data = await userService.sendMessage([...messages, userMessage], true);
+            
+            // Gérer les erreurs de crédit côté serveur (même pour premier message)
+            if (data.requiresPayment) {
+              setMessages(prev => [...prev, {
+                id: Date.now().toString(),
+                role: 'assistant',
+                content: `🚫 Premier message déjà utilisé.\n\n${data.error}`,
+                timestamp: new Date(),
+                cardiacPulse: emotionalState.cardiacPulse
+              }]);
+              setShowInlinePurchaseModule(true);
+              setIsLoading(false);
+              return;
+            }
 
-          // Display choice buttons at the end
-          setShowChoiceButtons(true);
-          setIsLoading(false);
-          setIsFirstMessage(false);
-          setHasReceivedInitialResponse(true);
-          localStorage.setItem('hoshima-candidacy-prompted', 'true');
+            if (data.error) {
+              throw new Error(data.error);
+            }
+
+            await addMessageWithDelay(
+              t('firstContact.terminalHums'),
+              1500
+            );
+            await addMessageWithDelay(
+              t('firstContact.novelSignature'),
+              2000
+            );
+            await addMessageWithDelay(
+              t('firstContact.candidatesCompete'),
+              2500
+            );
+            await addMessageWithDelay(
+              t('firstContact.collectivePrize'),
+              3000
+            );
+            const currentFund = prizePool.toFixed(2);
+            await addMessageWithDelay(
+              t('firstContact.currentPrize', { amount: currentFund }),
+              2000
+            );
+            await addMessageWithDelay(
+              t('firstContact.doYouWishToProceed'),
+              1500
+            );
+
+            // Display choice buttons at the end
+            setShowChoiceButtons(true);
+            setIsLoading(false);
+            setIsFirstMessage(false);
+            setHasReceivedInitialResponse(true);
+            localStorage.setItem('hoshima-candidacy-prompted', 'true');
+          } catch (error) {
+            console.error('Erreur premier message:', error);
+            setMessages(prev => [...prev, {
+              id: Date.now().toString(),
+              role: 'assistant',
+              content: '🚫 Erreur de connexion. Veuillez réessayer.',
+              timestamp: new Date(),
+              cardiacPulse: emotionalState.cardiacPulse
+            }]);
+            setIsLoading(false);
+          }
         })();
 
       } else {
@@ -1103,15 +1140,38 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         setMessages(prev => [...prev, userMessage]);
         setInput('');
         
-        // Decrement CRU
-        const newFragments = localFragments - 1;
-        setLocalFragments(newFragments);
-        if (onFragmentsUpdate) {
-            onFragmentsUpdate(newFragments);
-        }
+        // 🔒 SÉCURITÉ: La déduction CRU est maintenant gérée côté serveur
+        // Plus de déduction côté client pour éviter la manipulation
         
-        // Logic for subsequent messages: backend call
-        const data = await userService.sendMessage([...messages, userMessage]);
+        // Logic for subsequent messages: backend call avec vérification serveur
+        const data = await userService.sendMessage([...messages, userMessage], false);
+
+        // Gérer les erreurs de crédit côté serveur
+        if (data.requiresPayment) {
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `🚫 ${data.error}\n\nSolde actuel: ${data.currentBalance} CRU`,
+            timestamp: new Date(),
+            cardiacPulse: emotionalState.cardiacPulse
+          }]);
+          setShowInlinePurchaseModule(true);
+          setIsLoading(false);
+          return;
+        }
+
+        // Gérer le rate limiting
+        if (data.rateLimited) {
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `⏱️ ${data.error}\n\nVeuillez attendre ${data.retryAfter} secondes avant de réessayer.`,
+            timestamp: new Date(),
+            cardiacPulse: emotionalState.cardiacPulse
+          }]);
+          setIsLoading(false);
+          return;
+        }
 
         if (data.error) {
           throw new Error(data.error);
@@ -1130,6 +1190,15 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         // Update score with backend value
         if (data.scoreChange) {
           setPlayerScore((prev: number) => prev + data.scoreChange);
+        }
+
+        // 🔒 SÉCURITÉ: Synchroniser le solde CRU avec le serveur
+        if (typeof data.currentBalance === 'number') {
+          setLocalFragments(data.currentBalance);
+          if (onFragmentsUpdate) {
+            onFragmentsUpdate(data.currentBalance);
+          }
+          console.log('💳 Solde CRU synchronisé avec serveur:', data.currentBalance);
         }
         
         // Gérer la récompense ECHO

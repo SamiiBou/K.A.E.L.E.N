@@ -2613,12 +2613,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             />
           </span>
           <motion.span 
-            className="text-emerald-400/90 relative"
+            className="text-amber-300 relative font-semibold"
             animate={{
               textShadow: [
-                '0 0 5px rgba(16, 185, 129, 0.5)',
-                '0 0 10px rgba(16, 185, 129, 0.8)',
-                '0 0 5px rgba(16, 185, 129, 0.5)'
+                '0 0 5px rgba(252, 211, 77, 0.7)',
+                '0 0 10px rgba(252, 211, 77, 1)',
+                '0 0 5px rgba(252, 211, 77, 0.7)'
               ]
             }}
             transition={{ duration: 2, repeat: Infinity }}

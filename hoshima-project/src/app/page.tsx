@@ -35,9 +35,25 @@ export default function Home() {
       isLoading,
       hasUser: !!user,
       userWallet: user?.walletAddress,
-      username: user?.worldUsername
+      username: user?.worldUsername,
+      showWelcome,
+      showIntro,
+      languageSelected
     });
-  }, [isAuthenticated, isLoading, user]);
+  }, [isAuthenticated, isLoading, user, showWelcome, showIntro, languageSelected]);
+
+  // Fermer automatiquement la WelcomePage après authentification (TEMPORAIRE pour debug)
+  useEffect(() => {
+    if (isAuthenticated && user && showWelcome) {
+      console.log('🔄 [Page] Utilisateur authentifié - fermeture automatique de WelcomePage dans 3 secondes');
+      const timer = setTimeout(() => {
+        console.log('🚀 [Page] Fermeture forcée de WelcomePage');
+        setShowWelcome(false);
+      }, 3000); // 3 secondes pour voir la modal de notification
+
+      return () => clearTimeout(timer);
+    }
+  }, [isAuthenticated, user, showWelcome]);
 
   const handleAuthSuccess = (user: any, token: string) => {
     console.log('🎉 [Page] Authentification réussie:', {
@@ -48,6 +64,7 @@ export default function Home() {
     
     login(user, token);
     setAuthError(null);
+    console.log('🔄 [Page] setShowWelcome(true) appelé après authentification');
     setShowWelcome(true);
   };
 
@@ -57,7 +74,7 @@ export default function Home() {
   };
 
   const handleWelcomeComplete = () => {
-    console.log('✅ [Page] Animation de bienvenue terminée');
+    console.log('✅ [Page] handleWelcomeComplete appelé - fermeture de WelcomePage');
     setShowWelcome(false);
   };
 
@@ -86,28 +103,44 @@ export default function Home() {
 
   // 0. TOUJOURS afficher la sélection de langue en premier si elle n'a pas été faite
   if (!languageSelected) {
+    console.log('🌍 [Page] Affichage de LanguageSelectionScreen');
     return <LanguageSelectionScreen onLanguageSelected={handleLanguageSelected} />;
   }
 
   // 1. Toujours afficher l'intro d'abord
   if (showIntro) {
+    console.log('🎬 [Page] Affichage de GameIntro');
     return <GameIntro onComplete={handleIntroComplete} />;
   }
 
   // 2. Ensuite la page de bienvenue / authentification
   if (showWelcome || !isAuthenticated) {
+    console.log('👋 [Page] Affichage de WelcomePage (showWelcome:', showWelcome, ', isAuthenticated:', isAuthenticated, ')');
     return (
-      <WelcomePage 
-        onComplete={handleWelcomeComplete}
-        onAuthSuccess={handleAuthSuccess}
-        onAuthError={handleAuthError}
-      />
+      <div>
+        <WelcomePage 
+          onComplete={handleWelcomeComplete}
+          onAuthSuccess={handleAuthSuccess}
+          onAuthError={handleAuthError}
+        />
+        
+        {/* Gestionnaire de notifications TEMPORAIRE sur WelcomePage pour debug */}
+        {isAuthenticated && user && (
+          <NotificationPermissionManager
+            forceShow={true}  // TEMPORAIRE - pour debug
+            delay={500}
+            onPermissionHandled={(granted) => {
+              console.log('🔔 [Page] Permission de notification:', granted ? 'accordée' : 'refusée');
+            }}
+          />
+        )}
+      </div>
     );
   }
 
   // 3. Enfin, une fois authentifié et après la page de bienvenue, afficher le terminal
   if (isAuthenticated && user) {
-    console.log('🎯 [Page] Utilisateur authentifié, affichage du chat');
+    console.log('🎯 [Page] Affichage de TerminalChat (isAuthenticated:', isAuthenticated, ', user:', !!user, ', showWelcome:', showWelcome, ')');
     return (
       <div className="min-h-screen bg-black relative overflow-hidden">
         <img
@@ -139,6 +172,6 @@ export default function Home() {
   }
 
   // Fallback - normalement on ne devrait jamais arriver ici
-  console.warn('⚠️ [Page] État inattendu, retour à l\'intro');
+  console.warn('⚠️ [Page] État inattendu, retour à l\'intro (isAuthenticated:', isAuthenticated, ', user:', !!user, ', showWelcome:', showWelcome, ', showIntro:', showIntro, ')');
   return <GameIntro onComplete={handleIntroComplete} />;
 }

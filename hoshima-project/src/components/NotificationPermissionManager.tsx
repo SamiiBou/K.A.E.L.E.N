@@ -118,30 +118,20 @@ export default function NotificationPermissionManager({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-2xl p-6 mx-4 max-w-md w-full shadow-2xl shadow-cyan-500/20"
+            className="bg-black/95 border border-cyan-500/40 rounded-lg p-4 mx-4 max-w-sm w-full shadow-2xl shadow-cyan-500/10 backdrop-blur-md"
           >
-            {/* Icône de notification */}
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
-                <svg 
-                  className="w-8 h-8 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                </svg>
-              </div>
+            {/* Header minimaliste */}
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-3 h-3 bg-cyan-500 rounded-full animate-pulse mr-2"></div>
+              <h3 className="text-sm font-mono text-cyan-400 uppercase tracking-wider">
+                {t('notifications.permissionTitle', 'NOTIFICATIONS')}
+              </h3>
             </div>
 
-            {/* Titre */}
-            <h3 className="text-xl font-bold text-center text-white mb-2">
-              {t('notifications.permissionTitle', 'Stay Updated with Hoshima')}
-            </h3>
-
-            {/* Description */}
-            <p className="text-gray-300 text-center mb-6 leading-relaxed">
+            {/* Description courte */}
+            <p className="text-gray-400 text-center mb-4 text-sm font-mono leading-relaxed">
               {t('notifications.permissionDescription', 
-                'Get notified about important updates, game events, and exclusive rewards. We respect your privacy and only send relevant notifications.'
+                'Enable notifications for updates and rewards'
               )}
             </p>
 
@@ -162,40 +152,33 @@ export default function NotificationPermissionManager({
               </div>
             )}
 
-            {/* Boutons d'action */}
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={handleAllowNotifications}
-                disabled={isRequesting || status === 'denied'}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-cyan-500/25"
-              >
-                {isRequesting ? (
-                  <div className="flex items-center justify-center">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                    {t('notifications.requesting', 'Requesting...')}
-                  </div>
-                ) : status === 'denied' ? (
-                  t('notifications.openSettings', 'Open Settings')
-                ) : (
-                  t('notifications.allowNotifications', 'Allow Notifications')
-                )}
-              </button>
-
+            {/* Boutons d'action minimalistes */}
+            <div className="flex gap-2">
               <button
                 onClick={handleDismiss}
                 disabled={isRequesting}
-                className="w-full bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-gray-300 font-medium py-3 px-6 rounded-xl transition-all duration-200"
+                className="flex-1 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-600/30 disabled:opacity-50 text-gray-400 font-mono text-xs py-2 px-3 rounded transition-all duration-200 uppercase tracking-wider"
               >
-                {t('notifications.notNow', 'Not Now')}
+                {t('notifications.notNow', 'SKIP')}
+              </button>
+              
+              <button
+                onClick={handleAllowNotifications}
+                disabled={isRequesting || status === 'denied'}
+                className="flex-1 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 hover:border-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-cyan-400 font-mono text-xs py-2 px-3 rounded transition-all duration-200 uppercase tracking-wider"
+              >
+                {isRequesting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-3 h-3 border border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mr-1"></div>
+                    {t('notifications.requesting', 'PROCESSING')}
+                  </div>
+                ) : status === 'denied' ? (
+                  t('notifications.openSettings', 'SETTINGS')
+                ) : (
+                  t('notifications.allowNotifications', 'ALLOW')
+                )}
               </button>
             </div>
-
-            {/* Note en bas */}
-            <p className="text-xs text-gray-500 text-center mt-4">
-              {t('notifications.privacyNote', 
-                'You can change this setting anytime in World App settings'
-              )}
-            </p>
           </motion.div>
         </motion.div>
       )}

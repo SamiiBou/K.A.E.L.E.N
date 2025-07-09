@@ -222,12 +222,12 @@
     "loading": "กำลังโหลด..."
   },
   "notifications": {
-    "permissionTitle": "อัปเดตกับ Hoshima",
-    "permissionDescription": "รับการแจ้งเตือนเกี่ยวกับการอัปเดตสำคัญ กิจกรรมในเกม และรางวัลเฉพาะ เราเคารพความเป็นส่วนตัวของคุณและส่งเฉพาะการแจ้งเตือนที่เกี่ยวข้อง",
-    "allowNotifications": "อนุญาตการแจ้งเตือน",
-    "notNow": "ไม่ใช่ตอนนี้",
-    "requesting": "กำลังขอ...",
-    "openSettings": "เปิดการตั้งค่า World App",
+    "permissionTitle": "การแจ้งเตือน",
+    "permissionDescription": "เปิดการแจ้งเตือนสำหรับการอัปเดตและรางวัล",
+    "allowNotifications": "อนุญาต",
+    "notNow": "ข้าม",
+    "requesting": "กำลังดำเนินการ",
+    "openSettings": "การตั้งค่า",
     "privacyNote": "คุณสามารถเปลี่ยนการตั้งค่านี้ได้ตลอดเวลาในการตั้งค่า World App"
   }
 } 

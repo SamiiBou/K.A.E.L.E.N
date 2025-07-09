@@ -222,12 +222,12 @@
     "loading": "Loading..."
   },
   "notifications": {
-    "permissionTitle": "Stay Updated with Hoshima",
-    "permissionDescription": "Get notified about important updates, game events, and exclusive rewards. We respect your privacy and only send relevant notifications.",
-    "allowNotifications": "Allow Notifications",
-    "notNow": "Not Now",
-    "requesting": "Requesting...",
-    "openSettings": "Open World App Settings",
+    "permissionTitle": "NOTIFICATIONS",
+    "permissionDescription": "Enable notifications for updates and rewards",
+    "allowNotifications": "ALLOW",
+    "notNow": "SKIP",
+    "requesting": "PROCESSING",
+    "openSettings": "SETTINGS",
     "privacyNote": "You can change this setting anytime in World App settings"
   }
 } 

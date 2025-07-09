@@ -222,12 +222,12 @@
     "loading": "Chargement..."
   },
   "notifications": {
-    "permissionTitle": "Restez Informé avec Hoshima",
-    "permissionDescription": "Recevez des notifications sur les mises à jour importantes, les événements du jeu et les récompenses exclusives. Nous respectons votre vie privée et n'envoyons que des notifications pertinentes.",
-    "allowNotifications": "Autoriser les Notifications",
-    "notNow": "Pas Maintenant",
-    "requesting": "Demande en cours...",
-    "openSettings": "Ouvrir les Paramètres World App",
+    "permissionTitle": "NOTIFICATIONS",
+    "permissionDescription": "Activer les notifications pour les mises à jour et récompenses",
+    "allowNotifications": "AUTORISER",
+    "notNow": "IGNORER",
+    "requesting": "TRAITEMENT",
+    "openSettings": "PARAMÈTRES",
     "privacyNote": "Vous pouvez modifier ce paramètre à tout moment dans les paramètres de World App"
   }
 } 

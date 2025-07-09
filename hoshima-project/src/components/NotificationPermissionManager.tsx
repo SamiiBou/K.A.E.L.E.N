@@ -84,26 +84,6 @@ export default function NotificationPermissionManager({
 
   return (
     <>
-      {/* Boutons de test temporaires - À RETIRER PLUS TARD */}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-1">
-        <button
-          onClick={() => setShowPermissionModal(true)}
-          className="bg-blue-500/80 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs transition-colors"
-        >
-          🔔
-        </button>
-        <button
-          onClick={() => {
-            localStorage.removeItem('hoshima_notification_permission');
-            localStorage.removeItem('hoshima_notification_requested');
-            localStorage.removeItem('hoshima_notification_timestamp');
-            window.location.reload();
-          }}
-          className="bg-gray-500/80 hover:bg-gray-500 text-white px-2 py-1 rounded text-xs transition-colors"
-        >
-          ↺
-        </button>
-      </div>
 
       <AnimatePresence>
         {showPermissionModal && (

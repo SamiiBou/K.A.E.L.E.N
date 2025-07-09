@@ -2613,17 +2613,17 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
             />
           </span>
           <motion.span 
-            className="text-blue-400/60 relative"
+            className="text-emerald-400/90 relative"
             animate={{
               textShadow: [
-                '0 0 5px rgba(59, 130, 246, 0.3)',
-                '0 0 10px rgba(59, 130, 246, 0.6)',
-                '0 0 5px rgba(59, 130, 246, 0.3)'
+                '0 0 5px rgba(16, 185, 129, 0.5)',
+                '0 0 10px rgba(16, 185, 129, 0.8)',
+                '0 0 5px rgba(16, 185, 129, 0.5)'
               ]
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-                            {t('chat.quantumCycles')}: {localFragments}
+                            {t('chat.messagesRemaining')}: {localFragments}
           </motion.span>
         </motion.div>
 

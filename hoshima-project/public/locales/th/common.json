@@ -47,7 +47,7 @@
     "message": "ข้อความ",
     "worldcoinAuth": "// การยืนยันตัวตน WORLDCOIN //",
     "beginTransmission": "เริ่มการส่งสัญญาณ",
-    "quantumCycles": "วงจรควอนตัม",
+    "messagesRemaining": "ข้อความคงเหลือ",
     "initializationProtocol": "โปรโตคอลเริ่มต้น",
     "stability": "เสถียรภาพ",
     "arousal": "การกระตุ้น",

@@ -47,7 +47,7 @@
     "message": "message",
     "worldcoinAuth": "// AUTHENTIFICATION WORLDCOIN //",
     "beginTransmission": "COMMENCER LA TRANSMISSION",
-    "quantumCycles": "CYCLES QUANTIQUES",
+    "messagesRemaining": "MESSAGES RESTANTS",
     "initializationProtocol": "PROTOCOLE D'INITIALISATION",
     "stability": "STABILITÉ",
     "arousal": "EXCITATION",

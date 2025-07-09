@@ -118,9 +118,10 @@ export default function Home() {
         <LanguageSelectorClient />
         <LanguageDebug />
         
-        {/* Gestionnaire des permissions de notifications - s'affiche automatiquement après 2 secondes */}
+        {/* Gestionnaire des permissions de notifications - affichage forcé pour debug */}
         <NotificationPermissionManager
-          delay={2000}
+          forceShow={true}  // TEMPORAIRE - pour debug
+          delay={500}
           onPermissionHandled={(granted) => {
             console.log('🔔 [Page] Permission de notification:', granted ? 'accordée' : 'refusée');
           }}

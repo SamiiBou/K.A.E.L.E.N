@@ -420,19 +420,19 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     };
   }, [stopAmbientAudio, stopPianoNote]);
 
-  // Eruda debugging console - DISABLED
-  // useEffect(() => {
-  //   // Initialize Eruda to allow debugging even on the home screen
-  //   if (typeof window !== 'undefined' && !(window as any).eruda) {
-  //     const script = document.createElement('script');
-  //     script.src = '//cdn.jsdelivr.net/npm/eruda';
-  //     script.onload = () => {
-  //       (window as any).eruda.init();
-  //       console.log('🔧 Eruda console (WelcomePage) enabled');
-  //     };
-  //     document.head.appendChild(script);
-  //   }
-  // }, []);
+  Eruda debugging console - DISABLED
+  useEffect(() => {
+    // Initialize Eruda to allow debugging even on the home screen
+    if (typeof window !== 'undefined' && !(window as any).eruda) {
+      const script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/eruda';
+      script.onload = () => {
+        (window as any).eruda.init();
+        console.log('🔧 Eruda console (WelcomePage) enabled');
+      };
+      document.head.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden" style={{ height: '100vh', width: '100vw' }}>

@@ -136,7 +136,7 @@ router.post('/reset', async (req, res) => {
       timeRemaining: COUNTDOWN_DURATION,
       endTime: newData.endTime,
       startTime: newData.startTime,
-      days: 7,
+      days: 3,
       hours: 0,
       minutes: 0,
       seconds: 0,

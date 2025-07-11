@@ -5,10 +5,10 @@ export async function GET(request: NextRequest) {
   try {
     console.log('🔄 [TEST] Endpoint test-countdown appelé');
     
-    // Calculer un compte à rebours de 7 jours à partir de maintenant
+    // Calculer un compte à rebours de 3 jours à partir de maintenant
     const now = Date.now();
-    const sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);
-    const remaining = sevenDaysFromNow - now;
+    const threeDaysFromNow = now + (3 * 24 * 60 * 60 * 1000);
+    const remaining = threeDaysFromNow - now;
     
     const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       seconds,
       timeRemaining: remaining,
       isActive: true,
-      endTime: sevenDaysFromNow,
+      endTime: threeDaysFromNow,
       startTime: now,
       source: 'test-endpoint'
     };

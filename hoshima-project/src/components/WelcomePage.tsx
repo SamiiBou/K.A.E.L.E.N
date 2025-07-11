@@ -420,7 +420,7 @@ export default function WelcomePage({ onComplete, onAuthSuccess, onAuthError }: 
     };
   }, [stopAmbientAudio, stopPianoNote]);
 
-  Eruda debugging console - DISABLED
+  // Eruda debugging console - DISABLED
   useEffect(() => {
     // Initialize Eruda to allow debugging even on the home screen
     if (typeof window !== 'undefined' && !(window as any).eruda) {

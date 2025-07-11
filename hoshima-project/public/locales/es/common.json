@@ -81,7 +81,8 @@
     "unverified": "✗ NO VERIFICADO",
     "verifying": "[ VERIFICANDO... ]",
     "claimDailyMessage": "[ RECLAMAR MENSAJE DIARIO ]",
-    "verifyForMessage": "[ VERIFICAR PARA 1 MENSAJE ]",
+    "verifyForMessage": "[ VERIFICAR POR 1 MENSAJE ]",
+    "verifyForEcho": "[ VERIFICAR POR 1 ECHO ]",
     "candidates": "Candidatos",
     "close": "CERRAR",
     "grabEcho": "Obtener 1 ECHO",
@@ -198,7 +199,7 @@
     "alreadyClaimed": "❌ Mensaje diario ya reclamado. Intente de nuevo en {{hours}}h {{minutes}}m.",
     "initializing": "🔄 Inicializando verificación...",
     "verifyingProof": "🔄 Verificando prueba...",
-    "successful": "✅ ¡Verificación exitosa! +1 mensaje para enviar reclamado.",
+    "successful": "✅ ¡Verificación exitosa! +1 ECHO reclamado.",
     "failed": "❌ Verificación fallida",
     "proofFailed": "Falló la verificación de prueba",
     "errorOccurred": "❌ Ocurrió un error de verificación"

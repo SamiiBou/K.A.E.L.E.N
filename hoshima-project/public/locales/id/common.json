@@ -82,6 +82,7 @@
     "verifying": "[ MEMVERIFIKASI... ]",
     "claimDailyMessage": "[ KLAIM PESAN HARIAN ]",
     "verifyForMessage": "[ VERIFIKASI UNTUK 1 PESAN ]",
+    "verifyForEcho": "[ VERIFIKASI UNTUK 1 ECHO ]",
     "candidates": "Kandidat",
     "close": "TUTUP",
     "grabEcho": "Ambil 1 ECHO",
@@ -198,7 +199,7 @@
     "alreadyClaimed": "❌ Pesan harian sudah diklaim. Coba lagi dalam {{hours}}j {{minutes}}m.",
     "initializing": "🔄 Menginisialisasi verifikasi...",
     "verifyingProof": "🔄 Memverifikasi bukti...",
-    "successful": "✅ Verifikasi berhasil! +1 pesan untuk dikirim diklaim.",
+    "successful": "✅ Verifikasi berhasil! +1 ECHO diklaim.",
     "failed": "❌ Verifikasi gagal",
     "proofFailed": "Verifikasi bukti gagal",
     "errorOccurred": "❌ Terjadi kesalahan verifikasi"

@@ -186,6 +186,11 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
+  // Dernière vérification World ID pour la récompense de 1 ECHO
+  lastWorldIdVerification: {
+    type: Date,
+    default: null
+  },
   // Dernier claim ECHO (pour réinitialiser la balance)
   lastEchoClaim: {
     type: Date,

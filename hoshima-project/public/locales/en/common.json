@@ -82,6 +82,7 @@
     "verifying": "[ VERIFYING... ]",
     "claimDailyMessage": "[ CLAIM DAILY MESSAGE ]",
     "verifyForMessage": "[ VERIFY FOR 1 MESSAGE ]",
+    "verifyForEcho": "[ VERIFY FOR 1 ECHO ]",
     "candidates": "Candidates",
     "close": "CLOSE",
     "grabEcho": "Claim ECHO",
@@ -198,7 +199,7 @@
     "alreadyClaimed": "❌ Daily message already claimed. Try again in {{hours}}h {{minutes}}m.",
     "initializing": "🔄 Initializing verification...",
     "verifyingProof": "🔄 Verifying proof...",
-    "successful": "✅ Verification successful! +1 message to send claimed.",
+    "successful": "✅ Verification successful! +1 ECHO claimed.",
     "failed": "❌ Verification failed",
     "proofFailed": "Proof verification failed",
     "errorOccurred": "❌ Verification error occurred"

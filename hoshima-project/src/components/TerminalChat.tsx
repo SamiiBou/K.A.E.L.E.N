@@ -368,9 +368,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   }, []);
 
-  // DÉSACTIVÉ - Vérification World ID au démarrage
-  // Pour réactiver : décommenter ce useEffect
-  /*
+  // Vérification World ID au démarrage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const verified = localStorage.getItem('humanity_verified');
@@ -379,7 +377,6 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       }
     }
   }, []);
-  */
 
   const [playerScore, setPlayerScore] = useState(initialStoredScore);
   const [scoreChange, setScoreChange] = useState<number | null>(null);
@@ -1639,9 +1636,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     }
   };
 
-  // FONCTION DÉSACTIVÉE - Message gratuit quotidien avec World ID
-  // Pour réactiver : décommenter cette fonction et le bouton dans l'interface
-  /*
+  // Vérification World ID pour récompense ECHO
   const handleHumanityVerification = async () => {
     if (!MiniKit.isInstalled()) {
       setVerificationMessage(t('verification.worldAppNotDetected'));
@@ -1649,22 +1644,10 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
       return;
     }
 
-    // Daily claim check
-    const dailyClaimKey = `hoshima_daily_claim_${userAddr || user?.userId}`;
-    const lastClaimTime = localStorage.getItem(dailyClaimKey);
-
-    if (lastClaimTime) {
-      const timeSinceLastClaim = Date.now() - parseInt(lastClaimTime, 10);
-      const twentyFourHours = 24 * 60 * 60 * 1000;
-
-      if (timeSinceLastClaim < twentyFourHours) {
-        const remainingTime = twentyFourHours - timeSinceLastClaim;
-        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        setVerificationMessage(t('verification.alreadyClaimed', { hours, minutes }));
-        setTimeout(() => setVerificationMessage(null), 5000);
-        return;
-      }
+    if (!user?.userId) {
+      setVerificationMessage('Please authenticate first');
+      setTimeout(() => setVerificationMessage(null), 5000);
+      return;
     }
 
     try {
@@ -1674,14 +1657,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
       const verifyPayload: VerifyCommandInput = {
         action: 'humanity-action',
-        signal: userAddr || 'anonymous',
+        signal: userAddr || user?.userId || 'anonymous',
         verification_level: VerificationLevel.Orb,
       };
 
       const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload);
 
       if (finalPayload.status === 'error') {
-        // console.error('Verification error:', finalPayload);
         setVerificationMessage(t('verification.failed'));
         setTimeout(() => setVerificationMessage(null), 5000);
         return;
@@ -1697,7 +1679,8 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         body: JSON.stringify({
           payload: finalPayload as ISuccessResult,
           action: 'humanity-action',
-          signal: userAddr || 'anonymous',
+          signal: userAddr || user?.userId || 'anonymous',
+          userId: user.userId, // Ajouter l'userId pour la récompense ECHO
         }),
       });
 
@@ -1705,21 +1688,35 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
       if (verifyResponseJson.status === 200) {
         setIsVerified(true);
-        setVerificationMessage(t('verification.successful'));
+        
+        // Vérifier si une récompense ECHO a été accordée
+        if (verifyResponseJson.echoReward?.success) {
+          setVerificationMessage(`✅ ${t('verification.successful')} +${verifyResponseJson.echoReward.reward} ECHO!`);
+          
+          // Mettre à jour la balance ECHO localement
+          setEchoBalance(verifyResponseJson.echoReward.newBalance);
+          
+          // Afficher une notification de récompense
+          setEchoRewardNotification({
+            amount: verifyResponseJson.echoReward.reward,
+            message: `+${verifyResponseJson.echoReward.reward} ECHO`
+          });
+          
+          setTimeout(() => setEchoRewardNotification(null), 3000);
+          
+        } else if (verifyResponseJson.echoReward?.cooldownHours !== undefined) {
+          // Cooldown actif
+          const hours = verifyResponseJson.echoReward.cooldownHours;
+          const minutes = verifyResponseJson.echoReward.cooldownMinutes;
+          setVerificationMessage(t('verification.alreadyClaimed', { hours, minutes }));
+        } else {
+          setVerificationMessage(t('verification.successful'));
+        }
+        
         playButtonSound();
         
-        // Store verification status in localStorage (for all-time check)
+        // Store verification status in localStorage
         localStorage.setItem('humanity_verified', 'true');
-        
-        // Store daily claim timestamp
-        localStorage.setItem(dailyClaimKey, Date.now().toString());
-
-        // Grant 1 CRU
-        const newFragments = localFragments + 1;
-        setLocalFragments(newFragments);
-        if (onFragmentsUpdate) {
-          onFragmentsUpdate(newFragments);
-        }
         
         // Si l'utilisateur n'était pas candidat, le marquer comme tel
         if (!isCandidate) {
@@ -1734,14 +1731,13 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
         setTimeout(() => setVerificationMessage(null), 5000);
       }
     } catch (error) {
-      // console.error('Verification error:', error);
+      console.error('Verification error:', error);
       setVerificationMessage(t('verification.errorOccurred'));
       setTimeout(() => setVerificationMessage(null), 5000);
     } finally {
       setIsVerifying(false);
     }
   };
-  */
 
   const handleGrabEcho = async () => {
     // Vérifier si l'utilisateur a une balance à claim
@@ -3058,9 +3054,8 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                       {/* Human Verification Status - TEMPORAIREMENT DÉSACTIVÉ */}
                       {/* 
                       FONCTIONNALITÉ DÉSACTIVÉE - Message gratuit quotidien avec World ID
-                      Pour réactiver : décommenter cette section et la fonction handleHumanityVerification
                       */}
-                      {/* <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-700/50">
                         <span className="text-slate-400 text-xs font-mono">{t('chat.humanVerification')}:</span>
                         <motion.span 
                           className={`font-mono text-sm font-bold ${isVerified ? 'text-cyan-300' : 'text-red-300'}`}
@@ -3079,20 +3074,21 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                       
                       <motion.button
                         className={`w-full px-3 py-2 rounded-sm font-mono text-xs transition-all duration-200 ${
-                          isVerified 
-                            ? 'bg-cyan-800/60 hover:bg-cyan-700/60 border border-cyan-600/50 hover:border-cyan-400/60 text-cyan-300' 
+                          isVerifying
+                            ? 'bg-yellow-800/60 border border-yellow-600/50 text-yellow-300 cursor-not-allowed'
+                            : isVerified 
+                            ? 'bg-green-800/60 hover:bg-green-700/60 border border-green-600/50 hover:border-green-400/60 text-green-300' 
                             : 'bg-blue-800/60 hover:bg-blue-700/60 border border-blue-600/50 hover:border-blue-400/60 text-blue-300'
                         }`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={{ scale: isVerifying ? 1 : 1.02 }}
+                        whileTap={{ scale: isVerifying ? 1 : 0.98 }}
                         onClick={handleHumanityVerification}
                         disabled={isVerifying}
                       >
-                        {isVerifying ? t('chat.verifying') : isVerified ? t('chat.claimDailyMessage') : t('chat.verifyForMessage')}
-                      </motion.button> */}
+                        {isVerifying ? t('chat.verifying') : t('chat.verifyForEcho')}
+                      </motion.button>
                       
-                      {/* DÉSACTIVÉ - Messages de vérification World ID */}
-                      {/* 
+                      {/* Messages de vérification World ID */}
                       {verificationMessage && (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -3110,7 +3106,6 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
                           {verificationMessage}
                         </motion.div>
                       )}
-                      */}
                       
                       {consoleMessage && (
                         <motion.div

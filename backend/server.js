@@ -7,6 +7,7 @@ const { connectDB, checkDBConnection, getDBStatus } = require('./middleware/data
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const worldWalletRoutes = require('./routes/worldWalletRoutes');
+const worldIdVerifyRoutes = require('./routes/worldIdVerifyRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const prizePoolRoutes = require('./routes/prizePoolRoutes');
 const echoClaimRoutes = require('./routes/echoClaimRoutes');
@@ -98,6 +99,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/world-wallet', worldWalletRoutes);
+app.use('/api/world-id-verify', worldIdVerifyRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/prize-pool', prizePoolRoutes);
 app.use('/api/echo-claim', echoClaimRoutes);

@@ -5,6 +5,7 @@ class EchoBalanceService {
   static CONNECTION_BONUS = 0.1;
   static MESSAGE_REWARD = 5;
   static HOURLY_REWARD = 0.5;
+  static WORLD_ID_REWARD = 1; // Nouveau: récompense pour vérification World ID
   static HOURLY_INTERVAL = 3 * 60 * 60 * 1000; // 3 heures en millisecondes
   static MAX_DAILY_MESSAGES = 100; // Limite pour éviter le spam
 
@@ -100,6 +101,46 @@ class EchoBalanceService {
       };
     } catch (error) {
       console.error('Erreur distribution horaire:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Nouveau: Récompenser la vérification World ID (1 ECHO)
+  static async giveWorldIdVerificationReward(userId) {
+    try {
+      const user = await User.findOne({ userId });
+      if (!user) return { success: false, message: 'User not found' };
+
+      const now = new Date();
+      const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+
+      // Vérifier si l'utilisateur a déjà reçu la récompense World ID aujourd'hui
+      if (user.lastWorldIdVerification && user.lastWorldIdVerification > oneDayAgo) {
+        console.log(`⏰ Récompense World ID déjà reçue pour ${userId}`);
+        const remainingTime = 24 * 60 * 60 * 1000 - (now - user.lastWorldIdVerification);
+        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        return { 
+          success: false, 
+          message: 'World ID verification reward already claimed today',
+          cooldownHours: hours,
+          cooldownMinutes: minutes
+        };
+      }
+
+      // Donner la récompense
+      user.echoBalance += this.WORLD_ID_REWARD;
+      user.lastWorldIdVerification = now;
+      await user.save();
+
+      console.log(`✅ Récompense World ID de ${this.WORLD_ID_REWARD} ECHO donnée à ${userId}`);
+      return { 
+        success: true, 
+        newBalance: user.echoBalance,
+        reward: this.WORLD_ID_REWARD
+      };
+    } catch (error) {
+      console.error('Erreur récompense World ID:', error);
       return { success: false, error: error.message };
     }
   }

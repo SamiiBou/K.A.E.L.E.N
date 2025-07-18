@@ -240,8 +240,6 @@ UserSchema.pre('save', function(next) {
 });
 
 // Index pour améliorer les performances de recherche
-UserSchema.index({ userId: 1 });
-UserSchema.index({ walletAddress: 1 });
 UserSchema.index({ 'conversations.sessionId': 1 });
 UserSchema.index({ currentScore: -1 });
 UserSchema.index({ notificationPermission: 1 }); // Pour segmenter les utilisateurs selon leurs permissions

@@ -131,7 +131,7 @@ export function useCountdown(): CountdownHookResult {
           // Pour les tests, on peut créer un compte à rebours basé sur le timestamp
           const now = Date.now();
           const startOfDay = new Date().setHours(0, 0, 0, 0);
-          const endOfPeriod = startOfDay + (3 * 24 * 60 * 60 * 1000);
+          const endOfPeriod = startOfDay + (7 * 24 * 60 * 60 * 1000);
           const remaining = Math.max(0, endOfPeriod - now);
           
           const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
@@ -260,18 +260,18 @@ export function useCountdown(): CountdownHookResult {
       
       console.warn('⚠️ Activation du mode fallback (compte à rebours local)');
       
-      // Mode fallback : compte à rebours local de 3 jours
+      // Mode fallback : compte à rebours local de 7 jours
       const now = Date.now();
-      const threeDaysFromNow = now + (3 * 24 * 60 * 60 * 1000);
+      const sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);
       
       setCountdown({
-        days: 3,
+        days: 7,
         hours: 0,
         minutes: 0,
         seconds: 0,
-        timeRemaining: 3 * 24 * 60 * 60 * 1000,
+        timeRemaining: 7 * 24 * 60 * 60 * 1000,
         isActive: true,
-        endTime: threeDaysFromNow,
+        endTime: sevenDaysFromNow,
         startTime: now
       });
       
@@ -338,7 +338,7 @@ export function useCountdown(): CountdownHookResult {
       console.log('✅ Reset réussi:', data);
       
       setCountdown({
-        days: data.days || 3,
+        days: data.days || 7,
         hours: data.hours || 0,
         minutes: data.minutes || 0,
         seconds: data.seconds || 0,

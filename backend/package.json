@@ -5,7 +5,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "export-users": "node scripts/run-export.js",
+    "export-users-direct": "node scripts/exportActiveUsers.js",
+    "configure-mongodb": "node scripts/configure-mongodb.js",
+    "winners-ranking": "node scripts/runWinnersRanking.js",
+    "winners-ranking-direct": "node scripts/generateWinnersRanking.js",
+    "verify-distribution": "node scripts/verifyDistribution.js",
+    "distribute-wld": "node scripts/distributeWLDRewards.js",
+    "reset-competition": "node scripts/resetCompetition.js"
   },
   "dependencies": {
     "@worldcoin/minikit-js": "^1.9.6",

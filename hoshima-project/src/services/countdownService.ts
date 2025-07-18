@@ -123,19 +123,19 @@ export class CountdownService {
     };
   }
 
-  // Créer un compte à rebours de fallback (3 jours à partir de maintenant)
+  // Créer un compte à rebours de fallback (7 jours à partir de maintenant)
   createFallbackCountdown() {
     const now = Date.now();
-    const threeDaysFromNow = now + (3 * 24 * 60 * 60 * 1000);
+    const sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);
     
     return {
-      days: 3,
+      days: 7,
       hours: 0,
       minutes: 0,
       seconds: 0,
-      timeRemaining: 3 * 24 * 60 * 60 * 1000,
+      timeRemaining: 7 * 24 * 60 * 60 * 1000,
       isActive: true,
-      endTime: threeDaysFromNow,
+      endTime: sevenDaysFromNow,
       startTime: now,
       isFallback: true
     };

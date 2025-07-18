@@ -6,8 +6,8 @@ const path = require('path');
 // Fichier pour stocker le timestamp du compte à rebours
 const COUNTDOWN_FILE = path.join(__dirname, '../data/countdown.json');
 
-// Durée du compte à rebours en millisecondes (3 jours)
-const COUNTDOWN_DURATION = 3 * 24 * 60 * 60 * 1000;
+// Durée du compte à rebours en millisecondes (7 jours)
+const COUNTDOWN_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 // Fonction pour initialiser le fichier de données
 async function initializeCountdownFile() {
@@ -31,7 +31,7 @@ async function initializeCountdownFile() {
         duration: COUNTDOWN_DURATION
       };
       await fs.writeFile(COUNTDOWN_FILE, JSON.stringify(initialData, null, 2));
-      console.log('🕐 Nouveau compte à rebours de 3 jours initialisé');
+      console.log('🕐 Nouveau compte à rebours de 7 jours initialisé');
     }
   } catch (error) {
     console.error('Erreur lors de l\'initialisation du fichier countdown:', error);
@@ -129,14 +129,14 @@ router.post('/reset', async (req, res) => {
     
     await updateCountdownData(newData);
     
-    console.log('🔄 Compte à rebours redémarré pour 3 jours');
+    console.log('🔄 Compte à rebours redémarré pour 7 jours');
     
     res.json({
       message: 'Compte à rebours redémarré avec succès',
       timeRemaining: COUNTDOWN_DURATION,
       endTime: newData.endTime,
       startTime: newData.startTime,
-      days: 3,
+      days: 7,
       hours: 0,
       minutes: 0,
       seconds: 0,

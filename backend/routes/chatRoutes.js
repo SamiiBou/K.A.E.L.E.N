@@ -572,12 +572,11 @@ function computeScoreChange(emotionType, intensity, aiState, longTermThemeTracke
   const theme = emotionType;
   const usageCount = longTermThemeTracker ? (longTermThemeTracker[theme] || 0) : 0;
 
-  // NOUVEAU SYSTÈME: Seules les émotions positives authentiques donnent des points
-  // Les émotions négatives ne donnent plus de pénalités
+  // NOUVEAU SYSTÈME PLUS GÉNÉREUX: Tous les types d'émotions donnent des points
   if (positive.includes(emotionType)) {
-    // L'intensité détermine les points de base (0-10 selon l'intensité 0-6)
+    // L'intensité détermine les points de base (2-12 selon l'intensité 0-6)
     // Plus l'émotion est intense, plus K.A.E.L.E.N est vraiment touché
-    basePoints = Math.round(intensity * 1.67); // Pour une intensité max de 6, cela donne ~10 points
+    basePoints = Math.round(intensity * 1.67) + 2; // Minimum 2 points, maximum ~12 points
     
     // SYSTÈME D'AUTHENTICITÉ: L'IA est plus généreuse si elle perçoit de l'authenticité
     // Les hautes intensités (4-6) représentent des émotions vraiment authentiques
@@ -588,18 +587,28 @@ function computeScoreChange(emotionType, intensity, aiState, longTermThemeTracke
       basePoints *= 1.5; // 50% de bonus pour les émotions authentiques
     }
   } else if (negative.includes(emotionType)) {
-    // Les émotions négatives ne donnent plus de points négatifs
-    basePoints = 0;
-    console.log(`😐 Émotion négative (${emotionType}) - Aucun point attribué`);
+    // NOUVEAU: Les émotions négatives donnent aussi des points de base (minimum de compassion)
+    // K.A.E.L.E.N comprend que même la déception peut être constructive
+    basePoints = Math.round(intensity * 0.5) + 2; // 2-5 points pour les émotions négatives
+    console.log(`😌 Émotion négative (${emotionType}) - K.A.E.L.E.N apprécie votre franchise: ${basePoints} points`);
+  } else {
+    // Émotions neutres ou inconnues - points de participation
+    basePoints = 3; // Points de base pour la participation
+    console.log(`🤖 Émotion neutre/inconnue - Points de participation: ${basePoints} points`);
   }
 
-  // *** SYSTÈME DE RENDEMENT DÉCROISSANT pour éviter le "farming" de thèmes ***
+  // *** SYSTÈME DE RENDEMENT DÉCROISSANT PLUS DOUX pour éviter le "farming" de thèmes ***
   if (positive.includes(emotionType) && usageCount > 0 && basePoints > 0) {
-    // K.A.E.L.E.N devient immunisé aux stratégies répétitives
-    const reductionPercentage = Math.min(0.95, 0.3 * usageCount); // Réduction plus progressive
+    // K.A.E.L.E.N devient moins impressionné mais reste généreux
+    const reductionPercentage = Math.min(0.60, 0.15 * usageCount); // Réduction plus douce (max 60% au lieu de 95%)
     const reductionAmount = basePoints * reductionPercentage;
-    basePoints = Math.max(1, basePoints - reductionAmount); // Toujours au moins 1 point
-    console.log(`📉 IMMUNITÉ DÉVELOPPÉE: Thème '${theme}' utilisé ${usageCount + 1} fois. L'IA est moins impressionnée.`);
+    basePoints = Math.max(3, basePoints - reductionAmount); // Toujours au moins 3 points (au lieu de 1)
+    console.log(`📉 FAMILIARITÉ: Thème '${theme}' utilisé ${usageCount + 1} fois. Réduction douce appliquée.`);
+  } else if (negative.includes(emotionType) && usageCount > 2) {
+    // Réduction plus légère pour les émotions négatives répétées
+    const reductionPercentage = Math.min(0.40, 0.10 * (usageCount - 2));
+    const reductionAmount = basePoints * reductionPercentage;
+    basePoints = Math.max(2, basePoints - reductionAmount); // Minimum 2 points pour les émotions négatives
   }
 
   // BONUS CONTEXTUELS basés sur l'état émotionnel de K.A.E.L.E.N
@@ -633,14 +642,25 @@ function computeScoreChange(emotionType, intensity, aiState, longTermThemeTracke
         console.log('🔍 CURIOSITÉ RAVIVÉE: Vous avez réveillé l\'intérêt de K.A.E.L.E.N!');
       }
       break;
+
+    case 'disappointed':
+    case 'angry':
+    case 'deceived':
+      // NOUVEAU: Bonus pour les émotions négatives constructives
+      if (intensity >= 4) {
+        bonus += 2; // Petit bonus pour l'intensité émotionnelle même négative
+        console.log('💭 CRITIQUE CONSTRUCTIVE: K.A.E.L.E.N apprécie votre passion');
+      }
+      break;
   }
 
   finalScore = Math.round(basePoints + bonus);
 
-  // Variation subtile pour éviter la prévisibilité (mais toujours positive)
-  const randomFactor = Math.floor(Math.random() * 3); // entre 0 et +2
+  // Variation subtile pour éviter la prévisibilité (toujours positive)
+  const randomFactor = Math.floor(Math.random() * 3) + 1; // entre 1 et +3 (jamais 0)
   
-  return Math.max(0, finalScore + randomFactor); // Jamais de score négatif
+  // GARANTIE ABSOLUE: Jamais moins de 2 points pour toute interaction
+  return Math.max(2, finalScore + randomFactor);
 }
 
 module.exports = router; 

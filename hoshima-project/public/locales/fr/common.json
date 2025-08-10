@@ -230,5 +230,11 @@
     "requesting": "TRAITEMENT",
     "openSettings": "PARAMÈTRES",
     "privacyNote": "Vous pouvez modifier ce paramètre à tout moment dans les paramètres de World App"
+  },
+  "stockBanner": {
+    "title": "💰 CONSTRUISEZ VOTRE PORTEFEUILLE",
+    "subtitle": "Commencez à investir en actions tout en discutant avec K.A.E.L.E.N.",
+    "cta": "INVESTIR MAINTENANT",
+    "dismiss": "✕"
   }
 } 

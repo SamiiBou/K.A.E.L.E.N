@@ -8,6 +8,7 @@ import PrizeDistributionModal from './PrizeDistributionModal';
 import TokenRulesModal from './TokenRulesModal';
 import DebugPanel from './DebugPanel';
 import NotificationPermissionManager from './NotificationPermissionManager';
+import StockBanner from './StockBanner';
 import ECHOTokenABI from '@/abi/ECHOTokenABI.json';
 
 // Icône Telegram personnalisée
@@ -236,6 +237,9 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   
   // États pour le tutoriel
   const [showTutorial, setShowTutorial] = useState(false);
+  
+  // État pour la bannière StockBanner
+  const [showStockBanner, setShowStockBanner] = useState(true);
   const [tutorialStep, setTutorialStep] = useState(0);
   const [highlightBox, setHighlightBox] = useState({ top: 0, left: 0, width: 0, height: 0 });
   const [textBoxStyle, setTextBoxStyle] = useState({});
@@ -2360,6 +2364,31 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
     return () => clearInterval(interval);
   }, [fetchEchoBalance]);
 
+  // Gérer l'affichage de la bannière StockBanner
+  useEffect(() => {
+    // Vérifier si l'utilisateur a déjà fermé la bannière dans cette session
+    const bannerDismissed = sessionStorage.getItem('stockBanner-dismissed');
+    if (bannerDismissed) {
+      setShowStockBanner(false);
+      return;
+    }
+
+    // Réafficher la bannière toutes les 5 minutes si elle a été fermée
+    const interval = setInterval(() => {
+      if (!showStockBanner && Math.random() < 0.3) { // 30% de chance de réapparaître
+        setShowStockBanner(true);
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(interval);
+  }, [showStockBanner]);
+
+  // Sauvegarder l'état de fermeture de la bannière
+  const handleStockBannerDismiss = () => {
+    setShowStockBanner(false);
+    sessionStorage.setItem('stockBanner-dismissed', 'true');
+  };
+
   return (
     <div className="space-y-4 font-mono text-white relative min-h-screen">
       {/* Effet scan-lines statique en arrière-plan */}
@@ -2379,6 +2408,12 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           <div className="absolute -inset-1 bg-blue-500/5 rounded-sm"></div>
         </span>
       </div>
+
+      {/* Bannière StockBanner */}
+      <StockBanner 
+        isVisible={showStockBanner} 
+        onDismiss={handleStockBannerDismiss} 
+      />
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* LE SANCTUM - L'Interface Sanctuarisée - Moniteur de Stabilité */}

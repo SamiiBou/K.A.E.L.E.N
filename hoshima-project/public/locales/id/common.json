@@ -230,5 +230,11 @@
     "requesting": "MEMPROSES",
     "openSettings": "PENGATURAN",
     "privacyNote": "Anda dapat mengubah pengaturan ini kapan saja di pengaturan World App"
+  },
+  "stockBanner": {
+    "title": "💰 BANGUN PORTOFOLIO ANDA",
+    "subtitle": "Mulai berinvestasi saham sambil mengobrol dengan K.A.E.L.E.N.",
+    "cta": "INVESTASI SEKARANG",
+    "dismiss": "✕"
   }
 } 

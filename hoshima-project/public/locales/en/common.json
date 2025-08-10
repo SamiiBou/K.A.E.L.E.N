@@ -230,5 +230,11 @@
     "requesting": "PROCESSING",
     "openSettings": "SETTINGS",
     "privacyNote": "You can change this setting anytime in World App settings"
+  },
+  "stockBanner": {
+    "title": "💰 BUILD YOUR PORTFOLIO",
+    "subtitle": "Start investing in stocks while chatting with K.A.E.L.E.N.",
+    "cta": "INVEST NOW",
+    "dismiss": "✕"
   }
 } 

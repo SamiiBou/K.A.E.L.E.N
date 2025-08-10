@@ -230,5 +230,11 @@
     "requesting": "PROCESANDO",
     "openSettings": "CONFIGURACIÓN",
     "privacyNote": "Puedes cambiar esta configuración en cualquier momento en la configuración de World App"
+  },
+  "stockBanner": {
+    "title": "💰 CONSTRUYE TU CARTERA",
+    "subtitle": "Comienza a invertir en acciones mientras chateas con K.A.E.L.E.N.",
+    "cta": "INVERTIR AHORA",
+    "dismiss": "✕"
   }
 } 

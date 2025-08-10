@@ -2366,19 +2366,27 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
   // Gérer l'affichage de la bannière StockBanner
   useEffect(() => {
-    // Vérifier si l'utilisateur a déjà fermé la bannière dans cette session
-    const bannerDismissed = sessionStorage.getItem('stockBanner-dismissed');
-    if (bannerDismissed) {
-      setShowStockBanner(false);
-      return;
+    // Vérifier si l'utilisateur a déjà fermé la bannière récemment
+    const lastDismissed = localStorage.getItem('stockBanner-lastDismissed');
+    if (lastDismissed) {
+      const dismissTime = parseInt(lastDismissed);
+      const now = Date.now();
+      // Réafficher après 30 minutes
+      if (now - dismissTime < 30 * 60 * 1000) {
+        setShowStockBanner(false);
+        return;
+      }
     }
 
-    // Réafficher la bannière toutes les 5 minutes si elle a été fermée
+    // Réafficher la bannière toutes les 10 minutes si elle a été fermée
     const interval = setInterval(() => {
-      if (!showStockBanner && Math.random() < 0.3) { // 30% de chance de réapparaître
-        setShowStockBanner(true);
+      if (!showStockBanner) {
+        const lastDismissed = localStorage.getItem('stockBanner-lastDismissed');
+        if (!lastDismissed || Date.now() - parseInt(lastDismissed) > 30 * 60 * 1000) {
+          setShowStockBanner(true);
+        }
       }
-    }, 5 * 60 * 1000); // 5 minutes
+    }, 10 * 60 * 1000); // 10 minutes
 
     return () => clearInterval(interval);
   }, [showStockBanner]);
@@ -2386,7 +2394,7 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
   // Sauvegarder l'état de fermeture de la bannière
   const handleStockBannerDismiss = () => {
     setShowStockBanner(false);
-    sessionStorage.setItem('stockBanner-dismissed', 'true');
+    localStorage.setItem('stockBanner-lastDismissed', Date.now().toString());
   };
 
   return (
@@ -2408,12 +2416,6 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
           <div className="absolute -inset-1 bg-blue-500/5 rounded-sm"></div>
         </span>
       </div>
-
-      {/* Bannière StockBanner */}
-      <StockBanner 
-        isVisible={showStockBanner} 
-        onDismiss={handleStockBannerDismiss} 
-      />
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* LE SANCTUM - L'Interface Sanctuarisée - Moniteur de Stabilité */}
@@ -3436,6 +3438,59 @@ export default function TerminalChat({ fragments, onFragmentsUpdate, onPurchaseR
 
           {/* Zone messages avec animations */}
           <div className="h-full overflow-y-auto space-y-2 pr-2 relative z-10 custom-scrollbar">
+            {/* Bannière Stock inline - discrète et permanente */}
+            {showStockBanner && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="relative mb-3 p-2 bg-gradient-to-r from-slate-900/40 via-slate-800/60 to-slate-900/40 border border-emerald-400/20 rounded-sm backdrop-blur-sm overflow-hidden"
+              >
+                {/* Effet de lueur subtile */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent" />
+                
+                {/* Ligne de scan discrète */}
+                <motion.div
+                  className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-400/30 to-transparent"
+                  animate={{ opacity: [0.2, 0.6, 0.2] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+
+                <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center space-x-2 flex-1">
+                    <div className="w-2 h-2 bg-emerald-400/60 rounded-full animate-pulse"></div>
+                    <div className="text-emerald-300/80 text-xs font-mono">
+                      {t('stockBanner.title')}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => {
+                        const umanAppUrl = "worldapp://mini-app?app_id=app_519146d170ce4e9eff6a6fa241878715";
+                        window.open(umanAppUrl, '_blank');
+                      }}
+                      className="px-2 py-1 bg-emerald-600/60 hover:bg-emerald-500/60 text-emerald-100 text-xs font-mono rounded border border-emerald-400/30 transition-all duration-200 hover:shadow-lg hover:shadow-emerald-400/10"
+                    >
+                      {t('stockBanner.cta')}
+                    </button>
+                    
+                    <button
+                      onClick={handleStockBannerDismiss}
+                      className="w-4 h-4 text-slate-400 hover:text-red-400 text-xs transition-colors"
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Sous-titre discret */}
+                <div className="text-slate-400 text-xs mt-1 font-mono opacity-70">
+                  {t('stockBanner.subtitle')}
+                </div>
+              </motion.div>
+            )}
+            
             <AnimatePresence mode="popLayout">
               {(() => {
                 const DISPLAY_LIMIT = 25;
